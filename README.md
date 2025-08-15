@@ -1,8 +1,17 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+OrderPilot MVP
 
 ## Getting Started
 
-First, run the development server:
+First, set environment variables in `.env.local`:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+VAPI_WEBHOOK_SECRET=
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
@@ -14,11 +23,18 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the app. Login and signup are email-only magic links.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Features: Auth (magic links), onboarding to create restaurant, menu PDF ingestion, orders dashboard with realtime, Vapi webhook to create orders.
+
+## APIs
+
+- POST `/api/menus/ingest`
+- GET/POST `/api/orders`
+- PATCH `/api/orders/:id/status`
+- POST `/api/vapi/orders`
 
 ## Learn More
 
