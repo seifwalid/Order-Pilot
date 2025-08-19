@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
+import { getServiceSupabase } from '@/lib/supabase/server';
 
 export const runtime = "nodejs";
 
@@ -7,40 +7,42 @@ export async function POST(request: Request) {
     try {
         const { email: newStaffEmail, role, restaurantId } = await request.json();
 
-        // 1. Create the Supabase Admin Client
-        const supabaseAdmin = createClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.SUPABASE_SERVICE_ROLE_KEY!
-        );
+        if (!newStaffEmail || !role || !restaurantId) {
+            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        }
 
-        // 2. Get the user's JWT from the Authorization header to identify them
+        // Use the service role client
+        const supabase = getServiceSupabase();
+
+        // Get the user's JWT from the Authorization header
         const authHeader = request.headers.get('Authorization');
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
         const jwt = authHeader.split(' ')[1];
 
-        // 3. Get the user's data from the JWT
-        const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(jwt);
+        // Get the user's data from the JWT
+        const { data: { user }, error: userError } = await supabase.auth.getUser(jwt);
         if (userError || !user) {
-            return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        // 4. Check inviting user's role (must be owner or manager) using the Admin Client
-        const { data: restaurant, error: restaurantError } = await supabaseAdmin
+        // Check if the restaurant exists and get owner info
+        const { data: restaurant, error: restaurantError } = await supabase
             .from('restaurants')
-            .select('owner_id')
+            .select('owner_id, name')
             .eq('id', restaurantId)
             .single();
 
         if (restaurantError || !restaurant) {
-            return new NextResponse(JSON.stringify({ error: 'Restaurant not found' }), { status: 404 });
+            return NextResponse.json({ error: 'Restaurant not found' }, { status: 404 });
         }
 
+        // Check if user is authorized (owner or manager)
         let isAuthorized = restaurant.owner_id === user.id;
 
         if (!isAuthorized) {
-            const { data: staffMember } = await supabaseAdmin
+            const { data: staffMember } = await supabase
                 .from('restaurant_staff')
                 .select('role')
                 .eq('restaurant_id', restaurantId)
@@ -53,32 +55,83 @@ export async function POST(request: Request) {
         }
 
         if (!isAuthorized) {
-            return new NextResponse(JSON.stringify({ error: 'Forbidden' }), { status: 403 });
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
-        // 5. Send invitation email via Supabase Auth using the same Admin Client
-        const { data, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
-            newStaffEmail,
-            { 
-              redirectTo: `${new URL(request.url).origin}/login`,
-              data: {
-                restaurant_id: restaurantId,
-                role: role
-              }
+        // Check if invitation already exists
+        const { data: existingInvitation } = await supabase
+            .from('staff_invitations')
+            .select('id, status')
+            .eq('restaurant_id', restaurantId)
+            .eq('email', newStaffEmail)
+            .single();
+
+        if (existingInvitation) {
+            if (existingInvitation.status === 'pending') {
+                return NextResponse.json({ error: 'Invitation already sent to this email' }, { status: 409 });
             }
-        );
+            if (existingInvitation.status === 'accepted') {
+                return NextResponse.json({ error: 'User already accepted invitation' }, { status: 409 });
+            }
+        }
+
+        // Create the invitation record
+        const { data: invitation, error: inviteError } = await supabase
+            .from('staff_invitations')
+            .insert({
+                restaurant_id: restaurantId,
+                email: newStaffEmail,
+                role: role,
+                invited_by: user.id,
+                status: 'pending',
+                expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days from now
+            })
+            .select()
+            .single();
 
         if (inviteError) {
-            // Check for the specific error indicating the user already exists
-            if (inviteError.message.includes('User already registered')) {
-                return new NextResponse(JSON.stringify({ error: 'This user already has an account. You cannot invite an existing user.' }), { status: 409 });
-            }
-            return new NextResponse(JSON.stringify({ error: `Failed to invite user: ${inviteError.message}` }), { status: 500 });
+            console.error('Database error:', inviteError);
+            return NextResponse.json({ error: 'Failed to create invitation' }, { status: 500 });
         }
 
-        return NextResponse.json({ message: 'Invitation sent successfully.' });
+        // Send invitation email using Supabase Edge Function
+        try {
+            const edgeFunctionUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/send-invitation-email`;
+            
+            const emailResponse = await fetch(edgeFunctionUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+                },
+                body: JSON.stringify({
+                    email: newStaffEmail,
+                    invitationId: invitation.id,
+                    restaurantName: restaurant.name,
+                    role: role,
+                    invitationUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/staff-onboarding?invitation=${invitation.id}`
+                })
+            });
+
+            if (emailResponse.ok) {
+                const emailResult = await emailResponse.json();
+                console.log('Edge function email result:', emailResult);
+            } else {
+                console.error('Edge function email failed:', emailResponse.status, await emailResponse.text());
+            }
+        } catch (emailError) {
+            console.error('Failed to call edge function:', emailError);
+            // Don't fail the whole request if email fails
+        }
+
+        return NextResponse.json({ 
+            message: 'Invitation sent successfully!',
+            invitation_id: invitation.id,
+            email_sent: true
+        });
 
     } catch (error: any) {
-        return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+        console.error('Staff invite error:', error);
+        return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
     }
 }

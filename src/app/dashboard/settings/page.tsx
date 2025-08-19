@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
+import { createClient } from '@/lib/supabase/client';
 
 interface Restaurant {
   id: string;
@@ -28,10 +28,7 @@ export default function SettingsPage() {
   const [inviteMessage, setInviteMessage] = useState<string | null>(null);
 
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,6 +102,9 @@ export default function SettingsPage() {
         const result = await response.json();
 
         if (!response.ok) {
+            if (result.migration_file) {
+                throw new Error(`Database setup required: ${result.error}. Please run the migration file: ${result.migration_file}`);
+            }
             throw new Error(result.error || 'Failed to send invitation.');
         }
 

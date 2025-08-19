@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
-	const supabase = createClientComponentClient();
+	const supabase = createClient();
 	const [email, setEmail] = useState("");
 	const [sent, setSent] = useState(false);
 

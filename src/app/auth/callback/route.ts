@@ -17,7 +17,9 @@ export async function GET(request: Request) {
       {
         cookies: {
           get(name: string) {
-            return request.cookies.get(name)?.value
+            return request.headers.get('cookie')?.split('; ')
+              .find((c) => c.startsWith(`${name}=`))
+              ?.split('=')[1];
           },
           set(name: string, value: string, options) {
             response.cookies.set({ name, value, ...options })

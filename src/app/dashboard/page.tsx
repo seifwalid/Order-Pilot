@@ -1,6 +1,6 @@
 "use client";
 
-import { createBrowserClient } from '@supabase/ssr';
+import { createClient } from '@/lib/supabase/client';
 import { useEffect, useState } from 'react';
 
 type Order = {
@@ -16,10 +16,7 @@ export default function Dashboard() {
 	const [orders, setOrders] = useState<Order[]>([]);
 	const [statusFilter, setStatusFilter] = useState<string>('all');
 
-	const supabase = createBrowserClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL!,
-		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-	);
+	const supabase = createClient();
 
 	useEffect(() => {
 		const fetchOrders = async () => {
