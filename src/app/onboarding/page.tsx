@@ -75,7 +75,7 @@ export default function OnboardingPage() {
 							name="plan"
 							value={plan}
 							onChange={(e) => setPlan(e.target.value as Plan)}
-							className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+							className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 						>
 							<option value="basic">Basic</option>
 							<option value="pro">Pro</option>
@@ -87,15 +87,15 @@ export default function OnboardingPage() {
 						<label htmlFor="restaurantName" className="block text-sm font-medium text-gray-700">
 							Restaurant name
 						</label>
-						<input
-							type="text"
-							id="restaurantName"
-							name="restaurantName"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-							placeholder="Acme Pizza"
-						/>
+													<input
+								type="text"
+								id="restaurantName"
+								name="restaurantName"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+								placeholder="Acme Pizza"
+							/>
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -109,7 +109,7 @@ export default function OnboardingPage() {
 								name="email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+								className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 							/>
 						</div>
 						<div>
@@ -122,7 +122,7 @@ export default function OnboardingPage() {
 								name="phone"
 								value={phone}
 								onChange={(e) => setPhone(e.target.value)}
-								className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+								className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 							/>
 						</div>
 					</div>
@@ -137,7 +137,7 @@ export default function OnboardingPage() {
 							name="address"
 							value={address}
 							onChange={(e) => setAddress(e.target.value)}
-							className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+							className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 						/>
 					</div>
 
@@ -151,7 +151,7 @@ export default function OnboardingPage() {
 							rows={3}
 							value={inviteEmails}
 							onChange={(e) => setInviteEmails(e.target.value)}
-							className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+							className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 							placeholder="e.g., chef@example.com, manager@example.com"
 						/>
 						<p className="mt-2 text-sm text-gray-500">

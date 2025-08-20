@@ -132,7 +132,7 @@ Deno.serve(async (req: Request) => {
 
     // For now, we'll use a simple email service
     // In production, you'd use Resend, SendGrid, or AWS SES
-    const emailResult = await sendEmail(emailPayload);
+    const emailResult = await sendEmail(emailPayload, invitationData);
 
     return new Response(JSON.stringify({ 
       success: true, 
@@ -161,7 +161,7 @@ Deno.serve(async (req: Request) => {
   }
 });
 
-async function sendEmail(emailPayload: EmailPayload) {
+async function sendEmail(emailPayload: EmailPayload, invitationData: InvitationData) {
   // Option 1: Resend (recommended for Supabase)
   const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
   
@@ -193,7 +193,45 @@ async function sendEmail(emailPayload: EmailPayload) {
     }
   }
 
-  // Option 2: Console logging for development
+  // Option 2: Use Supabase's built-in email service
+  const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
+  const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  
+  if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      const response = await fetch(`${SUPABASE_URL}/auth/v1/admin/generate_link`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'magiclink',
+          email: emailPayload.to,
+          options: {
+            redirectTo: invitationData.invitationUrl,
+            data: {
+              invitation_id: invitationData.invitationId,
+              restaurant_name: invitationData.restaurantName,
+              role: invitationData.role
+            }
+          }
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return { service: 'supabase', result };
+      } else {
+        throw new Error(`Supabase email error: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Supabase email error:', error);
+      // Fall back to console logging for development
+    }
+  }
+
+  // Option 3: Console logging for development
   console.log('=== INVITATION EMAIL (Edge Function) ===');
   console.log('To:', emailPayload.to);
   console.log('Subject:', emailPayload.subject);

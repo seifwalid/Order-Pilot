@@ -254,7 +254,7 @@ export default function StaffOnboardingPage() {
               id="email"
               value={formData.email}
               disabled
-              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-600"
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
             />
             <p className="mt-1 text-xs text-gray-500">This is the email you were invited with</p>
           </div>

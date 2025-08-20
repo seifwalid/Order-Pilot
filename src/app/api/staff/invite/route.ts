@@ -1,13 +1,20 @@
 import { NextResponse } from 'next/server';
 import { getServiceSupabase } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
     try {
         const { email: newStaffEmail, role, restaurantId } = await request.json();
+        
+        console.log('🔍 DEBUG: Staff invitation request received');
+        console.log('📧 Email:', newStaffEmail);
+        console.log('👤 Role:', role);
+        console.log('🏪 Restaurant ID:', restaurantId);
 
         if (!newStaffEmail || !role || !restaurantId) {
+            console.log('❌ DEBUG: Missing required fields');
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
@@ -16,14 +23,26 @@ export async function POST(request: Request) {
 
         // Get the user's JWT from the Authorization header
         const authHeader = request.headers.get('Authorization');
+        console.log('🔐 DEBUG: Auth header present:', !!authHeader);
+        
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            console.log('❌ DEBUG: Invalid or missing authorization header');
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
         const jwt = authHeader.split(' ')[1];
+        console.log('🔑 DEBUG: JWT extracted (length):', jwt.length);
 
         // Get the user's data from the JWT
         const { data: { user }, error: userError } = await supabase.auth.getUser(jwt);
+        console.log('👤 DEBUG: User authentication result:', { 
+            hasUser: !!user, 
+            userId: user?.id,
+            hasError: !!userError,
+            error: userError?.message 
+        });
+        
         if (userError || !user) {
+            console.log('❌ DEBUG: User authentication failed');
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -34,14 +53,25 @@ export async function POST(request: Request) {
             .eq('id', restaurantId)
             .single();
 
+        console.log('🏪 DEBUG: Restaurant lookup result:', {
+            hasRestaurant: !!restaurant,
+            restaurantName: restaurant?.name,
+            ownerId: restaurant?.owner_id,
+            hasError: !!restaurantError,
+            error: restaurantError?.message
+        });
+
         if (restaurantError || !restaurant) {
+            console.log('❌ DEBUG: Restaurant not found');
             return NextResponse.json({ error: 'Restaurant not found' }, { status: 404 });
         }
 
         // Check if user is authorized (owner or manager)
         let isAuthorized = restaurant.owner_id === user.id;
+        console.log('🔒 DEBUG: Authorization check - is owner:', isAuthorized);
 
         if (!isAuthorized) {
+            console.log('🔍 DEBUG: User is not owner, checking if manager...');
             const { data: staffMember } = await supabase
                 .from('restaurant_staff')
                 .select('role')
@@ -49,14 +79,23 @@ export async function POST(request: Request) {
                 .eq('user_id', user.id)
                 .single();
             
+            console.log('👥 DEBUG: Staff member lookup:', {
+                hasStaffMember: !!staffMember,
+                role: staffMember?.role
+            });
+            
             if (staffMember && staffMember.role === 'manager') {
                 isAuthorized = true;
+                console.log('✅ DEBUG: User is authorized as manager');
             }
         }
 
         if (!isAuthorized) {
+            console.log('❌ DEBUG: User is not authorized to invite staff');
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
+        
+        console.log('✅ DEBUG: User is authorized to invite staff');
 
         // Check if invitation already exists
         const { data: existingInvitation } = await supabase
@@ -66,72 +105,111 @@ export async function POST(request: Request) {
             .eq('email', newStaffEmail)
             .single();
 
+        console.log('📋 DEBUG: Existing invitation check:', {
+            hasExistingInvitation: !!existingInvitation,
+            invitationId: existingInvitation?.id,
+            status: existingInvitation?.status
+        });
+
         if (existingInvitation) {
             if (existingInvitation.status === 'pending') {
+                console.log('❌ DEBUG: Invitation already pending for this email');
                 return NextResponse.json({ error: 'Invitation already sent to this email' }, { status: 409 });
             }
             if (existingInvitation.status === 'accepted') {
+                console.log('❌ DEBUG: User already accepted invitation');
                 return NextResponse.json({ error: 'User already accepted invitation' }, { status: 409 });
             }
         }
+        
+        console.log('✅ DEBUG: No existing invitation found, proceeding...');
 
         // Create the invitation record
+        const invitationData = {
+            restaurant_id: restaurantId,
+            email: newStaffEmail,
+            role: role,
+            invited_by: user.id,
+            status: 'pending',
+            expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days from now
+        };
+        
+        console.log('📝 DEBUG: Creating invitation with data:', invitationData);
+        
         const { data: invitation, error: inviteError } = await supabase
             .from('staff_invitations')
-            .insert({
-                restaurant_id: restaurantId,
-                email: newStaffEmail,
-                role: role,
-                invited_by: user.id,
-                status: 'pending',
-                expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days from now
-            })
+            .insert(invitationData)
             .select()
             .single();
 
+        console.log('💾 DEBUG: Database insert result:', {
+            hasInvitation: !!invitation,
+            invitationId: invitation?.id,
+            hasError: !!inviteError,
+            error: inviteError?.message
+        });
+
         if (inviteError) {
-            console.error('Database error:', inviteError);
+            console.error('❌ DEBUG: Database error:', inviteError);
             return NextResponse.json({ error: 'Failed to create invitation' }, { status: 500 });
         }
+        
+        console.log('✅ DEBUG: Invitation created successfully');
 
-        // Send invitation email using Supabase Edge Function
+        // Send invitation email using Supabase Auth magic link
         try {
-            const edgeFunctionUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/send-invitation-email`;
+            const origin = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+            const invitationUrl = `${origin}/staff-onboarding?invitation=${invitation.id}`;
             
-            const emailResponse = await fetch(edgeFunctionUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
-                },
-                body: JSON.stringify({
-                    email: newStaffEmail,
-                    invitationId: invitation.id,
-                    restaurantName: restaurant.name,
-                    role: role,
-                    invitationUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/staff-onboarding?invitation=${invitation.id}`
-                })
+            console.log('📧 DEBUG: Sending magic link via Supabase Auth');
+            console.log('📤 DEBUG: Magic link data:', {
+                email: newStaffEmail,
+                redirectTo: invitationUrl
+            });
+            
+            // Use Supabase's built-in magic link service
+            const adminClient = createAdminClient();
+            const { data: magicLinkData, error: magicLinkError } = await adminClient.auth.admin.generateLink({
+                type: 'magiclink',
+                email: newStaffEmail,
+                options: {
+                    redirectTo: invitationUrl,
+                    data: {
+                        role: role,
+                        restaurant_id: restaurantId,
+                        restaurant_name: restaurant.name,
+                        invitation_id: invitation.id
+                    }
+                }
             });
 
-            if (emailResponse.ok) {
-                const emailResult = await emailResponse.json();
-                console.log('Edge function email result:', emailResult);
-            } else {
-                console.error('Edge function email failed:', emailResponse.status, await emailResponse.text());
+            if (magicLinkError) {
+                console.error('❌ DEBUG: Magic link error:', magicLinkError);
+                throw new Error(`Failed to send magic link: ${magicLinkError.message}`);
             }
+
+            console.log('✅ DEBUG: Magic link sent successfully:', magicLinkData);
+            
         } catch (emailError) {
-            console.error('Failed to call edge function:', emailError);
+            console.error('❌ DEBUG: Failed to send magic link:', emailError);
             // Don't fail the whole request if email fails
         }
 
-        return NextResponse.json({ 
+        const response = { 
             message: 'Invitation sent successfully!',
             invitation_id: invitation.id,
             email_sent: true
-        });
+        };
+        
+        console.log('🎉 DEBUG: API endpoint completed successfully');
+        console.log('📤 DEBUG: Final response:', response);
+        
+        return NextResponse.json(response);
 
     } catch (error: any) {
-        console.error('Staff invite error:', error);
+        console.error('💥 DEBUG: Staff invite error:', error);
+        console.error('💥 DEBUG: Error message:', error.message);
+        console.error('💥 DEBUG: Error stack:', error.stack);
         return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
     }
 }
