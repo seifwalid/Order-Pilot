@@ -2,8 +2,8 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Database } from './types'
 
-export function createClient() {
-  const cookieStore = cookies()
+export async function createClient() {
+  const cookieStore = await cookies()
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -30,13 +30,13 @@ export function createClient() {
 }
 
 export async function getUser() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user }, error } = await supabase.auth.getUser()
   return { user, error }
 }
 
 export async function getUserRestaurant(userId: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   // First check if user owns a restaurant
   const { data: ownedRestaurant } = await supabase

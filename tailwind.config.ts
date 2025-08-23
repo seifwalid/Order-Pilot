@@ -18,6 +18,12 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        'playfair': ['var(--font-playfair-display)'],
+        'inter': ['var(--font-inter)'],
+        'display': ['var(--font-playfair-display)'],
+        'sans': ['var(--font-inter)'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -10,7 +10,7 @@ import StaffManagement from '@/components/StaffManagement'
 import MenuManagement from '@/components/MenuManagement'
 
 export default async function SettingsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {

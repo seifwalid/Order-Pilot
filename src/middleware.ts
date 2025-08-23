@@ -81,14 +81,14 @@ export async function middleware(request: NextRequest) {
       .from('restaurants')
       .select('id, onboarding_completed')
       .eq('owner_id', user.id)
-      .single()
+      .maybeSingle()
 
     const { data: staffRestaurant } = await supabase
       .from('restaurant_staff')
       .select('restaurant_id, restaurants(id, onboarding_completed)')
       .eq('user_id', user.id)
       .eq('is_active', true)
-      .single()
+      .maybeSingle()
 
     const restaurant = ownedRestaurant || staffRestaurant?.restaurants
     
@@ -101,7 +101,7 @@ export async function middleware(request: NextRequest) {
         .eq('email', user.email)
         .eq('status', 'pending')
         .gt('expires_at', new Date().toISOString())
-        .single()
+        .maybeSingle()
 
       if (pendingInvitation) {
         console.log('🔄 Redirecting to staff onboarding for pending invitation')
@@ -112,20 +112,22 @@ export async function middleware(request: NextRequest) {
       } else {
         console.log('🔄 Redirecting to owner onboarding (no restaurant or pending invite)')
         const url = request.nextUrl.clone()
-        url.pathname = '/onboarding'
+        url.pathname = '/onboarding/v2'
+        console.log('🎯 Redirecting to:', url.pathname)
         return NextResponse.redirect(url)
       }
     }
 
     // If restaurant exists but onboarding not completed, redirect to onboarding
-    if (!restaurant.onboarding_completed && pathname !== '/onboarding') {
+    if (!restaurant.onboarding_completed && pathname !== '/onboarding' && pathname !== '/onboarding/v2') {
       const url = request.nextUrl.clone()
-      url.pathname = '/onboarding'
+      url.pathname = '/onboarding/v2'
+      console.log('🎯 Redirecting to (incomplete onboarding):', url.pathname)
       return NextResponse.redirect(url)
     }
 
     // If onboarding completed but user is on onboarding page, redirect to dashboard
-    if (restaurant.onboarding_completed && pathname === '/onboarding') {
+    if (restaurant.onboarding_completed && (pathname === '/onboarding' || pathname === '/onboarding/v2')) {
       const url = request.nextUrl.clone()
       url.pathname = '/dashboard'
       return NextResponse.redirect(url)

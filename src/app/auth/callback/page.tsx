@@ -10,7 +10,10 @@ export default function AuthCallbackPage() {
   const supabase = createClient()
 
   useEffect(() => {
+    let isMounted = true
+    
     const handleAuthCallback = async () => {
+      if (!isMounted) return
       try {
         console.log('🔍 Auth callback - handling Supabase session')
         console.log('🔍 Current URL:', window.location.href)
@@ -104,7 +107,11 @@ export default function AuthCallbackPage() {
     }
 
     handleAuthCallback()
-  }, [router, searchParams, supabase.auth])
+    
+    return () => {
+      isMounted = false
+    }
+  }, [router, searchParams])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
