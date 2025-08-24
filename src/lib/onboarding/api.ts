@@ -31,7 +31,7 @@ export interface OnboardingAPI {
 
 class OnboardingAPIImpl implements OnboardingAPI {
   private async getSupabase() {
-    return createClient()
+    return await createClient()
   }
 
   async getState(): Promise<OnboardingState> {
