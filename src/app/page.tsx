@@ -1,16 +1,15 @@
-  import React from "react";
-  import { ArrowRight, ArrowUpRight, Sparkles, Check, Mic, Layers3, Gauge, CreditCard, Truck, Tablet } from "lucide-react";
-  import { Badge } from "@/components/ui/badge";
-  import { Button } from "@/components/ui/button";
-  // import { LeftBorderIndicatorNavbar } from "@/components/Navbar";
-  import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-  } from "@/components/ui/accordion";
-  import { getUser } from "@/lib/supabase/server"
-  import { redirect } from "next/navigation"
+"use client";
+import React, { useState, useEffect } from "react";
+import { ArrowRight, ArrowUpRight, Sparkles, Check, Mic, Layers3, Gauge, CreditCard, Truck, Tablet } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+// import { LeftBorderIndicatorNavbar } from "@/components/Navbar";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import AnimatedBackground from "@/components/AnimatedBackground"
 
   const faqs = [
@@ -46,29 +45,45 @@ import AnimatedBackground from "@/components/AnimatedBackground"
     },
   ];
 
-  export default async function HomePage() {
-    const { user } = await getUser()
-    
-    // Redirect authenticated users to dashboard
-    if (user) {
-      redirect('/dashboard')
-    }
+  export default function HomePage() {
+    const [scrollPosition, setScrollPosition] = useState(0);
+
+    useEffect(() => {
+      const updateScrollPosition = () => {
+        setScrollPosition(window.scrollY);
+      };
+
+      // Add smooth scrolling behavior
+      document.documentElement.style.scrollBehavior = 'smooth';
+      
+      window.addEventListener("scroll", updateScrollPosition);
+      return () => {
+        window.removeEventListener("scroll", updateScrollPosition);
+        // Clean up smooth scrolling
+        document.documentElement.style.scrollBehavior = 'auto';
+      };
+    }, []);
+
+    // Calculate the transform value for the image scroll effect
+    const imageTransform = Math.min(scrollPosition * 0.2, 100); // Move up to 100px max (weakened)
+    const imageScale = 1 + (scrollPosition * 0.0001); // Very subtle scale effect (weakened)
 
     return (
       <div className="min-h-screen bg-[#0f1216] text-white relative" data-scroll-container>
+
         {/* Unified Background Gradient */}
         <div className="pointer-events-none fixed inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b3d]/15 via-[#0f1216] to-emerald-500/10" />
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[800px] w-[1000px] rounded-full bg-gradient-radial from-[#ff6b3d]/25 via-[#ff6b3d]/10 to-transparent blur-3xl" />
-          <div className="absolute -bottom-60 -left-40 h-[600px] w-[800px] rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-500/10 to-transparent blur-3xl" />
-          <div className="absolute top-1/3 -right-20 h-[500px] w-[700px] rounded-full bg-gradient-radial from-[#ff6b3d]/15 via-emerald-500/10 to-transparent blur-3xl" />
-          <div className="absolute top-2/3 left-1/4 h-[400px] w-[600px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ff6b3d]/8 to-transparent blur-3xl" />
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/25 via-[#ff6b3d]/10 to-transparent blur-3xl" />
+          <div className="absolute -bottom-60 -left-40 h-[1400px] w-[1600px] rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-500/10 to-transparent blur-3xl" />
+          <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/15 via-emerald-500/10 to-transparent blur-3xl" />
+          <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ff6b3d]/8 to-transparent blur-3xl" />
         </div>
         
 
                          {/* Animated Background */}
              <AnimatedBackground />
-             
+        
         {/* Navigation - Glassmorphic */}
         <header className="relative z-40 w-full">
               <div className="mx-auto max-w-7xl px-4 md:px-1 pt-6">
@@ -145,7 +160,13 @@ import AnimatedBackground from "@/components/AnimatedBackground"
           <div className="max-w-5xl mx-auto">
             <div 
               id="dashboard-container"
-              className="relative rounded-[24px] overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-2xl h-[520px] transform -translate-y-8 transition-transform duration-300 ease-out hover:scale-[1.02]"
+              className="relative rounded-[24px] overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-2xl h-[520px] transition-all duration-300 ease-out"
+              style={{
+                transform: `translateY(-${imageTransform}px) scale(${imageScale})`,
+                willChange: 'transform',
+                transformStyle: 'preserve-3d',
+                backfaceVisibility: 'hidden'
+              }}
             >
               <img
                 src="/images/dashboard.png"
