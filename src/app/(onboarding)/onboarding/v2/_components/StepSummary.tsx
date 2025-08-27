@@ -226,7 +226,7 @@ export default function StepSummary({
               </div>
 
               <Button
-                onClick={() => onJumpTo(item.stepIndex)}
+                onClick={() => onJumpTo?.(item.stepIndex)}
                 variant="ghost"
                 size="sm"
                 className="text-gray-500 hover:text-gray-700"

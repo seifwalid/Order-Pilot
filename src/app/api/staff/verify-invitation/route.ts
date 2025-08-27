@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if invitation is expired
-    if (new Date(invitation.expires_at) < new Date()) {
+    if (!invitation.expires_at || new Date(invitation.expires_at) < new Date()) {
       return NextResponse.json(
         { error: 'This invitation has expired. Please contact your manager for a new invitation.' },
         { status: 410 }

@@ -17,11 +17,11 @@ export async function POST(request: NextRequest) {
     } = body
 
     // Get the current user
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     
-    if (userError || !user) {
-      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    if (userError || !user || !user.email) {
+      return NextResponse.json({ error: 'Not authenticated or missing email' }, { status: 401 })
     }
 
     // Use admin client to bypass RLS for this operation
