@@ -10,7 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import AnimatedBackground from "@/components/AnimatedBackground"
+
 
   const faqs = [
     {
@@ -49,17 +49,26 @@ import AnimatedBackground from "@/components/AnimatedBackground"
     const [scrollPosition, setScrollPosition] = useState(0);
 
     useEffect(() => {
-      const updateScrollPosition = () => {
-        setScrollPosition(window.scrollY);
-      };
-
       // Add smooth scrolling behavior
       document.documentElement.style.scrollBehavior = 'smooth';
       
-      window.addEventListener("scroll", updateScrollPosition);
+      // Minimal scroll handling - only update when needed
+      const handleScroll = () => {
+        setScrollPosition(window.scrollY);
+      };
+      
+      // Use passive listener with minimal throttling
+      let scrollTimeout: NodeJS.Timeout;
+      const throttledScroll = () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(handleScroll, 32); // 30fps - less frequent updates
+      };
+      
+      window.addEventListener("scroll", throttledScroll, { passive: true });
+      
       return () => {
-        window.removeEventListener("scroll", updateScrollPosition);
-        // Clean up smooth scrolling
+        window.removeEventListener("scroll", throttledScroll);
+        clearTimeout(scrollTimeout);
         document.documentElement.style.scrollBehavior = 'auto';
       };
     }, []);
@@ -68,21 +77,82 @@ import AnimatedBackground from "@/components/AnimatedBackground"
     const imageTransform = Math.min(scrollPosition * 0.2, 100); // Move up to 100px max (weakened)
     const imageScale = 1 + (scrollPosition * 0.0001); // Very subtle scale effect (weakened)
 
+    // Animated background balls effect - completely independent of scroll
+    useEffect(() => {
+      const container = document.getElementById('animated-balls-container');
+      if (!container) return;
+
+      const numCircles = 400; // Increased from 150 to 400 for continuous wave pattern
+      const circles: HTMLDivElement[] = [];
+
+      // Create circles with initial positions - better distribution
+      for (let i = 0; i < numCircles; i++) {
+        const circle = document.createElement('div');
+        circle.className = 'absolute rounded-full pointer-events-none';
+        
+        // All balls same size: 8px
+        const size = 8;
+        
+        circle.style.width = size + 'px';
+        circle.style.height = size + 'px';
+        circle.style.backgroundColor = '#4a90e2';
+        circle.style.position = 'absolute';
+        
+        // Better distribution - start from negative position to ensure full coverage
+        const initialP = (i / numCircles) % 1;
+        const extendedWidth = window.innerWidth * 1.5; // Extend 50% beyond screen width
+        const startOffset = -window.innerWidth * 0.25; // Start 25% before screen left edge
+        const initialX = startOffset + extendedWidth * initialP;
+        const initialY = window.innerHeight / 2 + Math.sin(initialP * 20 + i * 0.1) * 100;
+        
+        circle.style.left = initialX + 'px';
+        circle.style.top = initialY + 'px';
+        
+        container.appendChild(circle);
+        circles.push(circle);
+      }
+
+      // High-performance animation loop using setInterval instead of requestAnimationFrame
+      let time = 0;
+      const intervalId = setInterval(() => {
+        time += 0.01;
+        
+        circles.forEach((circle, i) => {
+          const p = (i / numCircles + time * 0.02) % 1; // Slightly slower for better coverage
+          const extendedWidth = window.innerWidth * 1.5; // Extend 50% beyond screen width
+          const startOffset = -window.innerWidth * 0.25; // Start 25% before screen left edge
+          const x = startOffset + extendedWidth * p;
+          const y = window.innerHeight / 2 + Math.sin(p * 20 + time * 1.2 + i * 0.1) * 100; // Slightly slower vertical movement
+          
+          circle.style.left = x + 'px';
+          circle.style.top = y + 'px';
+        });
+      }, 16); // 60fps
+
+      // Cleanup function
+      return () => {
+        clearInterval(intervalId);
+        // Remove all circles
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+      };
+    }, []); // Empty dependency array - runs once on mount
+
     return (
       <div className="min-h-screen bg-[#0f1216] text-white relative" data-scroll-container>
 
-        {/* Unified Background Gradient */}
+        {/* Unified Background Gradient with Animated Balls */}
         <div className="pointer-events-none fixed inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b3d]/15 via-[#0f1216] to-emerald-500/10" />
           <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/25 via-[#ff6b3d]/10 to-transparent blur-3xl" />
           <div className="absolute -bottom-60 -left-40 h-[1400px] w-[1600px] rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-500/10 to-transparent blur-3xl" />
           <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/15 via-emerald-500/10 to-transparent blur-3xl" />
           <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ff6b3d]/8 to-transparent blur-3xl" />
+          
+          {/* Animated Balls - integrated into background */}
+          <div id="animated-balls-container" className="absolute inset-0" />
         </div>
-        
-
-                         {/* Animated Background */}
-             <AnimatedBackground />
         
         {/* Navigation - Glassmorphic */}
         <header className="relative z-40 w-full">

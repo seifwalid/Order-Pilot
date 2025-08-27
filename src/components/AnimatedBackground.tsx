@@ -24,16 +24,15 @@ export default function AnimatedBackground() {
       const circle = document.createElement('div');
       circle.className = 'absolute rounded-full pointer-events-none';
       
-      // Size: 3-6px
-      const size = Math.random() * 3 + 3;
-      const opacity = Math.random() * 0.4 + 0.3;
+      // All balls same size: 8px
+      const size = 8;
+      const opacity = 1; // Solid, not transparent
       
       circle.style.width = size + 'px';
       circle.style.height = size + 'px';
       
-      // Glowing blue light bulb effect - exact same colors
-      circle.style.backgroundColor = '#5aa5ff';
-      circle.style.boxShadow = `0 0 ${size * 2}px ${size}px rgba(90, 165, 255, 0.6), 0 0 ${size * 4}px ${size * 2}px rgba(90, 165, 255, 0.4)`;
+      // Solid blue balls
+      circle.style.backgroundColor = '#4a90e2';
       circle.style.opacity = opacity.toString();
       
       // Use transform for better performance
@@ -48,11 +47,11 @@ export default function AnimatedBackground() {
       });
     }
 
-    // Animation loop with throttling
+    // Animation loop - smooth performance with controlled speed
     let time = 0;
     let animationId: number;
     let lastTime = 0;
-    const targetFPS = 30; // Reduced from 60fps to 30fps for better performance
+    const targetFPS = 60;
     const frameInterval = 1000 / targetFPS;
 
     function animate(currentTime: number) {
@@ -62,13 +61,13 @@ export default function AnimatedBackground() {
       }
       
       lastTime = currentTime;
-      time += 0.02;
+      time += 0.01; // Slower movement
       
       circles.forEach((circle, i) => {
         // Exact logic from drawEndlessStream function
-        const p = (i / numCircles + time * 0.05) % 1;
+        const p = (i / numCircles + time * 0.03) % 1; // Slower horizontal movement
         const x = window.innerWidth * p;
-        const y = window.innerHeight / 2 + Math.sin(p * 20 + time * 2 + i * 0.1) * 100;
+        const y = window.innerHeight / 2 + Math.sin(p * 20 + time * 1.5 + i * 0.1) * 100; // Slower vertical movement
         
         // Use transform3d for hardware acceleration
         circle.element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
