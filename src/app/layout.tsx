@@ -1,22 +1,27 @@
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-
-const inter = Inter({ subsets: ["latin"] })
+import type { Metadata } from "next";
+import "./globals.css";
+import { HydrationSuppressor } from "@/components/HydrationSuppressor";
 
 export const metadata: Metadata = {
-  title: "OrderPilot - Restaurant Management System",
-  description: "Complete restaurant management system with voice ordering, menu management, and staff coordination",
-}
+  title: "OrderPilot - AI-Powered Restaurant Management",
+  description: "Transform your restaurant operations with intelligent voice agents and real-time order management",
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className="font-helvetica antialiased"
+        suppressHydrationWarning
+      >
+        <HydrationSuppressor>
+          {children}
+        </HydrationSuppressor>
+      </body>
     </html>
-  )
+  );
 }
