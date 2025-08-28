@@ -10,16 +10,16 @@ import { Clock, Phone, User, DollarSign, ChefHat, CheckCircle, ShoppingBag, X } 
 
 interface Order {
   id: string
-  customer_name: string
-  customer_phone: string
+  customer_name: string | null
+  customer_phone: string | null
   customer_email: string | null
-  type: 'dine_in' | 'takeout' | 'delivery'
-  status: 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled'
-  total_amount: number
+  type: 'dine_in' | 'takeout' | 'delivery' | null
+  status: 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled' | null
+  total_amount: number | null
   special_instructions: string | null
-  placed_at: string
+  placed_at: string | null
   estimated_ready_at: string | null
-  source: string
+  source: string | null
   order_items: Array<{
     id: string
     item_name: string
@@ -29,9 +29,9 @@ interface Order {
     notes: string | null
     order_item_options: Array<{
       option_name: string
-      price_delta: number
+      price_delta: number | null
     }>
-  }>
+  }> | null
   customers: {
     name: string | null
     phone: string | null
@@ -109,7 +109,7 @@ export default function OrdersBoard({ orders: initialOrders, restaurant }: Order
     }
   }
 
-  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
+  const updateOrderStatus = async (orderId: string, newStatus: 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled') => {
     setIsLoading(true)
     try {
       const { error } = await supabase
@@ -123,13 +123,16 @@ export default function OrdersBoard({ orders: initialOrders, restaurant }: Order
       if (error) throw error
 
       // Create status event
-      await supabase
-        .from('order_status_events')
-        .insert({
-          order_id: orderId,
-          from_status: orders.find(o => o.id === orderId)?.status,
-          to_status: newStatus,
-        })
+      const currentOrder = orders.find(o => o.id === orderId)
+      if (currentOrder?.status && currentOrder.status !== null) {
+        await supabase
+          .from('order_status_events')
+          .insert({
+            order_id: orderId,
+            from_status: currentOrder.status as 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled',
+            to_status: newStatus,
+          })
+      }
 
       // Update local state
       setOrders(prev => 
@@ -146,7 +149,8 @@ export default function OrdersBoard({ orders: initialOrders, restaurant }: Order
     }
   }
 
-  const getNextStatus = (currentStatus: Order['status']): Order['status'] | null => {
+  const getNextStatus = (currentStatus: Order['status']): 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled' | null => {
+    if (!currentStatus) return null
     const statusFlow = {
       pending: 'preparing',
       preparing: 'ready',
@@ -154,10 +158,11 @@ export default function OrdersBoard({ orders: initialOrders, restaurant }: Order
       completed: null,
       cancelled: null,
     }
-    return statusFlow[currentStatus] as Order['status'] | null
+    return statusFlow[currentStatus] as 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled' | null
   }
 
   const getStatusAction = (status: Order['status']) => {
+    if (!status) return 'Unknown'
     const actions = {
       pending: 'Start Preparing',
       preparing: 'Mark Ready',
@@ -277,14 +282,38 @@ export default function OrdersBoard({ orders: initialOrders, restaurant }: Order
 
 interface OrderCardProps {
   order: Order
-  onStatusUpdate: (orderId: string, status: Order['status']) => void
+  onStatusUpdate: (orderId: string, status: 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled') => void
   isLoading: boolean
   compact?: boolean
 }
 
 function OrderCard({ order, onStatusUpdate, isLoading, compact = false }: OrderCardProps) {
-  const nextStatus = getNextStatus(order.status)
-  const StatusIcon = statusIcons[order.status]
+  const getNextStatusForOrder = (currentStatus: Order['status']): 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled' | null => {
+    if (!currentStatus) return null
+    const statusFlow = {
+      pending: 'preparing',
+      preparing: 'ready',
+      ready: 'completed',
+      completed: null,
+      cancelled: null,
+    }
+    return statusFlow[currentStatus] as 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled' | null
+  }
+
+  const nextStatus = getNextStatusForOrder(order.status)
+  const StatusIcon = order.status ? statusIcons[order.status] : Clock
+
+  const getStatusAction = (status: Order['status']) => {
+    if (!status) return 'Unknown'
+    const actions = {
+      pending: 'Start Preparing',
+      preparing: 'Mark Ready',
+      ready: 'Complete Order',
+      completed: 'Completed',
+      cancelled: 'Cancelled',
+    }
+    return actions[status]
+  }
 
   return (
     <Card className={`${compact ? 'opacity-75' : ''} transition-all duration-200 hover:shadow-md`}>
@@ -293,9 +322,9 @@ function OrderCard({ order, onStatusUpdate, isLoading, compact = false }: OrderC
           <CardTitle className="text-sm font-medium">
             #{order.id.slice(-6)}
           </CardTitle>
-          <Badge className={statusColors[order.status]} variant="outline">
+          <Badge className={order.status ? statusColors[order.status] : 'bg-gray-100 text-gray-800 border-gray-200'} variant="outline">
             <StatusIcon className="h-3 w-3 mr-1" />
-            {order.status}
+            {order.status || 'Unknown'}
           </Badge>
         </div>
         <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -314,11 +343,11 @@ function OrderCard({ order, onStatusUpdate, isLoading, compact = false }: OrderC
         <div className="space-y-3">
           {/* Order Items */}
           <div className="space-y-1">
-            {order.order_items.map(item => (
+            {order.order_items?.map(item => (
               <div key={item.id} className="flex justify-between text-sm">
                 <span>
                   {item.quantity}x {item.item_name}
-                  {item.order_item_options.length > 0 && (
+                  {item.order_item_options?.length > 0 && (
                     <span className="text-gray-500 text-xs ml-1">
                       ({item.order_item_options.map(opt => opt.option_name).join(', ')})
                     </span>
@@ -328,7 +357,7 @@ function OrderCard({ order, onStatusUpdate, isLoading, compact = false }: OrderC
                   {formatCurrency(item.total_price)}
                 </span>
               </div>
-            ))}
+            )) || <p className="text-gray-500 text-sm">No items</p>}
           </div>
 
           {/* Special Instructions */}
@@ -342,10 +371,10 @@ function OrderCard({ order, onStatusUpdate, isLoading, compact = false }: OrderC
           <div className="flex items-center justify-between text-sm border-t pt-2">
             <div className="flex items-center gap-1">
               <DollarSign className="h-4 w-4" />
-              <span className="font-semibold">{formatCurrency(order.total_amount)}</span>
+              <span className="font-semibold">{formatCurrency(order.total_amount || 0)}</span>
             </div>
             <div className="text-gray-500">
-              {formatDate(order.placed_at)}
+              {order.placed_at ? formatDate(order.placed_at) : 'Unknown'}
             </div>
           </div>
 

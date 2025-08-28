@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import SimpleNav from '@/components/SimpleNav'
 
 export default async function OrdersPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {

@@ -24,6 +24,7 @@ export interface StepComponentProps {
   state: ReturnType<typeof useWizardState>['state']
   actions: ReturnType<typeof useWizardState>['actions']
   isLoading: boolean
+  error: string | null
   onNext: () => void
   onBack: () => void
   onJumpTo?: (step: number) => void
@@ -216,14 +217,4 @@ export default function Wizard({ onComplete }: WizardProps) {
   )
 }
 
-// Common step component interface
-export interface StepComponentProps {
-  state: ReturnType<typeof useWizardState>['state']
-  actions: ReturnType<typeof useWizardState>['actions']
-  isLoading: boolean
-  error: string | null
-  onNext: () => void
-  onBack: () => void
-  onJumpTo: (step: number) => void
-  onComplete: () => void
-}
+
