@@ -90,7 +90,21 @@ export async function middleware(request: NextRequest) {
       .eq('is_active', true)
       .maybeSingle()
 
-    const restaurant = ownedRestaurant || staffRestaurant?.restaurants
+    // Handle restaurant data - could be single object or array
+    let restaurant: any = null
+    let onboardingCompleted = false
+    
+    if (ownedRestaurant) {
+      restaurant = ownedRestaurant
+      onboardingCompleted = ownedRestaurant.onboarding_completed
+    } else if (staffRestaurant?.restaurants) {
+      // Handle case where restaurants could be an array
+      const staffRestaurantData = Array.isArray(staffRestaurant.restaurants) 
+        ? staffRestaurant.restaurants[0] 
+        : staffRestaurant.restaurants
+      restaurant = staffRestaurantData
+      onboardingCompleted = staffRestaurantData?.onboarding_completed
+    }
     
     // If user has no restaurant access, redirect to onboarding (owner) or staff-onboarding (if pending invite)
     if (!restaurant) {
@@ -119,7 +133,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // If restaurant exists but onboarding not completed, redirect to onboarding
-    if (!restaurant.onboarding_completed && pathname !== '/onboarding' && pathname !== '/onboarding/v2') {
+    if (!onboardingCompleted && pathname !== '/onboarding' && pathname !== '/onboarding/v2') {
       const url = request.nextUrl.clone()
       url.pathname = '/onboarding/v2'
       console.log('🎯 Redirecting to (incomplete onboarding):', url.pathname)
@@ -127,7 +141,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // If onboarding completed but user is on onboarding page, redirect to dashboard
-    if (restaurant.onboarding_completed && (pathname === '/onboarding' || pathname === '/onboarding/v2')) {
+    if (onboardingCompleted && (pathname === '/onboarding' || pathname === '/onboarding/v2')) {
       const url = request.nextUrl.clone()
       url.pathname = '/dashboard'
       return NextResponse.redirect(url)
