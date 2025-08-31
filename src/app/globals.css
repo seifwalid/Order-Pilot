@@ -92,3 +92,27 @@ input::placeholder, textarea::placeholder {
 .font-body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* Mobile-specific dashboard image styles */
+@media (max-width: 768px) {
+  #dashboard-container img {
+    object-position: center center;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  /* Ensure the container doesn't overflow on mobile */
+  #dashboard-container {
+    overflow: hidden;
+  }
+  
+  /* Mobile scroll effect adjustments */
+  .scroll-effect-container {
+    will-change: auto;
+  }
+  
+  /* Ensure smooth scrolling on mobile */
+  html {
+    scroll-behavior: smooth;
+  }
+}

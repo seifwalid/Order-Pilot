@@ -87,7 +87,7 @@
 
       // Calculate the transform value for the image scroll effect
       const imageTransform = isHydrated ? Math.min(scrollPosition * 0.15, 60) : 0; // Move up to 60px max - stops sooner
-      const imageScale = isHydrated ? (1 + (scrollPosition * 0.0001)) : 1; // Very subtle scale effect - stops growing sooner
+      const imageScale = isHydrated ? (1 + (scrollPosition * 0.0005)) : 1; // More noticeable scale effect during scroll
 
       // Animated background balls effect - completely independent of scroll
       useEffect(() => {
@@ -170,26 +170,27 @@
           
           {/* Navigation - Glassmorphic */}
           <header className="relative z-40 w-full">
-                <div className="mx-auto max-w-7xl px-4 md: px-1 pt-6">
-                                          <div className="flex items-center">
-                {/* Logo outside the glass container */}
-                  <a href="/" className="flex items-center space-x-3">
-                    <img 
-                      src="/images/logo.png" 
-                      alt="OrderPilot Logo" 
-                      className="w-14 h-14 object-contain"
-                    />
-                    <span className="font-bold tracking-tight text-white text-2xl">OrderPilot</span>
-                  </a>
-                  {/* Glassmorphic nav container - centered on entire page */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
+            <div className="mx-auto max-w-7xl px-4 md:px-1 pt-6">
+              <div className="flex items-center justify-between">
+                {/* Logo */}
+                <a href="/" className="flex items-center space-x-3">
+                  <img 
+                    src="/images/logo.png" 
+                    alt="OrderPilot Logo" 
+                    className="w-10 h-10 md:w-14 md:h-14 object-contain"
+                  />
+                  <span className="font-bold tracking-tight text-white text-lg md:text-xl lg:text-2xl">OrderPilot</span>
+                </a>
+                
+                {/* Desktop Navigation - Centered */}
+                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
                   <div className="inline-flex backdrop-blur supports-[backdrop-filter]:bg-white/5 bg-white/2 border border-white/5 rounded-full shadow-[0_10px_20px_-15px_rgba(0,0,0,0.3)]">
                     <nav className="px-3 md:px-0 py-0">
-                      <div className="hidden md:flex items-center justify-center gap-1 text-sm text-white/90">
+                      <div className="flex items-center justify-center gap-1 text-sm text-white/90">
                         <a href="#features" className="hover:text-white transition-colors px-8">Features</a>
                         <a href="#about" className="hover:text-white transition-colors px-8">About</a>
                         <a href="#pricing" className="hover:text-white transition-colors px-7">Pricing</a>
-                            <a href="/signup" className="inline-flex items-center justify-center h-full px-5 py-[17px] rounded-full bg-[#ff6b3d] hover:bg-[#ff5a24] text-white text-sm font-medium shadow-lg shadow-[#ff6b3d]/30 transition-colors">
+                        <a href="/signup" className="inline-flex items-center justify-center h-full px-5 py-[17px] rounded-full bg-[#ff6b3d] hover:bg-[#ff5a24] text-white text-sm font-medium shadow-lg shadow-[#ff6b3d]/30 transition-colors">
                           <span>Sign Up</span>
                           <div className="ml-4 w-6 h-6 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
                             <ArrowUpRight className="size-4 text-white" />
@@ -197,6 +198,17 @@
                         </a>
                       </div>
                     </nav>
+                  </div>
+                </div>
+
+                {/* Mobile Navigation - With Visible Background */}
+                <div className="md:hidden">
+                  <div className="flex items-center space-x-4 backdrop-blur supports-[backdrop-filter]:bg-white/5 bg-white/2 border border-white/5 rounded-full px-4 py-2 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.3)]">
+                    <a href="#features" className="text-white/90 hover:text-white transition-colors text-sm">Features</a>
+                    <a href="#pricing" className="text-white/90 hover:text-white transition-colors text-sm">Pricing</a>
+                    <a href="/signup" className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#ff6b3d] hover:bg-[#ff5a24] text-white text-sm font-medium shadow-lg shadow-[#ff6b3d]/30 transition-colors">
+                      Sign Up
+                    </a>
                   </div>
                 </div>
               </div>
@@ -207,32 +219,32 @@
           <section className="relative overflow-visible min-h-[80vh] flex items-center z-10">
             <div className="relative z-10 w-full px-6">
               <div className="max-w-3xl mx-auto text-center">
-                                <Badge
-                    className="mb-4 bg-black/70 text-white/90 backdrop-blur-md inline-flex items-center py-2 px-4 text-sm font-light"
-                  >
-                    <Sparkles className="mr-2 size-3.5" />
-                    AI-Powered Restaurant Management
-                  </Badge>
+                <Badge
+                  className="mb-4 bg-black/70 text-white/90 backdrop-blur-md inline-flex items-center py-2 px-4 text-sm font-light"
+                >
+                  <Sparkles className="mr-2 size-3.5" />
+                  AI-Powered Restaurant Management
+                </Badge>
 
-                                                                                   <h1 className="text-5xl md:text-6xl font-normal leading-tight tracking-loose font-serif">
-                 Run your restaurant on autopilot
-               </h1>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal leading-tight tracking-loose font-serif">
+                  Run your restaurant on autopilot
+                </h1>
 
-              <p className="mt-6 text-white/80 text-lg font-normal">
-                Capture, route, and fulfill every order—fast, accurate, zero chaos.
-              </p>
+                <p className="mt-6 text-white/80 text-base md:text-lg font-normal">
+                  Capture, route, and fulfill every order—fast, accurate, zero chaos.
+                </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                      <Button size="lg" className="group bg-[#ff6b3d] hover:bg-[#ff5a24] text-white shadow-lg shadow-[#ff6b3d]/30 px-9 py-7 rounded-full text-base">
-                    <a href="/signup" className="flex items-center">
+                  <Button size="lg" className="group bg-[#ff6b3d] hover:bg-[#ff5a24] text-white shadow-lg shadow-[#ff6b3d]/30 px-6 md:px-9 py-6 md:py-7 rounded-full text-base w-full sm:w-auto">
+                    <a href="/signup" className="flex items-center justify-center w-full">
                       Start Free Trial
-                          <div className="ml-3 w-7 h-7 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
+                      <div className="ml-3 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
                         <ArrowUpRight className="size-4 text-white" />
                       </div>
                     </a>
                   </Button>
-                      <div className="inline-flex items-center justify-center h-12 px-9 py-7 rounded-full bg-white/10 backdrop-blur border border-white/10 text-white hover:text-white/100 transition-colors">
-                        <a href="#demo" className="text-base font-medium">See Demo</a>
+                  <div className="inline-flex items-center justify-center h-12 px-6 md:px-9 py-6 md:py-7 rounded-full bg-white/10 backdrop-blur border border-white/10 text-white hover:text-white/100 transition-colors w-full sm:w-auto">
+                    <a href="#demo" className="text-base font-medium">See Demo</a>
                   </div>
                 </div>
               </div>
@@ -240,11 +252,11 @@
           </section>
 
           {/* Hero Visual - positioned behind buttons with scroll effect */}
-          <section className="relative -mt-48 md:-mt-56 px-6">
+          <section className="relative -mt-24 md:-mt-48 lg:-mt-56 px-6">
             <div className="max-w-5xl mx-auto">
               <div 
                 id="dashboard-container"
-                className={`relative rounded-[24px] overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-2xl h-[520px] scroll-effect-container scroll-effect-transform`}
+                className={`relative rounded-[24px] overflow-hidden border border-white/10 bg-white/5 backdrop-blur shadow-2xl h-[300px] md:h-[400px] lg:h-[520px] scroll-effect-container scroll-effect-transform`}
                 style={{
                   transform: `translateY(-${imageTransform}px) scale(${imageScale})`
                 }}
@@ -252,7 +264,7 @@
                 <img
                   src="/images/dashboard.png"
                   alt="Restaurant dashboard interface"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain md:object-cover"
                 />
                 <div className="absolute bottom-4 right-4 flex flex-wrap gap-2">
                   <span className="px-3 py-1 rounded-full bg-black/40 text-white text-xs border border-white/10">Live Orders</span>

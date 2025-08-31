@@ -17,7 +17,7 @@ import StepTheme from './StepTheme'
 import StepVoice from './StepVoice'
 import StepSummary from './StepSummary'
 
-import '../_styles/gradients.css'
+
 
 // Step component props interface
 export interface StepComponentProps {
@@ -46,16 +46,7 @@ const stepComponents = [
   StepSummary,
 ]
 
-const stepGradients = [
-  'gradient-welcome',
-  'gradient-identity',
-  'gradient-connections',
-  'gradient-team',
-  'gradient-menu',
-  'gradient-theme',
-  'gradient-voice',
-  'gradient-summary',
-]
+
 
 export default function Wizard({ onComplete }: WizardProps) {
   const { state, actions, isLoading, error } = useWizardState()
@@ -76,7 +67,6 @@ export default function Wizard({ onComplete }: WizardProps) {
 
   const currentStep = Math.min(state.stepIndex, stepComponents.length - 1)
   const CurrentStepComponent = stepComponents[currentStep]
-  const currentGradient = stepGradients[currentStep]
 
   const handleNext = async () => {
     try {
@@ -112,39 +102,58 @@ export default function Wizard({ onComplete }: WizardProps) {
   // Loading state
   if (!state.serverHydrated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-slate-100">
+      <div className="min-h-screen flex items-center justify-center bg-[#0f1216] text-white">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-apple-callout text-gray-600">Loading your restaurant setup...</p>
+          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-white/70">Loading your restaurant setup...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className={cn(
-      "min-h-screen transition-all duration-1000 ease-in-out",
-      currentGradient
-    )}>
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 onboarding-gradient opacity-50" />
+    <div className="min-h-screen bg-[#0f1216] text-white relative">
+      {/* Background gradients - matching home page aesthetic */}
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b3d]/15 via-[#0f1216] to-emerald-500/10" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/25 via-[#ff6b3d]/10 to-transparent blur-3xl" />
+        <div className="absolute -bottom-60 -left-40 h-[1400px] w-[1600px] rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-500/10 to-transparent blur-3xl" />
+        <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/15 via-emerald-500/10 to-transparent blur-3xl" />
+        <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ff6b3d]/8 to-transparent blur-3xl" />
+      </div>
       
+      {/* Header */}
+      <header className="relative z-40 w-full pt-6">
+        <div className="mx-auto max-w-7xl px-4 md:px-1">
+          <div className="flex items-center justify-center">
+            <a href="/" className="flex items-center space-x-3">
+              <img 
+                src="/images/logo.png" 
+                alt="OrderPilot Logo" 
+                className="w-12 h-12 md:w-14 md:h-14 object-contain"
+              />
+              <span className="font-bold tracking-tight text-white text-xl md:text-2xl">OrderPilot</span>
+            </a>
+          </div>
+        </div>
+      </header>
+
       {/* Main content */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+      <div className="relative z-10 flex items-center justify-center p-4">
         <div className="w-full max-w-screen-md">
           {/* Progress indicator */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-apple-footnote font-apple-medium text-gray-700">
+              <span className="text-white/70 text-sm font-medium">
                 Step {currentStep + 1} of {stepMetadata.length}
               </span>
-              <span className="text-apple-footnote text-gray-500">
+              <span className="text-white/50 text-sm">
                 {stepMetadata[currentStep]?.title}
               </span>
             </div>
-            <div className="w-full bg-white/30 rounded-full h-1">
+            <div className="w-full bg-white/10 rounded-full h-1">
               <motion.div
-                className="h-1 accent-bg rounded-full"
+                className="h-1 bg-[#ff6b3d] rounded-full"
                 initial={{ width: 0 }}
                 animate={{ 
                   width: `${((currentStep + 1) / stepMetadata.length) * 100}%` 
@@ -162,7 +171,7 @@ export default function Wizard({ onComplete }: WizardProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={getSpringConfig(springConfigs.gentle)}
-              className="glass-card rounded-2xl p-8 shadow-xl"
+              className="bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-8"
             >
               <CurrentStepComponent
                 state={state}
@@ -182,7 +191,7 @@ export default function Wizard({ onComplete }: WizardProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"
+              className="mt-4 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg backdrop-blur text-sm"
             >
               {error}
             </motion.div>
@@ -193,7 +202,7 @@ export default function Wizard({ onComplete }: WizardProps) {
             <div className="mt-8 text-center">
               <button
                 onClick={() => window.location.href = '/dashboard'}
-                className="text-sm text-gray-500 hover:text-gray-700 underline"
+                className="text-sm text-white/50 hover:text-white/70 underline transition-colors"
               >
                 Skip to Dashboard (Dev Only)
               </button>

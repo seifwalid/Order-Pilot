@@ -16,14 +16,14 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         transition={getSpringConfig(springConfigs.bouncy)}
         className="flex items-center justify-center space-x-3"
       >
-        <div className="w-16 h-16 accent-bg rounded-2xl flex items-center justify-center shadow-lg">
+        <div className="w-16 h-16 bg-[#ff6b3d] rounded-2xl flex items-center justify-center shadow-lg">
           <ChefHat className="w-8 h-8 text-white" />
         </div>
         <div>
-          <h1 className="text-apple-title1 text-gray-900">
-            Order<span className="accent-text">Pilot</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal leading-tight tracking-loose font-serif text-white">
+            Order<span className="text-[#ff6b3d]">Pilot</span>
           </h1>
-          <p className="text-apple-footnote text-gray-500">Restaurant Management</p>
+          <p className="text-white/80 text-lg font-normal">Restaurant Management</p>
         </div>
       </motion.div>
 
@@ -34,16 +34,16 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 260 })}
         className="space-y-4"
       >
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-apple-caption1 font-apple-medium">
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#ff6b3d]/20 text-[#ff6b3d] text-sm font-medium border border-[#ff6b3d]/30">
           <Sparkles className="w-4 h-4 mr-2" />
           AI-Powered Restaurant Management
         </div>
         
-        <h2 className="text-apple-largeTitle text-gray-900">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal leading-tight tracking-loose font-serif text-white">
           Let's set up your restaurant
         </h2>
         
-        <p className="text-apple-body text-gray-600 max-w-md mx-auto">
+        <p className="text-white/80 text-lg max-w-md mx-auto">
           We'll personalize OrderPilot for your restaurant in just a few minutes. 
           Ready to transform your operations?
         </p>
@@ -69,10 +69,10 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
               ...springConfigs.gentle,
               stiffness: 300 - index * 20
             })}
-            className="text-center p-3 rounded-xl bg-white/50 backdrop-blur-sm"
+            className="text-center p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
           >
             <div className="text-2xl mb-1">{feature.icon}</div>
-            <div className="text-xs font-medium text-gray-700">{feature.label}</div>
+            <div className="text-xs font-medium text-white/80">{feature.label}</div>
           </motion.div>
         ))}
       </motion.div>
@@ -87,7 +87,7 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         <Button
           onClick={onNext}
           size="lg"
-          className="w-full accent-bg accent-hover text-white text-apple-button py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+          className="w-full bg-[#ff6b3d] hover:bg-[#ff5a24] text-white shadow-lg shadow-[#ff6b3d]/30 transition-all duration-200 h-12 text-base font-medium rounded-xl transform hover:scale-[1.02]"
         >
           Get Started
         </Button>
@@ -95,7 +95,7 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         <Button
           onClick={onNext}
           variant="ghost"
-          className="w-full text-gray-600 hover:text-gray-800 text-apple-callout"
+          className="w-full text-white/70 hover:text-white text-sm transition-colors"
         >
           Skip and use defaults
         </Button>
@@ -106,7 +106,7 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.6 }}
-        className="flex items-center justify-center space-x-6 text-apple-caption2 text-gray-500"
+        className="flex items-center justify-center space-x-6 text-xs text-white/50"
       >
         <div className="flex items-center space-x-1">
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
