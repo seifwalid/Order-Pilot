@@ -26,17 +26,17 @@ export default function PreviewCard({
         scale: 1.01,
         transition: getSpringConfig({ stiffness: 400, damping: 25 })
       }}
-      className={`bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 shadow-lg ${className}`}
+      className={`bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-lg ${className}`}
     >
       {/* Header */}
       <div className="flex items-center space-x-2 mb-4">
-        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-          <Eye className="w-4 h-4 text-blue-600" />
+        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+          <Eye className="w-4 h-4 text-white" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">{title}</h3>
+          <h3 className="font-semibold text-white">{title}</h3>
           {description && (
-            <p className="text-xs text-gray-500">{description}</p>
+            <p className="text-xs text-white/70">{description}</p>
           )}
         </div>
       </div>
@@ -48,7 +48,7 @@ export default function PreviewCard({
 
       {/* Subtle animation indicator */}
       <motion.div
-        className="mt-4 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"
+        className="mt-4 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ delay: 0.5, duration: 0.8 }}

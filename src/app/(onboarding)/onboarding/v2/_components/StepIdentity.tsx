@@ -49,10 +49,10 @@ export default function StepIdentity({
         <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
           <Building2 className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-apple-title1 text-gray-900">
+        <h2 className="text-apple-title1 text-white">
           Tell us about your restaurant
         </h2>
-        <p className="text-apple-body text-gray-600">
+        <p className="text-apple-body text-white/80">
           This information helps us personalize your experience
         </p>
       </motion.div>
@@ -67,7 +67,7 @@ export default function StepIdentity({
         >
           {/* Restaurant Name */}
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-semibold text-gray-700">
+            <Label htmlFor="name" className="text-sm font-semibold text-white">
               Restaurant Name *
             </Label>
             <Input
@@ -78,14 +78,14 @@ export default function StepIdentity({
               className="h-12 text-lg accent-focus"
               required
             />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-white/70">
               This will appear on orders and customer communications
             </p>
           </div>
 
           {/* Location */}
           <div className="space-y-2">
-            <Label htmlFor="location" className="text-sm font-semibold text-gray-700">
+            <Label htmlFor="location" className="text-sm font-semibold text-white">
               Location
             </Label>
             <div className="relative">
@@ -98,25 +98,29 @@ export default function StepIdentity({
                 className="h-12 pl-11 accent-focus"
               />
             </div>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-white/70">
               Optional: Helps with local SEO and customer directions
             </p>
           </div>
 
           {/* Logo Upload */}
           <div className="space-y-2">
-            <Label className="text-sm font-semibold text-gray-700">
+            <Label className="text-sm font-semibold text-white">
               Restaurant Logo
             </Label>
-            <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-gray-400 transition-colors">
-              <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-600 mb-2">
+            <div className="border-2 border-dashed border-white/30 rounded-xl p-6 text-center hover:border-white/50 transition-colors">
+              <Upload className="w-8 h-8 text-white/60 mx-auto mb-2" />
+              <p className="text-sm text-white/80 mb-2">
                 Drag & drop your logo here, or click to browse
               </p>
-              <Button variant="outline" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm"
+                                 className="border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15 rounded-xl"
+              >
                 Choose File
               </Button>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-white/60 mt-2">
                 PNG, JPG up to 2MB. Square format recommended.
               </p>
             </div>
@@ -163,12 +167,12 @@ export default function StepIdentity({
 
               {/* Sample Order Card */}
               <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Order #1234</span>
-                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                    Ready
-                  </span>
-                </div>
+                                 <div className="flex justify-between items-center">
+                   <span className="text-sm font-medium text-black">Order #1234</span>
+                   <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                     Ready
+                   </span>
+                 </div>
                 <p className="text-xs text-gray-600">
                   Customer: John D. • Phone: (555) 123-4567
                 </p>
@@ -191,20 +195,20 @@ export default function StepIdentity({
         <Button
           onClick={onBack}
           variant="ghost"
-          className="text-gray-600 hover:text-gray-800"
+          className="text-white/70 hover:text-white"
         >
           Back
         </Button>
 
-        <Button
-          onClick={handleNext}
-          disabled={!canProceed || isLoading}
-          className={`px-8 py-3 font-semibold rounded-xl transition-all duration-200 ${
-            canProceed
-              ? 'accent-bg accent-hover text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-          }`}
-        >
+                 <Button
+           onClick={handleNext}
+           disabled={!canProceed || isLoading}
+                       className={`px-8 py-3 font-medium rounded-xl transition-all duration-200 ${
+              canProceed
+                ? 'border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15'
+                : 'bg-gray-200 text-gray-600 cursor-not-allowed'
+            }`}
+         >
           {isLoading ? (
             <div className="flex items-center space-x-2">
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -221,7 +225,7 @@ export default function StepIdentity({
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-sm text-amber-600 text-center"
+          className="text-sm text-amber-400 text-center"
         >
           Restaurant name is required to continue
         </motion.p>

@@ -63,10 +63,10 @@ export default function StepTheme({
         <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
           <Palette className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-white">
           Choose your theme
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/80">
           Customize the look and feel of your restaurant dashboard
         </p>
       </motion.div>
@@ -76,7 +76,7 @@ export default function StepTheme({
         <div className="space-y-6">
           {/* Theme Mode */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-gray-900 flex items-center">
+            <h3 className="font-semibold text-white flex items-center">
               <Sun className="w-4 h-4 mr-2" />
               Appearance
             </h3>
@@ -94,17 +94,17 @@ export default function StepTheme({
                     onClick={() => handleModeChange(mode.id)}
                     className={`p-4 rounded-xl border-2 text-left transition-all duration-200 ${
                       isSelected
-                        ? 'border-blue-300 bg-blue-50'
-                        : 'border-gray-200 bg-white hover:border-gray-300'
+                        ? 'border-white/40 bg-white/10 backdrop-blur-xl'
+                        : 'border-white/20 bg-black/20 backdrop-blur-xl hover:border-white/30 hover:bg-black/30'
                     }`}
                   >
                     <Icon className={`w-5 h-5 mb-2 ${
-                      isSelected ? 'text-blue-600' : 'text-gray-600'
+                      isSelected ? 'text-white' : 'text-white/80'
                     }`} />
-                    <h4 className="font-medium text-gray-900 text-sm">
+                    <h4 className="font-medium text-white text-sm">
                       {mode.name}
                     </h4>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-white/70 mt-1">
                       {mode.description}
                     </p>
                   </motion.button>
@@ -115,7 +115,7 @@ export default function StepTheme({
 
           {/* Accent Colors */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-gray-900 flex items-center">
+            <h3 className="font-semibold text-white flex items-center">
               <Palette className="w-4 h-4 mr-2" />
               Accent Color
             </h3>
@@ -133,12 +133,12 @@ export default function StepTheme({
                     onClick={() => handleAccentChange(color.value)}
                     className="group relative"
                   >
-                    <div
-                      className={`w-full aspect-square rounded-xl border-4 transition-all duration-200 ${
-                        isSelected ? 'border-gray-400 scale-110' : 'border-transparent'
-                      }`}
-                      style={{ backgroundColor: color.value }}
-                    >
+                                         <div
+                       className={`w-full aspect-square rounded-xl border-4 transition-all duration-200 ${
+                         isSelected ? 'border-white/40 scale-110' : 'border-transparent'
+                       }`}
+                       style={{ backgroundColor: color.value }}
+                     >
                       {isSelected && (
                         <motion.div
                           initial={{ scale: 0 }}
@@ -154,19 +154,19 @@ export default function StepTheme({
                       )}
                     </div>
                     
-                    <div className="mt-2 text-center">
-                      <p className="text-xs font-medium text-gray-900">
-                        {color.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {color.description}
-                      </p>
-                      {!hasGoodContrast && (
-                        <p className="text-xs text-amber-600 mt-1">
-                          ⚠️ Low contrast
-                        </p>
-                      )}
-                    </div>
+                                         <div className="mt-2 text-center h-[80px] flex flex-col justify-center">
+                       <p className="text-xs font-medium text-white">
+                         {color.name}
+                       </p>
+                       <p className="text-xs text-white/70">
+                         {color.description}
+                       </p>
+                       {!hasGoodContrast && (
+                         <p className="text-xs text-amber-400 mt-1">
+                           ⚠️ Low contrast
+                         </p>
+                       )}
+                     </div>
                   </motion.button>
                 )
               })}
@@ -175,7 +175,7 @@ export default function StepTheme({
 
           {/* Custom Color Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-white">
               Custom Color
             </label>
             <div className="flex space-x-2">
@@ -183,81 +183,83 @@ export default function StepTheme({
                 type="color"
                 value={state.theme.accent}
                 onChange={(e) => handleAccentChange(e.target.value)}
-                className="w-12 h-10 rounded-lg border border-gray-300 cursor-pointer"
+                className="w-12 h-10 rounded-lg border border-white/30 cursor-pointer"
+                aria-label="Choose custom color"
               />
-              <input
-                type="text"
-                value={state.theme.accent}
-                onChange={(e) => handleAccentChange(e.target.value)}
-                placeholder="#3b82f6"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm accent-focus"
-              />
+                             <input
+                 type="text"
+                 value={state.theme.accent}
+                 onChange={(e) => handleAccentChange(e.target.value)}
+                 placeholder="#3b82f6"
+                 className="flex-1 px-3 py-2 border border-white/30 rounded-lg text-sm bg-white text-black"
+                 aria-label="Enter custom color hex code"
+               />
             </div>
           </div>
         </div>
 
-        {/* Live Preview */}
-        <motion.div
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 240 })}
-          className="lg:sticky lg:top-8"
-        >
+                 {/* Live Preview */}
+         <motion.div
+           initial={{ x: 20, opacity: 0 }}
+           animate={{ x: 0, opacity: 1 }}
+           transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 240 })}
+           className="flex items-center justify-center min-h-[600px] mt-16"
+         >
           <PreviewCard
             title="Live Preview"
             description="See your theme in action"
           >
-            <div className="space-y-4">
-              {/* Sample Dashboard Header */}
-              <div className="p-4 bg-white rounded-lg border">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-gray-900">Dashboard</h3>
-                  <div className="w-8 h-8 accent-bg rounded-lg flex items-center justify-center">
-                    <div className="w-2 h-2 bg-white rounded-full" />
-                  </div>
-                </div>
-                
-                {/* Sample buttons */}
-                <div className="flex space-x-2 mb-3">
-                  <button className="px-3 py-1 accent-bg text-white rounded-md text-sm font-medium">
-                    Primary
-                  </button>
-                  <button className="px-3 py-1 border accent-border accent-text rounded-md text-sm font-medium">
-                    Secondary
-                  </button>
-                </div>
-
-                {/* Sample content */}
-                <div className="space-y-2">
-                  <div className="h-2 bg-gray-200 rounded w-3/4" />
-                  <div className="h-2 bg-gray-200 rounded w-1/2" />
-                </div>
-              </div>
-
-              {/* Sample Order Card */}
-              <div className="p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium">Order #1234</span>
-                  <span className="text-xs accent-bg text-white px-2 py-1 rounded-full">
-                    Ready
-                  </span>
-                </div>
-                <div className="text-xs text-gray-600">
-                  Customer: John D. • Total: $24.99
-                </div>
-              </div>
-
-              {/* Theme info */}
-              <div className="text-center p-3 accent-muted rounded-lg">
-                <p className="text-sm accent-text font-medium">
-                  {state.theme.mode === 'auto' ? 'Auto' : 
-                   state.theme.mode === 'dark' ? 'Dark' : 'Light'} Theme
-                </p>
-                <p className="text-xs text-gray-600 mt-1">
-                  Accent: {accentColors.find(c => c.value === state.theme.accent)?.name || 'Custom'}
-                </p>
-              </div>
-            </div>
+                         <div className="space-y-4">
+               {/* Sample Dashboard Header */}
+               <div className="p-4 bg-black/20 backdrop-blur-xl rounded-lg border border-white/20">
+                 <div className="flex items-center justify-between mb-3">
+                   <h3 className="font-semibold text-white">Dashboard</h3>
+                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: state.theme.accent }}>
+                     <div className="w-2 h-2 bg-white rounded-full" />
+                   </div>
+                 </div>
+                 
+                 {/* Sample buttons */}
+                 <div className="flex space-x-2 mb-3">
+                   <button className="px-3 py-1 rounded-md text-sm font-medium text-white" style={{ backgroundColor: state.theme.accent }}>
+                     Primary
+                   </button>
+                   <button className="px-3 py-1 border border-white/30 text-white rounded-md text-sm font-medium bg-black/20">
+                     Secondary
+                   </button>
+                 </div>
+ 
+                 {/* Sample content */}
+                 <div className="space-y-2">
+                   <div className="h-2 bg-white/20 rounded w-3/4" />
+                   <div className="h-2 bg-white/20 rounded w-1/2" />
+                 </div>
+               </div>
+ 
+               {/* Sample Order Card */}
+               <div className="p-3 bg-black/20 backdrop-blur-xl rounded-lg border border-white/20">
+                 <div className="flex items-center justify-between mb-2">
+                   <span className="text-sm font-medium text-white">Order #1234</span>
+                   <span className="text-xs text-white px-2 py-1 rounded-full" style={{ backgroundColor: state.theme.accent }}>
+                     Ready
+                   </span>
+                 </div>
+                 <div className="text-xs text-white/70">
+                   Customer: John D. • Total: $24.99
+                 </div>
+               </div>
+ 
+               {/* Theme info */}
+               <div className="text-center p-3 bg-white/10 backdrop-blur-xl rounded-lg border border-white/20">
+                 <p className="text-sm font-medium text-white">
+                   {state.theme.mode === 'auto' ? 'Auto' : 
+                    state.theme.mode === 'dark' ? 'Dark' : 'Light'} Theme
+                 </p>
+                 <p className="text-xs text-white/70 mt-1">
+                   Accent: {accentColors.find(c => c.value === state.theme.accent)?.name || 'Custom'}
+                 </p>
+               </div>
+             </div>
           </PreviewCard>
         </motion.div>
       </div>
@@ -272,7 +274,7 @@ export default function StepTheme({
         <Button
           onClick={onBack}
           variant="ghost"
-          className="text-gray-600 hover:text-gray-800"
+          className="text-white/70 hover:text-white"
         >
           Back
         </Button>
@@ -280,7 +282,7 @@ export default function StepTheme({
         <Button
           onClick={onNext}
           disabled={isLoading}
-          className="px-8 py-3 font-semibold rounded-xl accent-bg accent-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+          className="px-8 py-3 font-medium rounded-xl transition-all duration-200 border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
         >
           {isLoading ? (
             <div className="flex items-center space-x-2">

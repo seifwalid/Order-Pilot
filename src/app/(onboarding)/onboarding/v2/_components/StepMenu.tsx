@@ -91,18 +91,18 @@ export default function StepMenu({
         <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
           <ChefHat className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-white">
           Choose your menu style
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/80">
           We'll create a starter menu based on your restaurant type
         </p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Template Selection */}
-        <div className="space-y-6">
-          <h3 className="font-semibold text-gray-900 flex items-center">
+             <div className="grid lg:grid-cols-2 gap-8 items-start">
+         {/* Template Selection */}
+         <div className="space-y-6">
+          <h3 className="font-semibold text-white flex items-center">
             <Palette className="w-4 h-4 mr-2" />
             Choose a Template
           </h3>
@@ -127,26 +127,20 @@ export default function StepMenu({
                   }}
                   className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                     isSelected
-                      ? 'border-blue-300 bg-blue-50 shadow-lg'
-                      : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
+                      ? 'border-white/40 bg-white/10 backdrop-blur-xl shadow-lg'
+                      : 'border-white/20 bg-black/20 backdrop-blur-xl hover:border-white/30 hover:bg-black/30'
                   }`}
                   onClick={() => handleTemplateSelect(template.id)}
                 >
                   <div className="flex items-start space-x-4">
-                    <div 
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: template.theme.primary + '20' }}
-                    >
-                      <Icon 
-                        className="w-6 h-6" 
-                        style={{ color: template.theme.primary }}
-                      />
-                    </div>
+                                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                       <Icon className="w-6 h-6 text-white" />
+                     </div>
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 mb-1">
-                        {template.name}
-                      </h4>
-                      <p className="text-sm text-gray-600 mb-3">
+                                             <h4 className="font-medium text-white mb-1">
+                         {template.name}
+                       </h4>
+                      <p className="text-sm text-white/80 mb-3">
                         {template.description}
                       </p>
                       
@@ -154,10 +148,10 @@ export default function StepMenu({
                       <div className="space-y-1">
                         {template.preview.slice(0, 2).map((item, idx) => (
                           <div key={idx} className="flex justify-between text-xs">
-                            <span className="text-gray-700">{item.name}</span>
-                            <span className="font-medium" style={{ color: template.theme.primary }}>
-                              {item.price}
-                            </span>
+                            <span className="text-white/80">{item.name}</span>
+                                                         <span className="font-normal" style={{ color: template.theme.primary }}>
+                               {item.price}
+                             </span>
                           </div>
                         ))}
                       </div>
@@ -168,9 +162,9 @@ export default function StepMenu({
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={getSpringConfig(springConfigs.bouncy)}
-                        className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center"
+                        className="w-6 h-6 bg-white rounded-full flex items-center justify-center"
                       >
-                        <div className="w-2 h-2 bg-white rounded-full" />
+                        <div className="w-2 h-2 bg-black rounded-full" />
                       </motion.div>
                     )}
                   </div>
@@ -189,18 +183,18 @@ export default function StepMenu({
               }}
               className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                 state.menu.mode === 'scratch'
-                  ? 'border-purple-300 bg-purple-50 shadow-lg'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
+                  ? 'border-white/40 bg-white/10 backdrop-blur-xl shadow-lg'
+                  : 'border-white/20 bg-black/20 backdrop-blur-xl hover:border-white/30 hover:bg-black/30'
               }`}
               onClick={handleScratchSelect}
             >
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                  <ChefHat className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                  <ChefHat className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Start from Scratch</h4>
-                  <p className="text-sm text-gray-600">
+                                     <h4 className="font-medium text-white">Start from Scratch</h4>
+                  <p className="text-sm text-white/80">
                     Build your menu completely custom
                   </p>
                 </div>
@@ -210,9 +204,9 @@ export default function StepMenu({
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={getSpringConfig(springConfigs.bouncy)}
-                    className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center ml-auto"
+                    className="w-6 h-6 bg-white rounded-full flex items-center justify-center ml-auto"
                   >
-                    <div className="w-2 h-2 bg-white rounded-full" />
+                    <div className="w-2 h-2 bg-black rounded-full" />
                   </motion.div>
                 )}
               </div>
@@ -220,69 +214,60 @@ export default function StepMenu({
           </div>
         </div>
 
-        {/* Preview */}
-        <motion.div
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 240 })}
-          className="lg:sticky lg:top-8"
-        >
+                 {/* Preview */}
+         <motion.div
+           initial={{ x: 20, opacity: 0 }}
+           animate={{ x: 0, opacity: 1 }}
+           transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 240 })}
+           className="flex items-center justify-center min-h-[600px] mt-16"
+         >
           <PreviewCard
             title="Menu Preview"
             description="See how your menu will look"
           >
             {selectedTemplateData ? (
               <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <div 
-                    className="w-8 h-8 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: selectedTemplateData.theme.primary + '20' }}
-                  >
-                    <selectedTemplateData.icon 
-                      className="w-4 h-4" 
-                      style={{ color: selectedTemplateData.theme.primary }}
-                    />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">
-                    {selectedTemplateData.name} Menu
-                  </h3>
-                </div>
+                                 <div className="flex items-center space-x-2">
+                   <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                     <selectedTemplateData.icon className="w-4 h-4 text-white" />
+                   </div>
+                                       <h3 className="font-medium text-white">
+                      {selectedTemplateData.name} Menu
+                    </h3>
+                 </div>
 
                 <div className="space-y-3">
                   {selectedTemplateData.preview.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-                    >
-                      <div>
-                        <p className="font-medium text-gray-900">{item.name}</p>
-                        <p className="text-xs text-gray-500">{item.category}</p>
-                      </div>
-                      <span 
-                        className="font-semibold"
-                        style={{ color: selectedTemplateData.theme.primary }}
-                      >
-                        {item.price}
-                      </span>
-                    </motion.div>
+                                         <motion.div
+                       key={index}
+                       initial={{ opacity: 0, y: 10 }}
+                       animate={{ opacity: 1, y: 0 }}
+                       transition={{ delay: index * 0.1 }}
+                       className="flex justify-between items-center p-3 bg-black/20 backdrop-blur-xl rounded-lg border border-white/20"
+                     >
+                       <div>
+                         <p className="font-normal text-white">{item.name}</p>
+                         <p className="text-xs text-white/70">{item.category}</p>
+                       </div>
+                                                <span className="font-normal text-white">
+                           {item.price}
+                         </span>
+                     </motion.div>
                   ))}
                 </div>
 
-                <div className="text-xs text-gray-500 text-center pt-2 border-t">
-                  + More items will be added based on your template
-                </div>
+                                 <div className="text-xs text-white/70 text-center pt-2 border-t border-white/20">
+                   + More items will be added based on your template
+                 </div>
               </div>
             ) : (
-              <div className="text-center py-8">
-                <ChefHat className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                <p className="text-gray-600 mb-2">Custom Menu</p>
-                <p className="text-sm text-gray-500">
-                  You'll build your menu from scratch in the dashboard
-                </p>
-              </div>
+                             <div className="text-center py-8">
+                 <ChefHat className="w-12 h-12 text-white/60 mx-auto mb-3" />
+                 <p className="text-white mb-2">Custom Menu</p>
+                 <p className="text-sm text-white/70">
+                   You'll build your menu from scratch in the dashboard
+                 </p>
+               </div>
             )}
           </PreviewCard>
         </motion.div>
@@ -298,7 +283,7 @@ export default function StepMenu({
         <Button
           onClick={onBack}
           variant="ghost"
-          className="text-gray-600 hover:text-gray-800"
+          className="text-white/70 hover:text-white"
         >
           Back
         </Button>
@@ -306,7 +291,7 @@ export default function StepMenu({
         <Button
           onClick={onNext}
           disabled={isLoading}
-          className="px-8 py-3 font-semibold rounded-xl accent-bg accent-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+          className="px-8 py-3 font-medium rounded-xl transition-all duration-200 border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
         >
           {isLoading ? (
             <div className="flex items-center space-x-2">

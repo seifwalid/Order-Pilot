@@ -90,10 +90,10 @@ export default function StepTeam({
         <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
           <Users className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-white">
           Build your team
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/80">
           Invite staff members to help manage your restaurant
         </p>
       </motion.div>
@@ -110,15 +110,15 @@ export default function StepTeam({
           return (
             <div
               key={role}
-              className="p-4 rounded-xl border bg-white/50 backdrop-blur-sm"
+              className="p-4 rounded-xl border border-white/20 bg-black/20 backdrop-blur-xl"
             >
               <div className="flex items-center space-x-2 mb-2">
-                <Icon className="w-5 h-5 text-gray-600" />
-                <Badge variant="outline" className={info.color}>
-                  {info.label}
-                </Badge>
+                <Icon className="w-5 h-5 text-white/80" />
+                                 <Badge variant="outline" className="bg-white/20 text-white/60 border-white/30 font-normal">
+                   {info.label}
+                 </Badge>
               </div>
-              <p className="text-sm text-gray-600">{info.description}</p>
+              <p className="text-sm text-white/80">{info.description}</p>
             </div>
           )
         })}
@@ -156,14 +156,14 @@ export default function StepTeam({
           </div>
           <Button
             onClick={addEmail}
-            className="h-12 px-6 accent-bg accent-hover text-white"
+            className="h-12 px-6 rounded-xl border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
           >
             <Plus className="w-4 h-4 mr-2" />
             Add
           </Button>
         </div>
 
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-white/70">
           Team members will receive an email invitation to join your restaurant
         </p>
       </motion.div>
@@ -178,7 +178,7 @@ export default function StepTeam({
             transition={getSpringConfig(springConfigs.gentle)}
             className="space-y-3"
           >
-            <h3 className="font-semibold text-gray-900 flex items-center">
+            <h3 className="font-semibold text-white flex items-center">
               <Users className="w-4 h-4 mr-2" />
               Team Invitations ({state.team.invites.length})
             </h3>
@@ -194,15 +194,15 @@ export default function StepTeam({
                     ...springConfigs.gentle,
                     stiffness: 300 - index * 20
                   })}
-                  className="flex items-center justify-between p-3 bg-white/70 rounded-lg border"
+                  className="flex items-center justify-between p-3 bg-white/10 backdrop-blur-xl rounded-lg border border-white/20"
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-blue-600" />
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">{email}</p>
-                      <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">
+                      <p className="font-medium text-white">{email}</p>
+                      <Badge variant="outline" className="text-xs bg-white/20 text-white/80 border-white/30">
                         Pending Invitation
                       </Badge>
                     </div>
@@ -212,7 +212,7 @@ export default function StepTeam({
                     onClick={() => removeEmail(email)}
                     variant="ghost"
                     size="sm"
-                    className="text-gray-400 hover:text-red-600"
+                    className="text-white/60 hover:text-red-400"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -228,11 +228,11 @@ export default function StepTeam({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center py-8 bg-gray-50 rounded-xl"
+          className="text-center py-8 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20"
         >
-          <Users className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-600 mb-2">No team members invited yet</p>
-          <p className="text-sm text-gray-500">
+          <Users className="w-12 h-12 text-white/60 mx-auto mb-3" />
+          <p className="text-white mb-2">No team members invited yet</p>
+          <p className="text-sm text-white/70">
             Add email addresses above to invite your team
           </p>
         </motion.div>
@@ -243,9 +243,9 @@ export default function StepTeam({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="text-center p-4 bg-blue-50 rounded-xl"
+        className="text-center p-4 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20"
       >
-        <p className="text-sm text-blue-800">
+        <p className="text-sm text-white">
           👥 You can always invite team members later from your dashboard
         </p>
       </motion.div>
@@ -260,7 +260,7 @@ export default function StepTeam({
         <Button
           onClick={onBack}
           variant="ghost"
-          className="text-gray-600 hover:text-gray-800"
+          className="text-white/70 hover:text-white"
         >
           Back
         </Button>
@@ -268,7 +268,7 @@ export default function StepTeam({
         <Button
           onClick={onNext}
           disabled={isLoading}
-          className="px-8 py-3 font-semibold rounded-xl accent-bg accent-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+          className="px-8 py-3 font-medium rounded-xl transition-all duration-200 border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
         >
           {isLoading ? (
             <div className="flex items-center space-x-2">

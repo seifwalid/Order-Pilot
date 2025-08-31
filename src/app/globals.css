@@ -68,6 +68,10 @@
   .scroll-effect-transform {
     transition: transform 100ms ease-out;
   }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
 }
 
 /* Ensure all input fields have black text for visibility by default */

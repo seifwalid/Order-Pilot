@@ -34,10 +34,7 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 260 })}
         className="space-y-4"
       >
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#ff6b3d]/20 text-[#ff6b3d] text-sm font-medium border border-[#ff6b3d]/30">
-          <Sparkles className="w-4 h-4 mr-2" />
-          AI-Powered Restaurant Management
-        </div>
+
         
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal leading-tight tracking-loose font-serif text-white">
           Let's set up your restaurant

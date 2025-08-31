@@ -80,10 +80,10 @@ export default function StepConnections({
         <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
           <Phone className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-white">
           Connect your systems
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/80">
           Link your existing tools to streamline operations
         </p>
       </motion.div>
@@ -93,9 +93,9 @@ export default function StepConnections({
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 260 })}
-        className="text-center p-4 bg-blue-50 rounded-xl"
+        className="text-center p-4 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20"
       >
-        <p className="text-sm text-blue-800">
+        <p className="text-sm text-white">
           <span className="font-semibold">{connectedCount}</span> of {connections.length} systems connected
         </p>
         <div className="flex justify-center mt-2 space-x-1">
@@ -103,7 +103,7 @@ export default function StepConnections({
             <div
               key={index}
               className={`w-2 h-2 rounded-full transition-colors ${
-                index < connectedCount ? 'bg-blue-500' : 'bg-blue-200'
+                index < connectedCount ? 'bg-white' : 'bg-white/30'
               }`}
             />
           ))}
@@ -128,29 +128,29 @@ export default function StepConnections({
               })}
               className={`p-6 rounded-xl border-2 transition-all duration-200 ${
                 isConnected
-                  ? 'border-green-200 bg-green-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300'
+                  ? 'border-white/40 bg-white/10 backdrop-blur-xl'
+                  : 'border-white/20 bg-black/20 backdrop-blur-xl hover:border-white/30 hover:bg-black/30'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    isConnected ? 'bg-green-100' : 'bg-gray-100'
+                    isConnected ? 'bg-white/20' : 'bg-white/10'
                   }`}>
                     <Icon className={`w-6 h-6 ${
-                      isConnected ? 'text-green-600' : 'text-gray-600'
+                      isConnected ? 'text-white' : 'text-white/80'
                     }`} />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 flex items-center">
+                    <h3 className="font-semibold text-white flex items-center">
                       {connection.title}
                       {connection.optional && (
-                        <span className="ml-2 text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                          Optional
-                        </span>
+                                                 <span className="ml-2 text-xs bg-white/20 text-white/60 px-2 py-1 rounded-full font-normal">
+                           Optional
+                         </span>
                       )}
                     </h3>
-                    <p className="text-sm text-gray-600">{connection.description}</p>
+                    <p className="text-sm text-white/80">{connection.description}</p>
                   </div>
                 </div>
 
@@ -158,10 +158,10 @@ export default function StepConnections({
                   onClick={() => handleConnect(connection.id)}
                   disabled={isConnecting}
                   variant={isConnected ? "outline" : "default"}
-                  className={`min-w-[100px] ${
+                  className={`min-w-[100px] rounded-xl ${
                     isConnected
-                      ? 'border-green-300 text-green-700 hover:bg-green-50'
-                      : 'accent-bg accent-hover text-white'
+                      ? 'border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15'
+                      : 'border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15'
                   }`}
                 >
                   {isConnecting ? (
@@ -186,9 +186,9 @@ export default function StepConnections({
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={getSpringConfig(springConfigs.bouncy)}
-                  className="mt-4 p-3 bg-green-100 rounded-lg"
+                  className="mt-4 p-3 bg-white/10 backdrop-blur-xl rounded-lg border border-white/20"
                 >
-                  <p className="text-sm text-green-800 flex items-center">
+                  <p className="text-sm text-white flex items-center">
                     <Check className="w-4 h-4 mr-2" />
                     Successfully connected! Your {connection.title.toLowerCase()} is now integrated.
                   </p>
@@ -204,9 +204,9 @@ export default function StepConnections({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="text-center p-4 bg-amber-50 rounded-xl"
+        className="text-center p-4 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20"
       >
-        <p className="text-sm text-amber-800">
+        <p className="text-sm text-white">
           💡 Don't worry! You can connect these systems later from your dashboard settings.
         </p>
       </motion.div>
@@ -221,7 +221,7 @@ export default function StepConnections({
         <Button
           onClick={onBack}
           variant="ghost"
-          className="text-gray-600 hover:text-gray-800"
+          className="text-white/70 hover:text-white"
         >
           Back
         </Button>
@@ -229,7 +229,7 @@ export default function StepConnections({
         <Button
           onClick={onNext}
           disabled={isLoading}
-          className="px-8 py-3 font-semibold rounded-xl accent-bg accent-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+          className="px-8 py-3 font-medium rounded-xl transition-all duration-200 border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
         >
           {isLoading ? (
             <div className="flex items-center space-x-2">
