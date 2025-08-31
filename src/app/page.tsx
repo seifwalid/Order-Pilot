@@ -87,7 +87,7 @@
 
       // Calculate the transform value for the image scroll effect
       const imageTransform = isHydrated ? Math.min(scrollPosition * 0.15, 60) : 0; // Move up to 60px max - stops sooner
-      const imageScale = isHydrated ? (1 + (scrollPosition * 0.0005)) : 1; // More noticeable scale effect during scroll
+      const imageScale = isHydrated ? Math.min(1 + (scrollPosition * 0.0005), 1.35) : 1; // Scale effect limited to 1.35x max
 
       // Animated background balls effect - completely independent of scroll
       useEffect(() => {
@@ -158,11 +158,11 @@
 
           {/* Unified Background Gradient with Animated Balls */}
           <div className="pointer-events-none fixed inset-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b3d]/15 via-[#0f1216] to-emerald-500/10" />
-            <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/25 via-[#ff6b3d]/10 to-transparent blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#ae8d5e]/15 via-[#0f1216] to-emerald-500/10" />
+            <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ae8d5e]/25 via-[#ae8d5e]/10 to-transparent blur-3xl" />
             <div className="absolute -bottom-60 -left-40 h-[1400px] w-[1600px] rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-500/10 to-transparent blur-3xl" />
-            <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/15 via-emerald-500/10 to-transparent blur-3xl" />
-            <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ff6b3d]/8 to-transparent blur-3xl" />
+            <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ae8d5e]/15 via-emerald-500/10 to-transparent blur-3xl" />
+            <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ae8d5e]/8 to-transparent blur-3xl" />
             
             {/* Animated Balls - integrated into background */}
             <div id="animated-balls-container" className="absolute inset-0" />
@@ -190,7 +190,7 @@
                         <a href="#features" className="hover:text-white transition-colors px-8">Features</a>
                         <a href="#about" className="hover:text-white transition-colors px-8">About</a>
                         <a href="#pricing" className="hover:text-white transition-colors px-7">Pricing</a>
-                        <a href="/signup" className="inline-flex items-center justify-center h-full px-5 py-[17px] rounded-full bg-[#ff6b3d] hover:bg-[#ff5a24] text-white text-sm font-medium shadow-lg shadow-[#ff6b3d]/30 transition-colors">
+                        <a href="/signup" className="inline-flex items-center justify-center h-full px-5 py-[17px] rounded-full bg-[#ae8d5e] hover:bg-[#9a7d4e] text-white text-sm font-medium shadow-lg shadow-[#ae8d5e]/30 transition-colors">
                           <span>Sign Up</span>
                           <div className="ml-4 w-6 h-6 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
                             <ArrowUpRight className="size-4 text-white" />
@@ -206,7 +206,7 @@
                   <div className="flex items-center space-x-4 backdrop-blur supports-[backdrop-filter]:bg-white/5 bg-white/2 border border-white/5 rounded-full px-4 py-2 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.3)]">
                     <a href="#features" className="text-white/90 hover:text-white transition-colors text-sm">Features</a>
                     <a href="#pricing" className="text-white/90 hover:text-white transition-colors text-sm">Pricing</a>
-                    <a href="/signup" className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#ff6b3d] hover:bg-[#ff5a24] text-white text-sm font-medium shadow-lg shadow-[#ff6b3d]/30 transition-colors">
+                    <a href="/signup" className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#ae8d5e] hover:bg-[#9a7d4e] text-white text-sm font-medium shadow-lg shadow-[#ae8d5e]/30 transition-colors">
                       Sign Up
                     </a>
                   </div>
@@ -235,7 +235,7 @@
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button size="lg" className="group bg-[#ff6b3d] hover:bg-[#ff5a24] text-white shadow-lg shadow-[#ff6b3d]/30 px-6 md:px-9 py-6 md:py-7 rounded-full text-base w-full sm:w-auto">
+                  <Button size="lg" className="group bg-[#ae8d5e] hover:bg-[#9a7d4e] text-white shadow-lg shadow-[#ae8d5e]/30 px-6 md:px-9 py-6 md:py-7 rounded-full text-base w-full sm:w-auto">
                     <a href="/signup" className="flex items-center justify-center w-full">
                       Start Free Trial
                       <div className="ml-3 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
@@ -283,51 +283,91 @@
                 <h2 className="text-3xl md:text-5xl font-thin tracking-tight">Built for busy restaurants</h2>
                 <p className="mt-3 text-white/70 max-w-2xl mx-auto font-thin">Outcome-driven features designed to cut errors, speed up service, and lift profits.</p>
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-                <div className="rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-8 shadow-xl text-left hover:bg-black/30 transition-all duration-300">
-                  <div className="flex justify-start mb-6">
-                    <div className="w-16 h-16 mb-8 rounded-full bg-white flex items-center justify-center">
-                      <Mic className="size-7 text-black" />
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="relative w-full h-64 group cursor-pointer">
+                  <div className="absolute inset-0 transition-all duration-500 transform group-hover:rotate-y-180" style={{ transformStyle: 'preserve-3d' }}>
+                    {/* Front of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-center flex flex-col justify-center items-center" style={{ backfaceVisibility: 'hidden' }}>
+                      <div className="flex justify-center mb-6">
+                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+                          <Mic className="size-7 text-black" />
+                        </div>
+                      </div>
+                      <h3 className="font-extralight text-2xl text-white">Voice Ordering</h3>
+                    </div>
+                    {/* Back of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-left flex items-center justify-center" style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}>
+                      <p className="font-normal text-white text-base text-center leading-relaxed px-4">Real-time transcription and confirmation to reduce mistakes and speed input.</p>
                     </div>
                   </div>
-                                  <h3 className="font-extralight text-2xl text-white mb-5">Voice Ordering</h3>
-                  <p className="font-light text-white/90 text-base">Real-time transcription and confirmation to reduce mistakes and speed input.</p>
                 </div>
-                <div className="rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-8 shadow-xl text-left hover:bg-black/30 transition-all duration-300">
-                  <div className="flex justify-start mb-6">
-                    <div className="w-16 h-16 mb-8 rounded-full bg-white flex items-center justify-center">
-                      <Layers3 className="size-7 text-black" />
+                <div className="relative w-full h-64 group cursor-pointer">
+                  <div className="absolute inset-0 transition-all duration-500 transform group-hover:rotate-y-180" style={{ transformStyle: 'preserve-3d' }}>
+                    {/* Front of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-center flex flex-col justify-center items-center" style={{ backfaceVisibility: 'hidden' }}>
+                      <div className="flex justify-center mb-6">
+                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+                          <Layers3 className="size-7 text-black" />
+                        </div>
+                      </div>
+                      <h3 className="font-extralight text-2xl text-white">Smart Menus</h3>
+                    </div>
+                    {/* Back of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-left flex items-center justify-center" style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}>
+                      <p className="font-normal text-white text-base text-center leading-relaxed px-4">Upsells and dynamic pricing driven by demand, time, and inventory.</p>
                     </div>
                   </div>
-                                    <h3 className="font-extralight text-2xl text-white mb-4">Smart Menus</h3>
-                  <p className="font-light text-white/90 text-base">Upsells and dynamic pricing driven by demand, time, and inventory.</p>
                 </div>
-                <div className="rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-8 shadow-xl text-left hover:bg-black/30 transition-all duration-300">
-                  <div className="flex justify-start mb-6">
-                    <div className="w-16 h-16 mb-8 rounded-full bg-white flex items-center justify-center">
-                      <Gauge className="size-7 text-black" />
+                <div className="relative w-full h-64 group cursor-pointer">
+                  <div className="absolute inset-0 transition-all duration-500 transform group-hover:rotate-y-180" style={{ transformStyle: 'preserve-3d' }}>
+                    {/* Front of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-center flex flex-col justify-center items-center" style={{ backfaceVisibility: 'hidden' }}>
+                      <div className="flex justify-center mb-6">
+                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+                          <Gauge className="size-7 text-black" />
+                        </div>
+                      </div>
+                      <h3 className="font-extralight text-2xl text-white">Role Dashboards</h3>
+                    </div>
+                    {/* Back of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-left flex items-center justify-center" style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}>
+                      <p className="font-normal text-white text-base text-center leading-relaxed px-4">Live sales and performance views tailored for owners, managers, and staff.</p>
                     </div>
                   </div>
-                                    <h3 className="font-extralight text-2xl text-white mb-4">Role Dashboards</h3>
-                  <p className="font-light text-white/90 text-base">Live sales and performance views tailored for owners, managers, and staff.</p>
                 </div>
-                <div className="rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-8 shadow-xl text-left hover:bg-black/30 transition-all duration-300">
-                  <div className="flex justify-start mb-6">
-                    <div className="w-16 h-16 mb-8 rounded-full bg-white flex items-center justify-center">
-                      <CreditCard className="size-7 text-black" />
+                <div className="relative w-full h-64 group cursor-pointer">
+                  <div className="absolute inset-0 transition-all duration-500 transform group-hover:rotate-y-180" style={{ transformStyle: 'preserve-3d' }}>
+                    {/* Front of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-center flex flex-col justify-center items-center" style={{ backfaceVisibility: 'hidden' }}>
+                      <div className="flex justify-center mb-6">
+                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+                          <CreditCard className="size-7 text-black" />
+                        </div>
+                      </div>
+                      <h3 className="font-extralight text-2xl text-white">Seamless Billing</h3>
+                    </div>
+                    {/* Back of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-left flex items-center justify-center" style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}>
+                      <p className="font-normal text-white text-base text-center leading-relaxed px-4">Native Stripe integration for subscriptions, invoices, and payouts.</p>
                     </div>
                   </div>
-                                    <h3 className="font-extralight text-2xl text-white mb-4">Seamless Billing</h3>
-                  <p className="font-light text-white/90 text-base">Native Stripe integration for subscriptions, invoices, and payouts.</p>
                 </div>
-                <div className="rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-8 shadow-xl text-left hover:bg-black/30 transition-all duration-300">
-                  <div className="flex justify-start mb-6">
-                    <div className="w-16 h-16 mb-8 rounded-full bg-white flex items-center justify-center">
-                      <Truck className="size-7 text-black" />
+                <div className="relative w-full h-64 group cursor-pointer">
+                  <div className="absolute inset-0 transition-all duration-500 transform group-hover:rotate-y-180" style={{ transformStyle: 'preserve-3d' }}>
+                    {/* Front of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-center flex flex-col justify-center items-center" style={{ backfaceVisibility: 'hidden' }}>
+                      <div className="flex justify-center mb-6">
+                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center">
+                          <Truck className="size-7 text-black" />
+                        </div>
+                      </div>
+                      <h3 className="font-extralight text-2xl text-white">POS + Delivery</h3>
+                    </div>
+                    {/* Back of card */}
+                    <div className="absolute inset-0 rounded-2xl border border-black/20 bg-black/20 backdrop-blur-xl p-6 shadow-xl text-left flex items-center justify-center" style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}>
+                      <p className="font-normal text-white text-base text-center leading-relaxed px-4">Automated routing across POS and delivery partners to keep orders moving.</p>
                     </div>
                   </div>
-                                    <h3 className="font-extralight text-2xl text-white mb-4">POS + Delivery</h3>
-                  <p className="font-light text-white/90 text-base">Automated routing across POS and delivery partners to keep orders moving.</p>
                 </div>
               </div>
             </div>
@@ -432,7 +472,7 @@
                       '99.9% SLA & priority support'
                     ]
                 }].map((p, i) => (
-                      <div key={i} className={`rounded-2xl ${p.featured ? 'bg-gradient-to-br from-[#ff6b3d]/15 via-[#ff6b3d]/8 via-[#ff6b3d]/4 to-black/95' : 'bg-black/80'} backdrop-blur p-6 shadow-xl flex flex-col`}>
+                      <div key={i} className={`rounded-2xl ${p.featured ? 'bg-gradient-to-br from-[#ae8d5e]/15 via-[#ae8d5e]/8 via-[#ae8d5e]/4 to-black/95' : 'bg-black/80'} backdrop-blur p-6 shadow-xl flex flex-col`}>
                     <div className="flex-1">
                           <h3 className="text-xl font-light">{p.name}</h3>
                       <p className="mt-1 text-white/70 text-sm">{p.desc}</p>
@@ -444,7 +484,7 @@
                       </ul>
                     </div>
                         <div className="mt-16">
-                          <Button size="lg" className={`${p.featured ? 'bg-[#ff6b3d] hover:bg-[#ff5a24]' : 'bg-white/10 hover:bg-white/20'} rounded-full px-10 py-6 text-l font-normal`}>{p.cta}</Button>
+                          <Button size="lg" className={`${p.featured ? 'bg-[#ae8d5e] hover:bg-[#9a7d4e]' : 'bg-white/10 hover:bg-white/20'} rounded-full px-10 py-6 text-l font-normal`}>{p.cta}</Button>
                     </div>
                   </div>
                 ))}

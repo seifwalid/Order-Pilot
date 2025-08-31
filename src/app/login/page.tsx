@@ -78,11 +78,11 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0f1216] text-white relative">
       {/* Background Gradient with Animated Balls */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b3d]/15 via-[#0f1216] to-emerald-500/10" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/25 via-[#ff6b3d]/10 to-transparent blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#ae8d5e]/15 via-[#0f1216] to-emerald-500/10" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ae8d5e]/25 via-[#ae8d5e]/10 to-transparent blur-3xl" />
         <div className="absolute -bottom-60 -left-40 h-[1400px] w-[1600px] rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-500/10 to-transparent blur-3xl" />
-        <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/15 via-emerald-500/10 to-transparent blur-3xl" />
-        <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ff6b3d]/8 to-transparent blur-3xl" />
+        <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ae8d5e]/15 via-emerald-500/10 to-transparent blur-3xl" />
+        <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ae8d5e]/8 to-transparent blur-3xl" />
         
 
       </div>
@@ -198,7 +198,7 @@ export default function LoginPage() {
               </div>
                              <Button 
                  type="submit" 
-                 className="w-full bg-[#ff6b3d] hover:bg-[#ff5a24] text-white shadow-lg shadow-[#ff6b3d]/30 transition-all duration-200 h-12 text-base font-medium rounded-xl" 
+                 className="w-full bg-[#ae8d5e] hover:bg-[#9a7d4e] text-white shadow-lg shadow-[#ae8d5e]/30 transition-all duration-200 h-12 text-base font-medium rounded-xl" 
                  disabled={isLoading}
                >
                 {isLoading ? 'Signing in...' : 'Sign In'}
@@ -208,7 +208,7 @@ export default function LoginPage() {
             <div className="text-center pt-4">
               <p className="text-sm text-white/70">
                 Don't have an account?{' '}
-                <Link href="/signup" className="font-medium text-[#ff6b3d] hover:text-[#ff5a24] transition-colors">
+                <Link href="/signup" className="font-medium text-[#ae8d5e] hover:text-[#9a7d4e] transition-colors">
                   Sign up
                 </Link>
               </p>

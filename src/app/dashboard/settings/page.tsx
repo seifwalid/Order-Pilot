@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getUserRestaurant } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import SimpleNav from '@/components/SimpleNav'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import RestaurantSettingsForm from '@/components/RestaurantSettingsForm'
 import StaffManagement from '@/components/StaffManagement'
@@ -60,32 +60,54 @@ export default async function SettingsPage() {
   return (
     <>
       <SimpleNav user={user} role={role} />
-      <div className="p-8">
+      <div className="p-8 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">Settings</h1>
-          <p className="text-gray-600">Manage your restaurant settings, staff, and menu</p>
+          <h1 className="text-2xl font-medium text-white">Settings</h1>
+          <p className="text-white/90">Manage your restaurant settings, staff, and menu</p>
         </div>
 
         <Tabs defaultValue="restaurant" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="restaurant">Restaurant</TabsTrigger>
-            <TabsTrigger value="staff">Staff</TabsTrigger>
-            <TabsTrigger value="menu">Menu</TabsTrigger>
-            <TabsTrigger value="integrations">Integrations</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 bg-slate-800/50 backdrop-blur-3xl rounded-xl border border-slate-700/50 p-1 shadow-lg">
+            <TabsTrigger 
+              value="restaurant"
+              className="text-white/85 data-[state=active]:bg-white/25 data-[state=active]:text-white rounded-lg"
+            >
+              Restaurant
+            </TabsTrigger>
+            <TabsTrigger 
+              value="staff"
+              className="text-white/85 data-[state=active]:bg-white/25 data-[state=active]:text-white rounded-lg"
+            >
+              Staff
+            </TabsTrigger>
+            <TabsTrigger 
+              value="menu"
+              className="text-white/85 data-[state=active]:bg-white/25 data-[state=active]:text-white rounded-lg"
+            >
+              Menu
+            </TabsTrigger>
+            <TabsTrigger 
+              value="integrations"
+              className="text-white/85 data-[state=active]:bg-white/25 data-[state=active]:text-white rounded-lg"
+            >
+              Integrations
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="restaurant" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Restaurant Information</CardTitle>
-                <CardDescription>
+            <div className="bg-slate-800/50 backdrop-blur-3xl rounded-xl border border-slate-700/50 p-6 shadow-lg">
+              <div className="flex flex-col space-y-1.5 mb-4">
+                <h3 className="text-2xl font-medium leading-none tracking-tight text-white drop-shadow-sm">
+                  Restaurant Information
+                </h3>
+                <p className="text-sm text-white/85">
                   Update your restaurant's basic information and contact details
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+                </p>
+              </div>
+              <div className="pt-0">
                 <RestaurantSettingsForm restaurant={restaurant} />
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="staff" className="space-y-4">
@@ -106,39 +128,43 @@ export default async function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="integrations" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>VAPI Voice Agent</CardTitle>
-                <CardDescription>
+            <div className="bg-slate-800/50 backdrop-blur-3xl rounded-xl border border-slate-700/50 p-6 shadow-lg">
+              <div className="flex flex-col space-y-1.5 mb-4">
+                <h3 className="text-2xl font-medium leading-none tracking-tight text-white drop-shadow-sm">
+                  VAPI Voice Agent
+                </h3>
+                <p className="text-sm text-white/85">
                   Configure voice ordering through VAPI integration
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+                </p>
+              </div>
+              <div className="pt-0">
                 <div className="text-center py-8">
-                  <p className="text-gray-500 mb-4">🎤 VAPI Integration</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-white/90 mb-4">🎤 VAPI Integration</p>
+                  <p className="text-sm text-white/85">
                     Voice agent integration coming soon. This will allow customers to place orders via phone calls.
                   </p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Payment Processing</CardTitle>
-                <CardDescription>
+            <div className="bg-slate-800/50 backdrop-blur-3xl rounded-xl border border-slate-700/50 p-6 shadow-lg">
+              <div className="flex flex-col space-y-1.5 mb-4">
+                <h3 className="text-2xl font-medium leading-none tracking-tight text-white drop-shadow-sm">
+                  Payment Processing
+                </h3>
+                <p className="text-sm text-white/85">
                   Configure payment methods and processing
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+                </p>
+              </div>
+              <div className="pt-0">
                 <div className="text-center py-8">
-                  <p className="text-gray-500 mb-4">💳 Payment Integration</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-white/90 mb-4">💳 Payment Integration</p>
+                  <p className="text-sm text-white/85">
                     Payment processing integration coming soon.
                   </p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

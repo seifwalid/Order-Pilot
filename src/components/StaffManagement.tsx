@@ -124,18 +124,18 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
   return (
     <div className="space-y-6">
       {canManageStaff && (
-        <Card>
+        <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
           <CardHeader>
-            <CardTitle>Invite New Staff Member</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white font-medium">Invite New Staff Member</CardTitle>
+            <CardDescription className="text-white/70">
               Send an invitation to add a new team member to your restaurant
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleInviteSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="email">Email Address</Label>
+            <form onSubmit={handleInviteSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-white font-medium">Email Address</Label>
                   <Input
                     id="email"
                     type="email"
@@ -143,24 +143,26 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
                     onChange={(e) => setInviteForm(prev => ({ ...prev, email: e.target.value }))}
                     placeholder="staff@example.com"
                     required
+                    className="bg-slate-700/50 border-slate-600 text-white !text-white placeholder:text-slate-400 focus:border-slate-500 focus:ring-slate-500"
                   />
                 </div>
                 
-                <div>
-                  <Label htmlFor="role">Role</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="role" className="text-white font-medium">Role</Label>
                   <select
                     id="role"
                     value={inviteForm.role}
                     onChange={(e) => setInviteForm(prev => ({ ...prev, role: e.target.value as 'manager' | 'staff' }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600 rounded-md text-white !text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+                    aria-label="Select staff role"
                   >
-                    <option value="staff">Staff Member</option>
-                    <option value="manager">Manager</option>
+                    <option value="staff" className="bg-slate-700 text-white">Staff Member</option>
+                    <option value="manager" className="bg-slate-700 text-white">Manager</option>
                   </select>
                 </div>
               </div>
 
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading} className="bg-slate-700 hover:bg-slate-600 text-white border-slate-600">
                 {isLoading ? 'Sending...' : 'Send Invitation'}
               </Button>
             </form>
@@ -168,20 +170,20 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
         </Card>
       )}
 
-      <Card>
+      <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
         <CardHeader>
-          <CardTitle>Current Staff Members</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-white font-medium">Current Staff Members</CardTitle>
+          <CardDescription className="text-white/70">
             Manage your restaurant's team members
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {staffMembers.map((staff) => (
-              <div key={staff.id} className="flex items-center justify-between p-3 border rounded-lg">
+              <div key={staff.id} className="flex items-center justify-between p-3 border border-slate-600/50 rounded-lg bg-slate-700/30">
                 <div>
-                  <p className="font-medium">{staff.email || 'Unknown'}</p>
-                  <Badge variant="secondary" className="capitalize">
+                  <p className="font-medium text-white">{staff.email || 'Unknown'}</p>
+                  <Badge variant="secondary" className="capitalize bg-slate-500/20 text-slate-300 border-slate-500/30">
                     {staff.role}
                   </Badge>
                 </div>
@@ -192,6 +194,7 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
                     size="sm"
                     disabled={isLoading}
                     onClick={() => handleRemoveStaff(staff.id)}
+                    className="bg-red-600/20 text-red-300 border-red-500/30 hover:bg-red-600/30"
                   >
                     {isLoading ? 'Removing...' : 'Remove'}
                   </Button>
@@ -200,31 +203,31 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
             ))}
             
             {staffMembers.length === 0 && (
-              <p className="text-gray-500 text-center py-4">No staff members found</p>
+              <p className="text-white/70 text-center py-4">No staff members found</p>
             )}
           </div>
         </CardContent>
       </Card>
 
       {canManageStaff && pendingInvitations.length > 0 && (
-        <Card>
+        <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
           <CardHeader>
-            <CardTitle>Pending Invitations</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white font-medium">Pending Invitations</CardTitle>
+            <CardDescription className="text-white/70">
               Invitations that haven't been accepted yet
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {pendingInvitations.map((invitation) => (
-                <div key={invitation.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div key={invitation.id} className="flex items-center justify-between p-3 border border-slate-600/50 rounded-lg bg-slate-700/30">
                   <div>
-                    <p className="font-medium">{invitation.email}</p>
+                    <p className="font-medium text-white">{invitation.email}</p>
                     <div className="flex items-center space-x-2">
-                      <Badge variant="secondary" className="capitalize">
+                      <Badge variant="secondary" className="capitalize bg-slate-500/20 text-slate-300 border-slate-500/30">
                         {invitation.role}
                       </Badge>
-                      <Badge variant="outline">
+                      <Badge variant="outline" className="border-slate-500/30 text-slate-300">
                         Pending
                       </Badge>
                     </div>
@@ -235,6 +238,7 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
                     size="sm"
                     disabled={isLoading}
                     onClick={() => handleRevokeInvitation(invitation.id)}
+                    className="bg-red-600/20 text-red-300 border-red-500/30 hover:bg-red-600/30"
                   >
                     {isLoading ? 'Deleting...' : 'Delete'}
                   </Button>

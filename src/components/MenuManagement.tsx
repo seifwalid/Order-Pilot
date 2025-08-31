@@ -124,68 +124,71 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
     <div className="space-y-6">
       {canManageMenu && (
         <>
-          <Card>
+          <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
             <CardHeader>
-              <CardTitle>Add Category</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-white font-medium">Add Category</CardTitle>
+              <CardDescription className="text-white/70">
                 Create a new menu category to organize your items
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleAddCategory} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="categoryName">Category Name</Label>
+              <form onSubmit={handleAddCategory} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="categoryName" className="text-white font-medium">Category Name</Label>
                     <Input
                       id="categoryName"
                       value={newCategory.name}
                       onChange={(e) => setNewCategory(prev => ({ ...prev, name: e.target.value }))}
                       placeholder="e.g., Appetizers, Main Courses"
                       required
+                      className="bg-slate-700/50 border-slate-600 text-white !text-white placeholder:text-slate-400 focus:border-slate-500 focus:ring-slate-500"
                     />
                   </div>
                   
-                  <div>
-                    <Label htmlFor="categoryDescription">Description</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="categoryDescription" className="text-white font-medium">Description</Label>
                     <Input
                       id="categoryDescription"
                       value={newCategory.description}
                       onChange={(e) => setNewCategory(prev => ({ ...prev, description: e.target.value }))}
                       placeholder="Brief description of the category"
+                      className="bg-slate-700/50 border-slate-600 text-white !text-white placeholder:text-slate-400 focus:border-slate-500 focus:ring-slate-500"
                     />
                   </div>
                 </div>
 
-                <Button type="submit" disabled={isLoading}>
+                <Button type="submit" disabled={isLoading} className="bg-slate-700 hover:bg-slate-600 text-white border-slate-600">
                   {isLoading ? 'Adding...' : 'Add Category'}
                 </Button>
               </form>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
             <CardHeader>
-              <CardTitle>Add Menu Item</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-white font-medium">Add Menu Item</CardTitle>
+              <CardDescription className="text-white/70">
                 Add a new item to your menu
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleAddItem} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="itemName">Item Name</Label>
+              <form onSubmit={handleAddItem} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="itemName" className="text-white font-medium">Item Name</Label>
                     <Input
                       id="itemName"
                       value={newItem.name}
                       onChange={(e) => setNewItem(prev => ({ ...prev, name: e.target.value }))}
                       placeholder="e.g., Caesar Salad"
                       required
+                      className="bg-slate-700/50 border-slate-600 text-white !text-white placeholder:text-slate-400 focus:border-slate-500 focus:ring-slate-500"
                     />
                   </div>
                   
-                  <div>
-                    <Label htmlFor="itemPrice">Price ($)</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="itemPrice" className="text-white font-medium">Price ($)</Label>
                     <Input
                       id="itemPrice"
                       type="number"
@@ -194,41 +197,43 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
                       onChange={(e) => setNewItem(prev => ({ ...prev, price: e.target.value }))}
                       placeholder="12.99"
                       required
+                      className="bg-slate-700/50 border-slate-600 text-white !text-white placeholder:text-slate-400 focus:border-slate-500 focus:ring-slate-500"
                     />
                   </div>
                   
-                  <div>
-                    <Label htmlFor="itemCategory">Category</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="itemCategory" className="text-white font-medium">Category</Label>
                     <select
                       id="itemCategory"
                       value={newItem.categoryId}
                       onChange={(e) => setNewItem(prev => ({ ...prev, categoryId: e.target.value }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600 rounded-md text-white !text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
                       required
+                      aria-label="Select a category"
                     >
-                      <option value="">Select a category</option>
+                      <option value="" className="bg-slate-700 text-white">Select a category</option>
                       {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
+                        <option key={category.id} value={category.id} className="bg-slate-700 text-white">
                           {category.name}
                         </option>
                       ))}
                     </select>
                   </div>
                   
-                  <div className="md:col-span-2">
-                    <Label htmlFor="itemDescription">Description</Label>
+                  <div className="md:col-span-2 space-y-2">
+                    <Label htmlFor="itemDescription" className="text-white font-medium">Description</Label>
                     <textarea
                       id="itemDescription"
                       value={newItem.description}
                       onChange={(e) => setNewItem(prev => ({ ...prev, description: e.target.value }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
                       rows={2}
                       placeholder="Describe the dish..."
                     />
                   </div>
                 </div>
 
-                <Button type="submit" disabled={isLoading || !newItem.categoryId}>
+                <Button type="submit" disabled={isLoading || !newItem.categoryId} className="bg-slate-700 hover:bg-slate-600 text-white border-slate-600">
                   {isLoading ? 'Adding...' : 'Add Menu Item'}
                 </Button>
               </form>
@@ -237,10 +242,10 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
         </>
       )}
 
-      <Card>
+      <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
         <CardHeader>
-          <CardTitle>Current Menu</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-white font-medium">Current Menu</CardTitle>
+          <CardDescription className="text-white/70">
             Your restaurant's menu organized by categories
           </CardDescription>
         </CardHeader>
@@ -248,28 +253,28 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
           {categories.length > 0 ? (
             <div className="space-y-6">
               {categories.map((category) => (
-                <div key={category.id} className="border rounded-lg p-4">
+                <div key={category.id} className="border border-slate-600/50 rounded-lg p-4 bg-slate-700/30">
                   <div className="mb-4">
-                    <h3 className="text-lg font-medium">{category.name}</h3>
+                    <h3 className="text-lg font-medium text-white">{category.name}</h3>
                     {category.description && (
-                      <p className="text-sm text-gray-600">{category.description}</p>
+                      <p className="text-sm text-white/70">{category.description}</p>
                     )}
                   </div>
                   
                   <div className="space-y-3">
                     {category.menu_items?.map((item: any) => (
-                      <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={item.id} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg border border-slate-600/50">
                         <div className="flex-1">
                           <div className="flex items-center space-x-2">
-                            <h4 className="font-medium">{item.name}</h4>
-                            <Badge variant={item.is_available ? "default" : "secondary"}>
+                            <h4 className="font-medium text-white">{item.name}</h4>
+                            <Badge variant={item.is_available ? "default" : "secondary"} className={item.is_available ? "bg-green-500/20 text-green-300 border-green-500/30" : "bg-slate-500/20 text-slate-300 border-slate-500/30"}>
                               {item.is_available ? 'Available' : 'Unavailable'}
                             </Badge>
                           </div>
                           {item.description && (
-                            <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+                            <p className="text-sm text-white/70 mt-1">{item.description}</p>
                           )}
-                          <p className="text-sm font-medium text-green-600 mt-1">
+                          <p className="text-sm font-medium text-green-400 mt-1">
                             ${item.price}
                           </p>
                         </div>
@@ -280,6 +285,7 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
                               variant="outline"
                               size="sm"
                               onClick={() => handleToggleItemAvailability(item.id, item.is_available)}
+                              className="border-slate-600 text-slate-300 hover:bg-slate-600 hover:text-white"
                             >
                               {item.is_available ? 'Hide' : 'Show'}
                             </Button>
@@ -287,6 +293,7 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
                               variant="destructive"
                               size="sm"
                               onClick={() => handleDeleteItem(item.id)}
+                              className="bg-red-600/20 text-red-300 border-red-500/30 hover:bg-red-600/30"
                             >
                               Delete
                             </Button>
@@ -294,7 +301,7 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
                         )}
                       </div>
                     )) || (
-                      <p className="text-gray-500 text-center py-4">No items in this category</p>
+                      <p className="text-white/70 text-center py-4">No items in this category</p>
                     )}
                   </div>
                 </div>
@@ -302,9 +309,9 @@ export default function MenuManagement({ restaurant, role, categories }: MenuMan
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">No menu categories yet</p>
+              <p className="text-white/70 mb-4">No menu categories yet</p>
               {canManageMenu && (
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-white/60">
                   Start by adding a category above, then add menu items to it.
                 </p>
               )}

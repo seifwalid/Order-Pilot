@@ -35,9 +35,9 @@ export default function StepSummary({
       stepIndex: 1,
       content: (
         <div className="space-y-1">
-          <p className="font-medium text-gray-900">{state.restaurant.name || 'Not set'}</p>
+          <p className="font-medium text-white">{state.restaurant.name || 'Not set'}</p>
           {state.restaurant.location && (
-            <p className="text-sm text-gray-600">{state.restaurant.location}</p>
+            <p className="text-sm text-white/70">{state.restaurant.location}</p>
           )}
         </div>
       ),
@@ -51,7 +51,7 @@ export default function StepSummary({
         <div className="space-y-1">
           {state.team.invites.length > 0 ? (
             <>
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-white">
                 {state.team.invites.length} member{state.team.invites.length !== 1 ? 's' : ''} invited
               </p>
               <div className="flex flex-wrap gap-1">
@@ -68,7 +68,7 @@ export default function StepSummary({
               </div>
             </>
           ) : (
-            <p className="text-gray-600">No team members invited</p>
+            <p className="text-white/70">No team members invited</p>
           )}
         </div>
       ),
@@ -82,17 +82,17 @@ export default function StepSummary({
         <div className="space-y-1">
           {state.menu.mode === 'template' && state.menu.template ? (
             <>
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-white">
                 {state.menu.template === 'fastCasual' ? 'Fast Casual' :
                  state.menu.template === 'pizzeria' ? 'Pizzeria' :
                  state.menu.template === 'cafe' ? 'Café' : 'Template'} Menu
               </p>
-              <p className="text-sm text-gray-600">Template-based menu</p>
+              <p className="text-sm text-white/70">Template-based menu</p>
             </>
           ) : (
             <>
-              <p className="font-medium text-gray-900">Custom Menu</p>
-              <p className="text-sm text-gray-600">Build from scratch</p>
+              <p className="font-medium text-white">Custom Menu</p>
+              <p className="text-sm text-white/70">Build from scratch</p>
             </>
           )}
         </div>
@@ -110,11 +110,11 @@ export default function StepSummary({
               className="w-4 h-4 rounded-full border"
               style={{ backgroundColor: state.theme.accent }}
             />
-            <p className="font-medium text-gray-900">
+            <p className="font-medium text-white">
               {selectedAccentColor?.name || 'Custom'} Theme
             </p>
           </div>
-          <p className="text-sm text-gray-600 capitalize">
+          <p className="text-sm text-white/70 capitalize">
             {state.theme.mode} mode
           </p>
         </div>
@@ -128,11 +128,11 @@ export default function StepSummary({
       content: (
         <div className="space-y-1">
           <p className={`font-medium ${
-            state.voice.enabled ? 'text-green-700' : 'text-gray-600'
+            state.voice.enabled ? 'text-white' : 'text-white/60'
           }`}>
             {state.voice.enabled ? 'Enabled' : 'Disabled'}
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-white/70">
             {state.voice.enabled 
               ? 'AI phone assistant active'
               : 'Can be enabled later'
@@ -158,10 +158,10 @@ export default function StepSummary({
         <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-4">
           <CheckCircle className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-white">
           You're all set!
         </h2>
-        <p className="text-gray-600">
+        <p className="text-white/80">
           Review your setup and launch your restaurant dashboard
         </p>
       </motion.div>
@@ -171,13 +171,13 @@ export default function StepSummary({
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 260 })}
-        className="text-center p-6 bg-green-50 rounded-xl"
+        className="text-center p-6 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20"
       >
         <div className="flex items-center justify-center space-x-2 mb-2">
-          <Sparkles className="w-5 h-5 text-green-600" />
-          <h3 className="font-semibold text-green-800">Setup Complete</h3>
+          <Sparkles className="w-5 h-5 text-white" />
+          <h3 className="font-semibold text-white">Setup Complete</h3>
         </div>
-        <p className="text-green-700">
+        <p className="text-white">
           <span className="font-semibold">{completedCount}</span> of {summaryItems.length} sections configured
         </p>
         <div className="flex justify-center mt-3 space-x-1">
@@ -206,19 +206,19 @@ export default function StepSummary({
                 ...springConfigs.gentle,
                 stiffness: 280 - index * 15
               })}
-              className="flex items-center justify-between p-4 bg-white/70 rounded-xl border hover:bg-white/90 transition-colors"
+              className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 hover:bg-white/15 transition-colors"
             >
               <div className="flex items-center space-x-4">
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  item.isComplete ? 'bg-green-100' : 'bg-gray-100'
+                  item.isComplete ? 'bg-white/20' : 'bg-white/10'
                 }`}>
                   <Icon className={`w-5 h-5 ${
-                    item.isComplete ? 'text-green-600' : 'text-gray-500'
+                    item.isComplete ? 'text-white' : 'text-white/60'
                   }`} />
                 </div>
                 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-1">
+                  <h4 className="font-medium text-white mb-1">
                     {item.title}
                   </h4>
                   {item.content}
@@ -229,7 +229,7 @@ export default function StepSummary({
                 onClick={() => onJumpTo?.(item.stepIndex)}
                 variant="ghost"
                 size="sm"
-                className="text-gray-500 hover:text-gray-700"
+                className="text-white/70 hover:text-white"
               >
                 <Edit2 className="w-4 h-4" />
               </Button>
@@ -243,13 +243,13 @@ export default function StepSummary({
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 200 })}
-        className="text-center space-y-6 p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl"
+        className="text-center space-y-6 p-8 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20"
       >
         <div className="space-y-2">
-          <h3 className="text-xl font-bold text-gray-900">
+          <h3 className="text-xl font-bold text-white">
             Ready to launch your kitchen! 🚀
           </h3>
-          <p className="text-gray-600 max-w-md mx-auto">
+          <p className="text-white/80 max-w-md mx-auto">
             Your OrderPilot dashboard is configured and ready. 
             Start managing orders, menu, and team right away.
           </p>
@@ -260,7 +260,7 @@ export default function StepSummary({
             onClick={onComplete}
             disabled={isLoading}
             size="lg"
-            className="px-8 py-4 font-semibold rounded-xl accent-bg accent-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+            className="px-8 py-4 font-medium rounded-xl transition-all duration-200 border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
           >
             {isLoading ? (
               <div className="flex items-center space-x-2">
@@ -285,8 +285,8 @@ export default function StepSummary({
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-2xl mb-1">{stat.icon}</div>
-              <div className="font-bold text-gray-900">{stat.value}</div>
-              <div className="text-xs text-gray-600">{stat.label}</div>
+              <div className="font-bold text-white">{stat.value}</div>
+              <div className="text-xs text-white/70">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -302,12 +302,12 @@ export default function StepSummary({
         <Button
           onClick={onBack}
           variant="ghost"
-          className="text-gray-600 hover:text-gray-800"
+          className="text-white/70 hover:text-white"
         >
           Back
         </Button>
 
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-white/70">
           🎉 Setup complete! Ready to launch.
         </div>
       </motion.div>

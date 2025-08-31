@@ -31,10 +31,10 @@ export default function StepVoice({
         <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
           <Mic className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-apple-title1 text-gray-900">
+        <h2 className="text-apple-title1 text-white">
           Enable voice ordering
         </h2>
-        <p className="text-apple-body text-gray-600">
+        <p className="text-apple-body text-white/80">
           Let customers place orders by phone with AI assistance
         </p>
       </motion.div>
@@ -45,49 +45,49 @@ export default function StepVoice({
         transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 260 })}
         className="text-center space-y-6"
       >
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="relative mx-auto"
-        >
-          <button
-            onClick={handleToggleVoice}
-            className={`w-32 h-32 rounded-full flex items-center justify-center transition-all duration-300 ${
-              isVoiceEnabled
-                ? 'accent-bg shadow-2xl shadow-blue-500/25'
-                : 'bg-gray-200 hover:bg-gray-300'
-            }`}
-          >
-            {isVoiceEnabled ? (
-              <Mic className="w-12 h-12 text-white" />
-            ) : (
-              <MicOff className="w-12 h-12 text-gray-500" />
-            )}
-          </button>
+        <div className="flex justify-center">
+          <div className="relative">
+            <motion.button
+              onClick={handleToggleVoice}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className={`w-32 h-32 rounded-full flex items-center justify-center transition-all duration-200 ${
+                isVoiceEnabled
+                  ? 'accent-bg shadow-2xl shadow-blue-500/25'
+                  : 'bg-gray-200 hover:bg-gray-300'
+              }`}
+            >
+              {isVoiceEnabled ? (
+                <Mic className="w-12 h-12 text-white" />
+              ) : (
+                <MicOff className="w-12 h-12 text-gray-500" />
+              )}
+            </motion.button>
 
-          {isVoiceEnabled && (
-            <motion.div
-              className="absolute inset-0 rounded-full accent-bg opacity-20"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.2, 0, 0.2],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          )}
-        </motion.div>
+            {isVoiceEnabled && (
+              <motion.div
+                className="absolute inset-0 rounded-full accent-bg opacity-20"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.2, 0, 0.2],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            )}
+          </div>
+        </div>
 
         <div className="space-y-2">
           <h3 className={`text-apple-title3 ${
-            isVoiceEnabled ? 'accent-text' : 'text-gray-500'
+            isVoiceEnabled ? 'text-white' : 'text-white/60'
           }`}>
             {isVoiceEnabled ? 'Voice Ordering Enabled' : 'Voice Ordering Disabled'}
           </h3>
-          <p className="text-apple-callout text-gray-600">
+          <p className="text-apple-callout text-white/80">
             {isVoiceEnabled 
               ? 'Customers can now call and place orders with AI assistance'
               : 'Click the microphone to enable voice ordering'
@@ -111,19 +111,19 @@ export default function StepVoice({
                 <div className="w-8 h-8 accent-bg rounded-full flex items-center justify-center flex-shrink-0">
                   <Volume2 className="w-4 h-4 text-white" />
                 </div>
-                <div className="bg-blue-50 rounded-lg p-3 flex-1">
-                  <p className="text-sm text-gray-800">
+                <div className="bg-white/10 backdrop-blur-xl rounded-lg p-3 flex-1 border border-white/20">
+                  <p className="text-sm text-white">
                     "Welcome to {state.restaurant.name || 'your restaurant'}, how can I help you today?"
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Mic className="w-4 h-4 text-gray-600" />
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Mic className="w-4 h-4 text-white" />
                 </div>
-                <div className="bg-gray-100 rounded-lg p-3 flex-1">
-                  <p className="text-sm text-gray-800">
+                <div className="bg-black/20 backdrop-blur-xl rounded-lg p-3 flex-1 border border-white/20">
+                  <p className="text-sm text-white">
                     "Hi, I'd like to order a large pizza for pickup."
                   </p>
                 </div>
@@ -133,8 +133,8 @@ export default function StepVoice({
                 <div className="w-8 h-8 accent-bg rounded-full flex items-center justify-center flex-shrink-0">
                   <Volume2 className="w-4 h-4 text-white" />
                 </div>
-                <div className="bg-blue-50 rounded-lg p-3 flex-1">
-                  <p className="text-sm text-gray-800">
+                <div className="bg-white/10 backdrop-blur-xl rounded-lg p-3 flex-1 border border-white/20">
+                  <p className="text-sm text-white">
                     "Great! What toppings would you like on your pizza?"
                   </p>
                 </div>
@@ -176,13 +176,13 @@ export default function StepVoice({
                   ...springConfigs.gentle,
                   stiffness: 280 - index * 20
                 })}
-                className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm"
+                className="text-center p-4 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20"
               >
-                <Icon className="w-8 h-8 text-gray-600 mx-auto mb-2" />
-                <h4 className="font-medium text-gray-900 text-sm mb-1">
+                <Icon className="w-8 h-8 text-white/80 mx-auto mb-2" />
+                <h4 className="font-medium text-white text-sm mb-1">
                   {feature.title}
                 </h4>
-                <p className="text-xs text-gray-600">
+                <p className="text-xs text-white/80">
                   {feature.description}
                 </p>
               </motion.div>
@@ -196,8 +196,8 @@ export default function StepVoice({
           variant={isVoiceEnabled ? "outline" : "default"}
           className={`px-8 py-3 text-apple-button rounded-xl transition-all duration-200 ${
             isVoiceEnabled
-              ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
-              : 'accent-bg accent-hover text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
+              ? 'border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15'
+              : 'border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15'
           }`}
         >
           {isVoiceEnabled ? 'Disable Voice Ordering' : 'Enable Voice Ordering'}
@@ -208,9 +208,9 @@ export default function StepVoice({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="text-center p-4 bg-amber-50 rounded-xl"
+        className="text-center p-4 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20"
       >
-        <p className="text-sm text-amber-800">
+        <p className="text-sm text-white">
           🎤 Voice ordering is powered by advanced AI and can be configured later in your dashboard
         </p>
       </motion.div>
@@ -224,7 +224,7 @@ export default function StepVoice({
         <Button
           onClick={onBack}
           variant="ghost"
-          className="text-gray-600 hover:text-gray-800"
+          className="text-white/70 hover:text-white"
         >
           Back
         </Button>
@@ -232,7 +232,7 @@ export default function StepVoice({
         <Button
           onClick={onNext}
           disabled={isLoading}
-          className="px-8 py-3 text-apple-button rounded-xl accent-bg accent-hover text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+          className="px-8 py-3 text-apple-button rounded-xl transition-all duration-200 border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
         >
           {isLoading ? (
             <div className="flex items-center space-x-2">

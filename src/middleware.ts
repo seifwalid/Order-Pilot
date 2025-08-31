@@ -74,6 +74,12 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse
   }
 
+  // Allow onboarding pages to proceed without restaurant access checks
+  if (pathname === '/onboarding' || pathname === '/onboarding/v2') {
+    console.log('🔄 Allowing onboarding page to proceed')
+    return supabaseResponse
+  }
+
   // Check restaurant access for dashboard routes 
   if (user && pathname.startsWith('/dashboard')) {
     // Check if user has a restaurant or is staff at a restaurant
