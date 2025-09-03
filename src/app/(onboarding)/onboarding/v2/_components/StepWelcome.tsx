@@ -54,9 +54,9 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         className="grid grid-cols-3 gap-4 max-w-sm mx-auto"
       >
         {[
-          { icon: '📱', label: 'Voice Orders' },
-          { icon: '👥', label: 'Team Management' },
-          { icon: '📊', label: 'Real-time Analytics' },
+          { label: 'Reduce Order Errors' },
+          { label: 'Speed Up Service' },
+          { label: 'Increase Revenue' },
         ].map((feature, index) => (
           <motion.div
             key={feature.label}
@@ -68,7 +68,6 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
             })}
             className="text-center p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
           >
-            <div className="text-2xl mb-1">{feature.icon}</div>
             <div className="text-xs font-medium text-white/80">{feature.label}</div>
           </motion.div>
         ))}
@@ -103,19 +102,25 @@ export default function StepWelcome({ onNext }: StepComponentProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.6 }}
-        className="flex items-center justify-center space-x-6 text-xs text-white/50"
+        className="space-y-4"
       >
-        <div className="flex items-center space-x-1">
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          <span>Secure Setup</span>
+        <div className="flex items-center justify-center space-x-6 text-sm text-white/70">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span className="font-medium">Secure Setup</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+            <span className="font-medium">2-3 Minutes</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+            <span className="font-medium">No Credit Card</span>
+          </div>
         </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-          <span>2-3 Minutes</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-          <span>No Credit Card</span>
+        
+        <div className="text-center text-xs text-white/50 max-w-md mx-auto">
+          Your data is protected with enterprise-grade security. Setup takes just 2-3 minutes and no payment information is required to get started.
         </div>
       </motion.div>
     </div>

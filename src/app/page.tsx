@@ -153,6 +153,62 @@
         };
       }, []); // Empty dependency array - runs once on mount
 
+            // Force Stripe pricing table to use desktop layout
+      useEffect(() => {
+        if (typeof window === 'undefined' || !isHydrated) return;
+        
+        const forceDesktopLayout = () => {
+          const stripeTable = document.querySelector('stripe-pricing-table');
+          if (stripeTable && window.innerWidth >= 768) {
+            // Force desktop layout by setting CSS custom properties
+            stripeTable.style.setProperty('--stripe-pricing-table-layout', 'grid');
+            stripeTable.style.setProperty('--stripe-pricing-table-grid-template-columns', 'repeat(4, 1fr)');
+            stripeTable.style.setProperty('--stripe-pricing-table-gap', '1rem');
+            stripeTable.style.setProperty('--stripe-pricing-table-border-radius', '1.5rem');
+            
+            // Access the shadow DOM to force layout
+            const shadowRoot = stripeTable.shadowRoot;
+            if (shadowRoot) {
+                             const table = shadowRoot.querySelector('table');
+               if (table) {
+                 table.style.display = 'grid';
+                 table.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                 table.style.gridTemplateRows = '1fr';
+                 table.style.gap = '1rem';
+                 table.style.maxWidth = '100%';
+                 table.style.borderRadius = '1.5rem';
+
+               }
+              
+                             // Also try to style individual cells
+               const cells = shadowRoot.querySelectorAll('td');
+               cells.forEach(cell => {
+                 cell.style.display = 'block';
+                 cell.style.width = '100%';
+                 cell.style.borderRadius = '1.5rem';
+
+               });
+            }
+          }
+        };
+
+        // Run immediately and also on window resize
+        forceDesktopLayout();
+        window.addEventListener('resize', forceDesktopLayout);
+        
+        // Try multiple times to ensure Stripe table is fully loaded
+        const timeoutId1 = setTimeout(forceDesktopLayout, 500);
+        const timeoutId2 = setTimeout(forceDesktopLayout, 1000);
+        const timeoutId3 = setTimeout(forceDesktopLayout, 2000);
+        
+        return () => {
+          window.removeEventListener('resize', forceDesktopLayout);
+          clearTimeout(timeoutId1);
+          clearTimeout(timeoutId2);
+          clearTimeout(timeoutId3);
+        };
+      }, [isHydrated]);
+
       return (
         <div className="min-h-screen bg-[#0f1216] text-white relative" data-scroll-container>
 
@@ -437,57 +493,23 @@
 
           {/* Pricing Section */}
           <section id="pricing" className="py-20 px-6 relative z-10">
-                <div className="mt-10 max-w-7xl mx-auto">
+            <div className="mt-10 max-w-7xl mx-auto">
               <div className="text-center mb-10">
-                    <h2 className="text-4xl font-light mb-3">Simple, transparent pricing</h2>
-                <p className="text-white/70">Start free. Upgrade when you grow.</p>
+                <h2 className="text-4xl font-light mb-3">Simple, transparent pricing</h2>
+                <p className="text-white/70">Upgrade when you grow.</p>
               </div>
-                  <div className="grid md:grid-cols-3 gap-12">
-                                  {[{
-                    name: 'Starter', price: '$99', desc: 'For single-location pilots', cta: 'Start Trial', featured: false,
-                    features: [
-                      'Take live orders (web or basic voice)',
-                      'Simple menu tools',
-                      'One delivery method (POS webhook or email)',
-                      'Up to 300 orders/month',
-                      'Email support'
-                    ]
-                  }, {
-                    name: 'Growth', price: '$399', desc: 'For growing teams', cta: 'Start Trial', featured: true,
-                    features: [
-                      'Full voice ordering (multi-language, upsells)',
-                      'Smart menus + 86/out-of-stock control',
-                      'Order failover (webhook → email → SMS)',
-                      'Analytics dashboard (orders, revenue, AOV)',
-                      'Up to 1,500 orders/month',
-                      'Priority email support'
-                    ]
-                  }, {
-                    name: 'Scale', price: 'Custom', desc: 'For multi-location & franchises', cta: 'Contact Sales', featured: false,
-                    features: [
-                      'Multi-location routing + shared menus',
-                      'Role dashboards & audit logs',
-                      'Advanced integrations (POS + printer + SMS)',
-                      'Compliance & security (SSO, data retention)',
-                      '99.9% SLA & priority support'
-                    ]
-                }].map((p, i) => (
-                      <div key={i} className={`rounded-2xl ${p.featured ? 'bg-gradient-to-br from-[#ae8d5e]/15 via-[#ae8d5e]/8 via-[#ae8d5e]/4 to-black/95' : 'bg-black/80'} backdrop-blur p-6 shadow-xl flex flex-col`}>
-                    <div className="flex-1">
-                          <h3 className="text-xl font-light">{p.name}</h3>
-                      <p className="mt-1 text-white/70 text-sm">{p.desc}</p>
-                          <div className="mt-6 text-4xl font-normal">{p.price}<span className="text-base font-medium text-white/60">{p.price !== 'Custom' ? '/mo' : ''}</span></div>
-                                                  <ul className="mt-10 space-y-4 text-[15px] text-white/80">
-                        {p.features.map((f, idx) => (
-                              <li key={idx} className=" flex items-center gap-3"><Check className="size-4 text-emerald-400" /> {f}</li>
-                        ))}
-                      </ul>
-                    </div>
-                        <div className="mt-16">
-                          <Button size="lg" className={`${p.featured ? 'bg-[#ae8d5e] hover:bg-[#9a7d4e]' : 'bg-white/10 hover:bg-white/20'} rounded-full px-10 py-6 text-l font-normal`}>{p.cta}</Button>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex justify-center">
+                <div 
+                  className="bg-[#121315] rounded-3xl p-20 mx-auto flex items-center justify-center"
+                  style={{ minHeight: '800px', minWidth: '1800px' }}
+                >
+                  <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+                  <stripe-pricing-table 
+                    pricing-table-id="prctbl_1S2XqWKjRFWk6k1voyqaGSRf"
+                    publishable-key="pk_test_51Ry3Y7KjRFWk6k1vNROg0ib17S1jvVelB7709Jt9z2za8KB8dfWHPf0hdVU8S7ivBJAXTqFvv14WEB7GBE8dqQJp003F6hmE1H"
+                    style={{ transform: 'scale(1.2)' }}>
+                  </stripe-pricing-table>
+                </div>
               </div>
             </div>
           </section>

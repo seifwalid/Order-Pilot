@@ -120,3 +120,56 @@ input::placeholder, textarea::placeholder {
     scroll-behavior: smooth;
   }
 }
+
+/* Stripe Pricing Table Custom Styling */
+
+stripe-pricing-table {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  border-radius: 1.5rem !important;
+}
+
+/* Force desktop layout for Stripe pricing table */
+@media (min-width: 768px) {
+  stripe-pricing-table {
+    --stripe-pricing-table-layout: grid !important;
+    --stripe-pricing-table-grid-template-columns: repeat(4, 1fr) !important;
+    --stripe-pricing-table-gap: 1rem !important;
+    --stripe-pricing-table-border-radius: 1.5rem !important;
+  }
+  
+  /* Additional desktop styling */
+  stripe-pricing-table {
+    min-width: 1600px !important;
+    max-width: 100% !important;
+    margin-left: -4rem !important;
+    transform: translateX(-2rem) !important;
+  }
+  
+  /* Force single row layout */
+  stripe-pricing-table::part(table) {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-rows: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  stripe-pricing-table::part(row) {
+    display: contents !important;
+  }
+  
+  stripe-pricing-table::part(cell) {
+    display: block !important;
+    width: 100% !important;
+    border-radius: 1.5rem !important;
+  }
+}
+
+/* Override any mobile-specific styles */
+@media (max-width: 767px) {
+  stripe-pricing-table {
+    --stripe-pricing-table-layout: stack !important;
+    --stripe-pricing-table-border-radius: 1.5rem !important;
+  }
+}
