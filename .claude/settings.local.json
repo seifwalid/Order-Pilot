@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot/**)",
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot\\src\\app\\dashboard\\settings/**)",
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot\\src\\app\\api\\restaurant\\update/**)",
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot\\src\\app\\api\\staff\\invite/**)",
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot\\supabase\\migrations/**)",
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot\\src\\app\\api\\staff\\remove/**)",
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot\\src\\app\\api\\staff\\revoke/**)",
+      "Read(/C:\\Users\\Work pc\\Desktop\\Order-Pilot\\src\\lib\\supabase/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
