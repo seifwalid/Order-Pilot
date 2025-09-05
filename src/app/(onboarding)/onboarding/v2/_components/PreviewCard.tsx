@@ -42,7 +42,7 @@ export default function PreviewCard({
       </div>
 
       {/* Content */}
-      <div className="space-y-3">
+      <div className={`space-y-3 ${className.includes('flex flex-col') ? 'flex-1' : ''}`}>
         {children}
       </div>
 

@@ -2,6 +2,13 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+  
+  // Skip middleware for API routes and static assets to prevent unnecessary processing
+  if (pathname.startsWith('/api/') || pathname.startsWith('/_next/') || pathname.includes('.')) {
+    return NextResponse.next()
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -29,8 +36,6 @@ export async function middleware(request: NextRequest) {
 
   // This will refresh session if expired - required for Server Components
   const { data: { user } } = await supabase.auth.getUser()
-
-  const pathname = request.nextUrl.pathname
 
   // Allow unauthenticated access to auth pages and home
   const publicPaths = ['/', '/login', '/signup', '/auth/callback', '/staff-onboarding']

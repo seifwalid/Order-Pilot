@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import RestaurantSettingsForm from '@/components/RestaurantSettingsForm'
 import StaffManagement from '@/components/StaffManagement'
 import MenuManagement from '@/components/MenuManagement'
+import ThemeSettings from '@/components/ThemeSettings'
 
 export default async function SettingsPage() {
   const supabase = await createClient()
@@ -67,7 +68,7 @@ export default async function SettingsPage() {
         </div>
 
         <Tabs defaultValue="restaurant" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-800/50 backdrop-blur-3xl rounded-xl border border-slate-700/50 p-1 shadow-lg">
+          <TabsList className="grid w-full grid-cols-5 bg-slate-800/50 backdrop-blur-3xl rounded-xl border border-slate-700/50 p-1 shadow-lg">
             <TabsTrigger 
               value="restaurant"
               className="text-white/85 data-[state=active]:bg-white/25 data-[state=active]:text-white rounded-lg"
@@ -85,6 +86,12 @@ export default async function SettingsPage() {
               className="text-white/85 data-[state=active]:bg-white/25 data-[state=active]:text-white rounded-lg"
             >
               Menu
+            </TabsTrigger>
+            <TabsTrigger 
+              value="theme"
+              className="text-white/85 data-[state=active]:bg-white/25 data-[state=active]:text-white rounded-lg"
+            >
+              Theme
             </TabsTrigger>
             <TabsTrigger 
               value="integrations"
@@ -125,6 +132,20 @@ export default async function SettingsPage() {
               role={role}
               categories={categories || []}
             />
+          </TabsContent>
+
+          <TabsContent value="theme" className="space-y-4">
+            <div className="bg-slate-800/50 backdrop-blur-3xl rounded-xl border border-slate-700/50 p-6 shadow-lg">
+              <div className="flex flex-col space-y-1.5 mb-6">
+                <h3 className="text-2xl font-medium leading-none tracking-tight text-white drop-shadow-sm">
+                  Theme & Appearance
+                </h3>
+                <p className="text-sm text-white/85">
+                  Customize your dashboard's appearance and accent colors
+                </p>
+              </div>
+              <ThemeSettings />
+            </div>
           </TabsContent>
 
           <TabsContent value="integrations" className="space-y-4">

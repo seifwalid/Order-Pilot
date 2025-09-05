@@ -256,8 +256,8 @@ export const stepMetadata = [
   { id: 'connections', title: 'Connections', required: false },
   { id: 'team', title: 'Team', required: false },
   { id: 'menu', title: 'Menu', required: false },
-  { id: 'theme', title: 'Theme', required: false },
   { id: 'voice', title: 'Voice', required: false },
+  { id: 'theme', title: 'Appearance', required: false },
   { id: 'summary', title: 'Summary', required: false },
 ]
 
@@ -274,9 +274,9 @@ export function canCompleteStep(state: OnboardingState, stepIndex: number): bool
       return true // Optional step
     case 4: // Menu
       return true // Optional step
-    case 5: // Theme
+    case 5: // Voice
       return true // Optional step
-    case 6: // Voice
+    case 6: // Theme (Appearance)
       return true // Optional step
     default:
       return true

@@ -44,3 +44,4 @@ Thumbs.db
 # Supabase
 .branches
 .temp
+.env

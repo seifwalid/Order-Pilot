@@ -41,8 +41,8 @@ const stepComponents = [
   StepConnections,
   StepTeam,
   StepMenu,
-  StepTheme,
   StepVoice,
+  StepTheme,
   StepSummary,
 ]
 
@@ -115,31 +115,67 @@ export default function Wizard({ onComplete }: WizardProps) {
     <div className="min-h-screen bg-[#0f1216] text-white relative">
       {/* Background gradients - matching home page aesthetic */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b3d]/15 via-[#0f1216] to-emerald-500/10" />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/25 via-[#ff6b3d]/10 to-transparent blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#ae8d5e]/15 via-[#0f1216] to-emerald-500/10" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ae8d5e]/25 via-[#ae8d5e]/10 to-transparent blur-3xl" />
         <div className="absolute -bottom-60 -left-40 h-[1400px] w-[1600px] rounded-full bg-gradient-radial from-emerald-500/20 via-emerald-500/10 to-transparent blur-3xl" />
-        <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ff6b3d]/15 via-emerald-500/10 to-transparent blur-3xl" />
-        <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ff6b3d]/8 to-transparent blur-3xl" />
+        <div className="absolute top-1/3 -right-20 h-[1200px] w-[1400px] rounded-full bg-gradient-radial from-[#ae8d5e]/15 via-emerald-500/10 to-transparent blur-3xl" />
+        <div className="absolute top-2/3 left-1/4 h-[1100px] w-[1300px] rounded-full bg-gradient-radial from-emerald-500/15 via-[#ae8d5e]/8 to-transparent blur-3xl" />
       </div>
       
       {/* Header */}
       <header className="relative z-40 w-full pt-6">
         <div className="mx-auto max-w-7xl px-4 md:px-1">
-          <div className="flex items-center justify-center">
-            <a href="/" className="flex items-center space-x-3">
-              <img 
-                src="/images/logo.png" 
-                alt="OrderPilot Logo" 
-                className="w-12 h-12 md:w-14 md:h-14 object-contain"
-              />
-              <span className="font-bold tracking-tight text-white text-xl md:text-2xl">OrderPilot</span>
-            </a>
-          </div>
+          <motion.div 
+            className="flex items-center"
+            animate={{
+              justifyContent: currentStep === 0 ? 'center' : 'space-between'
+            }}
+            transition={getSpringConfig(springConfigs.gentle)}
+          >
+            <AnimatePresence>
+              {currentStep > 0 && (
+                <motion.a 
+                  href="/" 
+                  className="flex items-center space-x-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={getSpringConfig(springConfigs.gentle)}
+                >
+                  <img 
+                    src="/images/logo.png" 
+                    alt="OrderPilot Logo" 
+                    className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-lg"
+                  />
+                  <span className="font-bold tracking-tight text-white text-xl md:text-2xl">OrderPilot</span>
+                </motion.a>
+              )}
+            </AnimatePresence>
+            
+            <AnimatePresence>
+              {currentStep > 0 && (
+                <motion.div 
+                  className="text-right"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={getSpringConfig(springConfigs.gentle)}
+                >
+                  <div className="text-sm text-white/70 font-medium">
+                    Step {currentStep + 1} of {stepMetadata.length}
+                  </div>
+                  <div className="text-xs text-white/50">
+                    {stepMetadata[currentStep]?.title}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </header>
 
       {/* Main content */}
-      <div className="relative z-10 flex items-center justify-center p-4">
+      <div className="relative z-10 flex items-center justify-center p-4 min-h-screen">
         <div className="w-full max-w-screen-md">
           {/* Progress indicator */}
           <div className="mb-8">
@@ -153,7 +189,7 @@ export default function Wizard({ onComplete }: WizardProps) {
             </div>
             <div className="w-full bg-white/10 rounded-full h-1">
               <motion.div
-                className="h-1 bg-[#ff6b3d] rounded-full"
+                className="h-1 bg-[#ae8d5e] rounded-full"
                 initial={{ width: 0 }}
                 animate={{ 
                   width: `${((currentStep + 1) / stepMetadata.length) * 100}%` 
@@ -164,27 +200,29 @@ export default function Wizard({ onComplete }: WizardProps) {
           </div>
 
           {/* Step content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={getSpringConfig(springConfigs.gentle)}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-8"
-            >
-              <CurrentStepComponent
-                state={state}
-                actions={actions}
-                isLoading={isLoading}
-                error={error}
-                onNext={handleNext}
-                onBack={handleBack}
-                onJumpTo={handleJumpTo}
-                onComplete={handleComplete}
-              />
-            </motion.div>
-          </AnimatePresence>
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-8 min-h-[600px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={getSpringConfig(springConfigs.gentle)}
+                className="h-full"
+              >
+                <CurrentStepComponent
+                  state={state}
+                  actions={actions}
+                  isLoading={isLoading}
+                  error={error}
+                  onNext={handleNext}
+                  onBack={handleBack}
+                  onJumpTo={handleJumpTo}
+                  onComplete={handleComplete}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
           {/* Error display */}
           {error && (

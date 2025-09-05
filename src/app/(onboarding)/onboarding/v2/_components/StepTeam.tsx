@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { getSpringConfig, springConfigs } from '@/lib/a11y/reducedMotion'
+import { canCompleteStep } from '../_state/useWizardState'
 import type { StepComponentProps } from './Wizard'
 
 const roleInfo = {
@@ -37,6 +38,7 @@ export default function StepTeam({
   onNext, 
   onBack 
 }: StepComponentProps) {
+  const canProceed = canCompleteStep(state, 3)
   const [emailInput, setEmailInput] = useState('')
   const [emailError, setEmailError] = useState('')
 
@@ -87,8 +89,8 @@ export default function StepTeam({
         transition={getSpringConfig(springConfigs.gentle)}
         className="text-center space-y-2"
       >
-        <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
-          <Users className="w-6 h-6 text-white" />
+        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-500/30">
+          <Users className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-white">
           Build your team
@@ -267,8 +269,12 @@ export default function StepTeam({
 
         <Button
           onClick={onNext}
-          disabled={isLoading}
-          className="px-8 py-3 font-medium rounded-xl transition-all duration-200 border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15"
+          disabled={!canProceed || isLoading}
+          className={`px-8 py-3 font-medium rounded-xl transition-all duration-200 ${
+            canProceed
+              ? 'bg-[#ae8d5e] hover:bg-[#9a7a4a] text-white shadow-lg shadow-[#ae8d5e]/30 hover:shadow-[#9a7a4a]/40 transform hover:scale-[1.02]'
+              : 'bg-gray-200 text-gray-600 cursor-not-allowed'
+          }`}
         >
           {isLoading ? (
             <div className="flex items-center space-x-2">

@@ -1,14 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { MapPin, Upload, Building2 } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { MapPin, Upload, Building2, Eye, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { getSpringConfig, springConfigs } from '@/lib/a11y/reducedMotion'
 import { canCompleteStep } from '../_state/useWizardState'
-import PreviewCard from './PreviewCard'
 import type { StepComponentProps } from './Wizard'
 
 export default function StepIdentity({ 
@@ -23,6 +22,7 @@ export default function StepIdentity({
     location: state.restaurant.location || '',
     logoUrl: state.restaurant.logoUrl || '',
   })
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
   // Sync local state with global state
   useEffect(() => {
@@ -57,11 +57,11 @@ export default function StepIdentity({
         </p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-8 items-start">
+      <div className="max-w-2xl mx-auto">
         {/* Form */}
         <motion.div
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 260 })}
           className="space-y-6"
         >
@@ -116,7 +116,7 @@ export default function StepIdentity({
               <Button 
                 variant="outline" 
                 size="sm"
-                                 className="border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15 rounded-xl"
+                className="border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15 rounded-xl"
               >
                 Choose File
               </Button>
@@ -125,63 +125,19 @@ export default function StepIdentity({
               </p>
             </div>
           </div>
-        </motion.div>
 
-        {/* Live Preview */}
-        <motion.div
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={getSpringConfig({ ...springConfigs.gentle, stiffness: 240 })}
-          className="lg:sticky lg:top-8"
-        >
-          <PreviewCard
-            title="Preview"
-            description="See how your restaurant will appear"
-          >
-            <div className="space-y-4">
-              {/* Restaurant Header */}
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center">
-                  {localState.logoUrl ? (
-                    <img 
-                      src={localState.logoUrl} 
-                      alt="Logo" 
-                      className="w-full h-full object-cover rounded-xl"
-                    />
-                  ) : (
-                    <Building2 className="w-6 h-6 text-gray-400" />
-                  )}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">
-                    {localState.name || 'Your Restaurant Name'}
-                  </h3>
-                  {localState.location && (
-                    <p className="text-sm text-gray-500 flex items-center">
-                      <MapPin className="w-3 h-3 mr-1" />
-                      {localState.location}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Sample Order Card */}
-              <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                                 <div className="flex justify-between items-center">
-                   <span className="text-sm font-medium text-black">Order #1234</span>
-                   <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                     Ready
-                   </span>
-                 </div>
-                <p className="text-xs text-gray-600">
-                  Customer: John D. • Phone: (555) 123-4567
-                </p>
-                <div className="text-xs text-gray-700">
-                  2x Margherita Pizza • 1x Caesar Salad
-                </div>
-              </div>
-            </div>
-          </PreviewCard>
+          {/* Preview Button */}
+          <div className="flex justify-center pt-4">
+            <motion.button
+              onClick={() => setIsPreviewOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center space-x-2 px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl hover:bg-white/15 transition-all duration-200 group"
+            >
+              <Eye className="w-5 h-5 text-white group-hover:text-[#ae8d5e] transition-colors" />
+              <span className="text-white font-medium">Preview Restaurant</span>
+            </motion.button>
+          </div>
         </motion.div>
       </div>
 
@@ -205,7 +161,7 @@ export default function StepIdentity({
            disabled={!canProceed || isLoading}
                        className={`px-8 py-3 font-medium rounded-xl transition-all duration-200 ${
               canProceed
-                ? 'border-white/50 text-white bg-white/5 hover:border-white/70 hover:text-white hover:bg-white/15'
+                ? 'bg-[#ae8d5e] hover:bg-[#9a7a4a] text-white shadow-lg shadow-[#ae8d5e]/30 hover:shadow-[#9a7a4a]/40 transform hover:scale-[1.02]'
                 : 'bg-gray-200 text-gray-600 cursor-not-allowed'
             }`}
          >
@@ -230,6 +186,129 @@ export default function StepIdentity({
           Restaurant name is required to continue
         </motion.p>
       )}
+
+      {/* Preview Modal */}
+      <AnimatePresence>
+        {isPreviewOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setIsPreviewOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={getSpringConfig(springConfigs.gentle)}
+              className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-[#ae8d5e] rounded-xl flex items-center justify-center">
+                    <Eye className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Restaurant Preview</h3>
+                    <p className="text-sm text-gray-500">See how your restaurant will appear</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsPreviewOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+                <div className="space-y-6">
+                  {/* Restaurant Header */}
+                  <div className="flex items-center space-x-4">
+                    <div className="w-20 h-20 bg-gray-200 rounded-xl flex items-center justify-center shadow-lg">
+                      {localState.logoUrl ? (
+                        <img 
+                          src={localState.logoUrl} 
+                          alt="Logo" 
+                          className="w-full h-full object-cover rounded-xl"
+                        />
+                      ) : (
+                        <Building2 className="w-10 h-10 text-gray-400" />
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900">
+                        {localState.name || 'Your Restaurant Name'}
+                      </h3>
+                      {localState.location && (
+                        <p className="text-sm text-gray-500 flex items-center">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          {localState.location}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Restaurant Info Card */}
+                  <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-6 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-medium text-gray-700">Restaurant Status</span>
+                      <span className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full">
+                        Active
+                      </span>
+                    </div>
+                    <div className="text-sm text-gray-600 space-y-2">
+                      <p>• Orders: Ready to receive</p>
+                      <p>• Menu: Configured</p>
+                      <p>• Staff: Invited</p>
+                    </div>
+                  </div>
+
+                  {/* Sample Order Cards */}
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-medium text-gray-700">Recent Orders</h4>
+                    <div className="space-y-3">
+                      <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-base font-medium text-black">Order #1234</span>
+                          <span className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full">
+                            Ready
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          Customer: John D. • Phone: (555) 123-4567
+                        </p>
+                        <div className="text-sm text-gray-700">
+                          2x Margherita Pizza • 1x Caesar Salad
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-base font-medium text-black">Order #1235</span>
+                          <span className="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                            Preparing
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          Customer: Sarah M. • Phone: (555) 987-6543
+                        </p>
+                        <div className="text-sm text-gray-700">
+                          1x Pepperoni Pizza • 2x Garlic Bread
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

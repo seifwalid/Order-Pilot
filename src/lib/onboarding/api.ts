@@ -61,7 +61,7 @@ class OnboardingAPIImpl implements OnboardingAPI {
           integrations: { phone: false, pos: false, payments: false },
           team: { invites: [] },
           menu: { mode: 'template', template: 'fastCasual' },
-          theme: { mode: 'light', accent: '#3b82f6' },
+          theme: { mode: 'light', accent: '#ae8d5e' },
           voice: { enabled: false },
           serverHydrated: true,
         }
@@ -85,7 +85,7 @@ class OnboardingAPIImpl implements OnboardingAPI {
         integrations: { phone: false, pos: false, payments: false }, // Not tracked yet
         team: { invites: [] }, // Could fetch pending invitations
         menu: { mode: 'template', template: 'fastCasual' }, // Default
-        theme: { mode: 'light', accent: '#3b82f6' }, // Default
+        theme: { mode: 'light', accent: '#ae8d5e' }, // Default
         voice: { enabled: false }, // Not tracked yet
         serverHydrated: true,
       }
@@ -252,7 +252,7 @@ export const defaultOnboardingState: OnboardingState = {
   integrations: { phone: false, pos: false, payments: false },
   team: { invites: [] },
   menu: { mode: 'template', template: 'fastCasual' },
-  theme: { mode: 'light', accent: '#3b82f6' },
+  theme: { mode: 'light', accent: '#ae8d5e' },
   voice: { enabled: false },
   serverHydrated: false,
 }
