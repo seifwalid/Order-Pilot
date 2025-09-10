@@ -15,19 +15,25 @@ const roleInfo = {
     icon: Crown,
     label: 'Owner',
     description: 'Full access to all features and settings',
-    color: 'bg-purple-100 text-purple-800 border-purple-200',
+    iconColor: 'text-purple-300',
+    badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-400/30',
+    cardColor: 'bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-400/20',
   },
   manager: {
     icon: Shield,
     label: 'Manager',
     description: 'Manage orders, menu, and staff',
-    color: 'bg-blue-100 text-blue-800 border-blue-200',
+    iconColor: 'text-blue-300',
+    badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-400/30',
+    cardColor: 'bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-400/20',
   },
   staff: {
     icon: User,
     label: 'Staff',
     description: 'Handle orders and customer service',
-    color: 'bg-green-100 text-green-800 border-green-200',
+    iconColor: 'text-emerald-300',
+    badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
+    cardColor: 'bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border-emerald-400/20',
   },
 }
 
@@ -87,9 +93,9 @@ export default function StepTeam({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={getSpringConfig(springConfigs.gentle)}
-        className="text-center space-y-2"
+        className="text-center space-y-4"
       >
-        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-500/30">
+        <div className="w-16 h-16 bg-gradient-to-br from-[#ae8d5e] to-[#9a7a4a] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-[#ae8d5e]/30">
           <Users className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-white">
@@ -112,13 +118,13 @@ export default function StepTeam({
           return (
             <div
               key={role}
-              className="p-4 rounded-xl border border-white/20 bg-black/20 backdrop-blur-xl"
+              className={`p-4 rounded-xl border backdrop-blur-xl ${info.cardColor}`}
             >
               <div className="flex items-center space-x-2 mb-2">
-                <Icon className="w-5 h-5 text-white/80" />
-                                 <Badge variant="outline" className="bg-white/20 text-white/60 border-white/30 font-normal">
-                   {info.label}
-                 </Badge>
+                <Icon className={`w-5 h-5 ${info.iconColor}`} />
+                <Badge variant="outline" className={`${info.badgeColor} font-normal`}>
+                  {info.label}
+                </Badge>
               </div>
               <p className="text-sm text-white/80">{info.description}</p>
             </div>

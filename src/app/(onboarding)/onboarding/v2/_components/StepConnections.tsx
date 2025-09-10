@@ -77,9 +77,9 @@ export default function StepConnections({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={getSpringConfig(springConfigs.gentle)}
-        className="text-center space-y-2"
+        className="text-center space-y-4"
       >
-        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-blue-500/30">
+        <div className="w-16 h-16 bg-gradient-to-br from-[#ae8d5e] to-[#9a7a4a] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-[#ae8d5e]/30">
           <Phone className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-white">
@@ -128,31 +128,33 @@ export default function StepConnections({
                 ...springConfigs.gentle,
                 stiffness: 280 - index * 20
               })}
-              className={`p-6 rounded-xl border-2 transition-all duration-200 ${
+              className={`p-6 rounded-2xl border-2 transition-all duration-200 ${
                 isConnected
-                  ? 'border-white/40 bg-white/10 backdrop-blur-xl'
-                  : 'border-white/20 bg-black/20 backdrop-blur-xl hover:border-white/30 hover:bg-black/30'
+                  ? 'border-emerald-400/60 bg-gradient-to-br from-emerald-400/10 to-emerald-500/5 backdrop-blur-xl shadow-lg shadow-emerald-400/20'
+                  : 'border-white/20 bg-gradient-to-br from-white/5 to-black/20 backdrop-blur-xl hover:border-[#ae8d5e]/40 hover:bg-gradient-to-br hover:from-[#ae8d5e]/5 hover:to-black/30'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    isConnected ? 'bg-white/20' : 'bg-white/10'
+                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg ${
+                    isConnected 
+                      ? 'bg-gradient-to-br from-emerald-500/30 to-emerald-600/20 border border-emerald-400/30' 
+                      : 'bg-gradient-to-br from-white/10 to-white/5 border border-white/20'
                   }`}>
-                    <Icon className={`w-6 h-6 ${
-                      isConnected ? 'text-white' : 'text-white/80'
+                    <Icon className={`w-8 h-8 ${
+                      isConnected ? 'text-emerald-300' : 'text-white/80'
                     }`} />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white flex items-center">
+                    <h3 className="text-lg font-semibold text-white flex items-center mb-2">
                       {connection.title}
                       {connection.optional && (
-                                                 <span className="ml-2 text-xs bg-white/20 text-white/60 px-2 py-1 rounded-full font-normal">
-                           Optional
-                         </span>
+                        <span className="ml-2 text-xs bg-white/20 text-white/60 px-2 py-1 rounded-full font-normal">
+                          Optional
+                        </span>
                       )}
                     </h3>
-                    <p className="text-sm text-white/80">{connection.description}</p>
+                    <p className="text-sm text-white/80 leading-relaxed">{connection.description}</p>
                   </div>
                 </div>
 

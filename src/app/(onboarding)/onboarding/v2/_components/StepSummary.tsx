@@ -148,9 +148,9 @@ export default function StepSummary({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={getSpringConfig(springConfigs.gentle)}
-        className="text-center space-y-2"
+        className="text-center space-y-4"
       >
-        <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-emerald-500/30">
+        <div className="w-16 h-16 bg-gradient-to-br from-[#ae8d5e] to-[#9a7a4a] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-[#ae8d5e]/30">
           <CheckCircle className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-white">

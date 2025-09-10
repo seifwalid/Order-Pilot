@@ -4,47 +4,57 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    /* Light mode - clean and professional */
+    --background: 240 10% 98%;
+    --foreground: 240 10% 3.9%;
+    --card: 240 10% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 240 10% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 9% 9%;
+    --primary-foreground: 240 10% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: #ae8d5e;
+    --accent-foreground: #ffffff;
+    --accent-hover: #9a7a4a;
+    --accent-muted: rgba(174, 141, 94, 0.1);
+    --secondary-accent: #10b981;
+    --secondary-accent-foreground: #ffffff;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --radius: 0.5rem;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 0 0% 3.9%;
+    /* Dark mode - exactly matches onboarding wizard (#0f1216) */
+    --background: 216 20% 6.3%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    --card: 216 15% 8%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    --popover: 216 20% 6.3%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
+    --primary-foreground: 216 20% 6.3%;
+    --secondary: 216 15% 10%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --muted: 0 0% 100% / 0.05;
+    --muted-foreground: 0 0% 70%;
+    --accent: #ae8d5e;
+    --accent-foreground: #ffffff;
+    --accent-hover: #9a7a4a;
+    --accent-muted: rgba(174, 141, 94, 0.15);
+    --secondary-accent: #10b981;
+    --secondary-accent-foreground: #ffffff;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
+    --border: 0 0% 100% / 0.1;
+    --input: 0 0% 100% / 0.1;
     --ring: 0 0% 83.1%;
   }
 }
@@ -74,27 +84,20 @@
   }
 }
 
-/* Ensure all input fields have black text for visibility by default */
+/* Input field styling for theme consistency */
 input, textarea, select {
-  color: #000000 !important;
+  @apply text-foreground;
 }
 
-/* Ensure placeholder text is visible but lighter */
 input::placeholder, textarea::placeholder {
-  color: #6b7280 !important;
+  @apply text-muted-foreground;
 }
 
-/* Global font family classes */
-.font-helvetica {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.font-display {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
+/* Consistent font family - industry standard system fonts */
+.font-helvetica,
+.font-display,
 .font-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Mobile-specific dashboard image styles */

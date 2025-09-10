@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -13,18 +13,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { 
-  LayoutDashboard, 
-  ShoppingBag, 
-  Users, 
-  Settings, 
-  Phone, 
+import {
+  Bell,
+  Home,
+  LineChart,
+  Package,
+  ShoppingCart,
+  Users,
+  LogOut,
+  Settings,
   Menu,
   X,
-  LogOut,
   User,
   ChefHat
 } from 'lucide-react'
+import { applyTheme } from '@/lib/theme/accent'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -39,17 +42,40 @@ export default function DashboardLayout({ children, user, restaurant, role }: Da
   const router = useRouter()
   const supabase = createClient()
 
+  // Load and apply theme on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('orderpilot_theme')
+    if (savedTheme) {
+      try {
+        const parsed = JSON.parse(savedTheme)
+        // Ensure all theme properties have default values for backward compatibility
+        const themeWithDefaults = {
+          mode: (parsed.mode as 'default' | 'light' | 'dark' | 'auto') || 'default',
+          accent: parsed.accent || '#ae8d5e',
+        }
+        applyTheme(themeWithDefaults)
+      } catch (error) {
+        console.error('Failed to parse saved theme:', error)
+        // Apply default theme
+        applyTheme({ mode: 'default', accent: '#ae8d5e' })
+      }
+    } else {
+      // Apply default theme
+      applyTheme({ mode: 'default', accent: '#ae8d5e' })
+    }
+  }, [])
+
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     router.push('/')
   }
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, roles: ['owner', 'manager', 'staff'] },
-    { name: 'Orders', href: '/dashboard/orders', icon: ShoppingBag, roles: ['owner', 'manager', 'staff'] },
+    { name: 'Dashboard', href: '/dashboard', icon: Home, roles: ['owner', 'manager', 'staff'] },
+    { name: 'Orders', href: '/dashboard/orders', icon: ShoppingCart, roles: ['owner', 'manager', 'staff'] },
     { name: 'Menu', href: '/dashboard/menu', icon: ChefHat, roles: ['owner', 'manager'] },
     { name: 'Staff', href: '/dashboard/staff', icon: Users, roles: ['owner', 'manager'] },
-    { name: 'VAPI', href: '/dashboard/vapi', icon: Phone, roles: ['owner'] },
+    { name: 'VAPI', href: '/dashboard/vapi', icon: LineChart, roles: ['owner'] },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings, roles: ['owner'] },
   ]
 
@@ -58,16 +84,23 @@ export default function DashboardLayout({ children, user, restaurant, role }: Da
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Mobile sidebar */}
       <div className={`fixed inset-0 z-50 lg:hidden ${sidebarOpen ? 'block' : 'hidden'}`}>
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
-        <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-white shadow-xl">
-          <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b">
-            <h1 className="text-xl font-bold">
-              Order<span className="text-blue-600">Pilot</span>
-            </h1>
-            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
+        <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-background/95 backdrop-blur-xl border-r border-border shadow-xl">
+          <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-border">
+            <div className="flex items-center space-x-3">
+              <img 
+                src="/images/logo.png" 
+                alt="OrderPilot Logo" 
+                className="w-8 h-8 object-contain"
+              />
+              <h1 className="text-xl font-bold text-foreground">
+                OrderPilot
+              </h1>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)} className="text-foreground hover:bg-muted">
               <X className="h-6 w-6" />
             </Button>
           </div>
@@ -79,10 +112,10 @@ export default function DashboardLayout({ children, user, restaurant, role }: Da
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      className={`flex items-center px-3 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
                         isActive
-                          ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                          : 'text-gray-700 hover:bg-gray-50'
+                          ? 'bg-accent text-accent-foreground shadow-lg'
+                          : 'text-foreground/80 hover:bg-muted hover:text-foreground'
                       }`}
                       onClick={() => setSidebarOpen(false)}
                     >
@@ -99,11 +132,18 @@ export default function DashboardLayout({ children, user, restaurant, role }: Da
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex grow flex-col overflow-y-auto bg-white border-r border-gray-200">
-          <div className="flex h-16 shrink-0 items-center px-6 border-b">
-            <h1 className="text-xl font-bold">
-              Order<span className="text-blue-600">Pilot</span>
-            </h1>
+        <div className="flex grow flex-col overflow-y-auto bg-background/95 backdrop-blur-xl border-r border-border">
+          <div className="flex h-16 shrink-0 items-center px-6 border-b border-border">
+            <div className="flex items-center space-x-3">
+              <img 
+                src="/images/logo.png" 
+                alt="OrderPilot Logo" 
+                className="w-8 h-8 object-contain"
+              />
+              <h1 className="text-xl font-bold text-foreground">
+                OrderPilot
+              </h1>
+            </div>
           </div>
           <nav className="flex-1 px-4 py-6">
             <ul className="space-y-2">
@@ -113,10 +153,10 @@ export default function DashboardLayout({ children, user, restaurant, role }: Da
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      className={`flex items-center px-3 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
                         isActive
-                          ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                          : 'text-gray-700 hover:bg-gray-50'
+                          ? 'bg-accent text-accent-foreground shadow-lg'
+                          : 'text-foreground/80 hover:bg-muted hover:text-foreground'
                       }`}
                     >
                       <item.icon className="mr-3 h-5 w-5" />
@@ -133,11 +173,11 @@ export default function DashboardLayout({ children, user, restaurant, role }: Da
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Top bar */}
-        <div className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+        <div className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-x-4 border-b border-border bg-background/95 backdrop-blur-xl px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden text-foreground hover:bg-muted"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-6 w-6" />
@@ -146,21 +186,21 @@ export default function DashboardLayout({ children, user, restaurant, role }: Da
           <div className="flex flex-1 gap-x-4 lg:gap-x-6">
             <div className="flex items-center gap-x-4">
               <div className="hidden sm:block">
-                <h2 className="text-lg font-semibold text-gray-900">{restaurant.name}</h2>
+                <h2 className="text-lg font-semibold text-foreground">{restaurant.name}</h2>
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-x-4 lg:gap-x-6">
-            <div className="hidden sm:flex items-center text-sm text-gray-500">
+            <div className="hidden sm:flex items-center text-sm text-muted-foreground">
               <span className="capitalize">{role}</span>
             </div>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
-                    <User className="h-4 w-4 text-white" />
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+                  <div className="h-8 w-8 rounded-full bg-accent flex items-center justify-center text-accent-foreground shadow-lg">
+                    <User className="h-4 w-4" />
                   </div>
                 </Button>
               </DropdownMenuTrigger>

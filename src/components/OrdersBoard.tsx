@@ -48,7 +48,7 @@ const statusColors = {
   pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
   preparing: 'bg-blue-100 text-blue-800 border-blue-200',
   ready: 'bg-green-100 text-green-800 border-green-200',
-  completed: 'bg-gray-100 text-gray-800 border-gray-200',
+  completed: 'bg-muted text-muted-foreground border-border',
   cancelled: 'bg-red-100 text-red-800 border-red-200',
 }
 
@@ -322,7 +322,7 @@ function OrderCard({ order, onStatusUpdate, isLoading, compact = false }: OrderC
           <CardTitle className="text-sm font-medium">
             #{order.id.slice(-6)}
           </CardTitle>
-          <Badge className={order.status ? statusColors[order.status] : 'bg-gray-100 text-gray-800 border-gray-200'} variant="outline">
+          <Badge className={order.status ? statusColors[order.status] : 'bg-muted text-muted-foreground border-border'} variant="outline">
             <StatusIcon className="h-3 w-3 mr-1" />
             {order.status || 'Unknown'}
           </Badge>

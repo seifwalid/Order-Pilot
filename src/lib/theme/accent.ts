@@ -12,6 +12,12 @@ export interface AccentColor {
 
 export const accentColors: AccentColor[] = [
   {
+    name: 'OrderPilot Gold',
+    value: '#ae8d5e',
+    foreground: '#ffffff',
+    description: 'Brand signature color'
+  },
+  {
     name: 'Blue',
     value: '#3b82f6',
     foreground: '#ffffff',
@@ -81,6 +87,128 @@ export const restaurantThemes = {
 }
 
 /**
+ * Darkens a hex color by a specified percentage.
+ * @param hex The hex color string (e.g., "#ae8d5e").
+ * @param percent The percentage to darken by (e.g., 20).
+ * @returns The new darkened hex color string.
+ */
+function darkenColor(hex: string, percent: number): string {
+  if (!hex || !hex.startsWith('#')) return '#000000';
+
+  let r = parseInt(hex.substring(1, 3), 16);
+  let g = parseInt(hex.substring(3, 5), 16);
+  let b = parseInt(hex.substring(5, 7), 16);
+
+  r = Math.floor(r * (1 - percent / 100));
+  g = Math.floor(g * (1 - percent / 100));
+  b = Math.floor(b * (1 - percent / 100));
+
+  const toHex = (c: number) => ('0' + c.toString(16)).slice(-2);
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+/**
+ * Apply theme to CSS custom properties
+ */
+export function applyTheme(theme: { mode: 'default' | 'light' | 'dark' | 'auto', accent: string }): void {
+  const root = document.documentElement;
+
+  // Reset classes first
+  root.classList.remove('dark', 'light');
+
+  if (theme.mode === 'default') {
+    // EXACT onboarding colors - #0f1216 background, white/5 cards, white text
+    root.classList.add('dark');
+    
+    // Core onboarding colors
+    root.style.setProperty('--background', '216 20% 6.3%'); // #0f1216
+    root.style.setProperty('--foreground', '0 0% 100%'); // white
+    root.style.setProperty('--card', '0 0% 100% / 0.05'); // bg-white/5
+    root.style.setProperty('--card-foreground', '0 0% 100%'); // text-white
+    root.style.setProperty('--muted', '0 0% 100% / 0.05'); // bg-white/5
+    root.style.setProperty('--muted-foreground', '0 0% 70%'); // text-white/70
+    root.style.setProperty('--border', '0 0% 100% / 0.1'); // border-white/10
+    root.style.setProperty('--input', '0 0% 100% / 0.1'); // border-white/10
+    
+    // Fixed brand colors
+    root.style.setProperty('--accent', '#ae8d5e'); // OrderPilot gold
+    root.style.setProperty('--accent-foreground', '#ffffff');
+    root.style.setProperty('--accent-hover', '#9a7a4a');
+    root.style.setProperty('--accent-muted', 'rgba(174, 141, 94, 0.15)');
+    root.style.setProperty('--secondary-accent', '#10b981'); // emerald-500
+    root.style.setProperty('--secondary-accent-foreground', '#ffffff');
+    
+    // Other semantic colors
+    root.style.setProperty('--primary', '0 0% 100%'); // white
+    root.style.setProperty('--primary-foreground', '216 20% 6.3%'); // dark bg
+    root.style.setProperty('--secondary', '0 0% 100% / 0.1'); // white/10
+    root.style.setProperty('--secondary-foreground', '0 0% 100%'); // white
+    root.style.setProperty('--popover', '216 20% 6.3%'); // same as bg
+    root.style.setProperty('--popover-foreground', '0 0% 100%'); // white
+
+  } else {
+    // Customizable light/dark themes
+    if (theme.mode === 'dark') {
+      root.classList.add('dark');
+    } else if (theme.mode === 'light') {
+      root.classList.remove('dark');
+    } else if (theme.mode === 'auto') {
+      // Handle 'auto' mode - check system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+    
+    // Clear onboarding overrides to use CSS defaults
+    root.style.removeProperty('--background');
+    root.style.removeProperty('--foreground');
+    root.style.removeProperty('--card');
+    root.style.removeProperty('--card-foreground');
+    root.style.removeProperty('--muted');
+    root.style.removeProperty('--muted-foreground');
+    root.style.removeProperty('--border');
+    root.style.removeProperty('--input');
+    root.style.removeProperty('--primary');
+    root.style.removeProperty('--primary-foreground');
+    root.style.removeProperty('--secondary');
+    root.style.removeProperty('--secondary-foreground');
+    root.style.removeProperty('--popover');
+    root.style.removeProperty('--popover-foreground');
+
+    // Apply user-selected accent color
+    const accentForeground = getBestForeground(theme.accent);
+    root.style.setProperty('--accent', theme.accent);
+    root.style.setProperty('--accent-foreground', accentForeground);
+    
+    const accentRgb = hexToRgb(theme.accent);
+    if (accentRgb) {
+      const { r, g, b } = accentRgb;
+      const hover = `rgb(${Math.max(0, r - 20)}, ${Math.max(0, g - 20)}, ${Math.max(0, b - 20)})`;
+      root.style.setProperty('--accent-hover', hover);
+      root.style.setProperty('--accent-muted', `rgba(${r}, ${g}, ${b}, 0.1)`);
+    }
+
+    // Derive secondary accent (20% darker)
+    const secondaryAccent = darkenColor(theme.accent, 20);
+    const secondaryForeground = getBestForeground(secondaryAccent);
+    root.style.setProperty('--secondary-accent', secondaryAccent);
+    root.style.setProperty('--secondary-accent-foreground', secondaryForeground);
+  }
+}
+
+/**
+ * Legacy function for backward compatibility
+ * @deprecated Use applyTheme instead
+ */
+export function applyAccentColor(accent: string): void {
+  applyTheme({ mode: 'default', accent });
+}
+
+/**
  * Calculate contrast ratio between two colors
  */
 function getContrastRatio(color1: string, color2: string): number {
@@ -122,31 +250,6 @@ export function getBestForeground(background: string): string {
   const blackContrast = getContrastRatio(background, '#000000')
   
   return whiteContrast > blackContrast ? '#ffffff' : '#000000'
-}
-
-/**
- * Apply accent color to CSS custom properties
- */
-export function applyAccentColor(accent: string): void {
-  const root = document.documentElement
-  const foreground = getBestForeground(accent)
-  
-  root.style.setProperty('--accent', accent)
-  root.style.setProperty('--accent-foreground', foreground)
-  
-  // Generate lighter/darker variants
-  const rgb = hexToRgb(accent)
-  if (rgb) {
-    const { r, g, b } = rgb
-    
-    // Lighter variant (for hover states)
-    const lighter = `rgb(${Math.min(255, r + 20)}, ${Math.min(255, g + 20)}, ${Math.min(255, b + 20)})`
-    root.style.setProperty('--accent-hover', lighter)
-    
-    // Muted variant (for backgrounds)
-    const muted = `rgba(${r}, ${g}, ${b}, 0.1)`
-    root.style.setProperty('--accent-muted', muted)
-  }
 }
 
 /**

@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWizardState, stepMetadata } from '../_state/useWizardState'
-import { applyAccentColor } from '@/lib/theme/accent'
+import { applyTheme } from '@/lib/theme/accent'
 import { getSpringConfig, springConfigs } from '@/lib/a11y/reducedMotion'
 import { cn } from '@/lib/utils/cn'
 
@@ -51,12 +51,12 @@ const stepComponents = [
 export default function Wizard({ onComplete }: WizardProps) {
   const { state, actions, isLoading, error } = useWizardState()
 
-  // Apply theme accent color when it changes
+  // Apply theme when it changes
   useEffect(() => {
     if (state.theme.accent) {
-      applyAccentColor(state.theme.accent)
+      applyTheme({ mode: state.theme.mode, accent: state.theme.accent })
     }
-  }, [state.theme.accent])
+  }, [state.theme.accent, state.theme.mode])
 
   // Handle completion
   useEffect(() => {
@@ -155,17 +155,34 @@ export default function Wizard({ onComplete }: WizardProps) {
             <AnimatePresence>
               {currentStep > 0 && (
                 <motion.div 
-                  className="text-right"
+                  className="flex items-center space-x-6"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={getSpringConfig(springConfigs.gentle)}
                 >
-                  <div className="text-sm text-white/70 font-medium">
-                    Step {currentStep + 1} of {stepMetadata.length}
+                  {/* Progress Bar */}
+                  <div className="flex items-center space-x-4">
+                    <div className="w-32 bg-white/10 rounded-full h-1">
+                      <motion.div
+                        className="h-1 bg-[#ae8d5e] rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ 
+                          width: `${((currentStep + 1) / stepMetadata.length) * 100}%` 
+                        }}
+                        transition={getSpringConfig(springConfigs.gentle)}
+                      />
+                    </div>
                   </div>
-                  <div className="text-xs text-white/50">
-                    {stepMetadata[currentStep]?.title}
+                  
+                  {/* Step Info */}
+                  <div className="text-right">
+                    <div className="text-sm text-white/70 font-medium">
+                      Step {currentStep + 1} of {stepMetadata.length}
+                    </div>
+                    <div className="text-xs text-white/50">
+                      {stepMetadata[currentStep]?.title}
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -177,27 +194,6 @@ export default function Wizard({ onComplete }: WizardProps) {
       {/* Main content */}
       <div className="relative z-10 flex items-center justify-center p-4 min-h-screen">
         <div className="w-full max-w-screen-md">
-          {/* Progress indicator */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-white/70 text-sm font-medium">
-                Step {currentStep + 1} of {stepMetadata.length}
-              </span>
-              <span className="text-white/50 text-sm">
-                {stepMetadata[currentStep]?.title}
-              </span>
-            </div>
-            <div className="w-full bg-white/10 rounded-full h-1">
-              <motion.div
-                className="h-1 bg-[#ae8d5e] rounded-full"
-                initial={{ width: 0 }}
-                animate={{ 
-                  width: `${((currentStep + 1) / stepMetadata.length) * 100}%` 
-                }}
-                transition={getSpringConfig(springConfigs.gentle)}
-              />
-            </div>
-          </div>
 
           {/* Step content */}
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-8 min-h-[600px]">

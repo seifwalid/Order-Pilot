@@ -124,10 +124,10 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
   return (
     <div className="space-y-6">
       {canManageStaff && (
-        <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
+        <Card className="bg-card backdrop-blur-3xl border border-border">
           <CardHeader>
-            <CardTitle className="text-white font-medium">Invite New Staff Member</CardTitle>
-            <CardDescription className="text-white/70">
+            <CardTitle className="text-foreground font-medium">Invite New Staff Member</CardTitle>
+            <CardDescription className="text-muted-foreground">
               Send an invitation to add a new team member to your restaurant
             </CardDescription>
           </CardHeader>
@@ -135,7 +135,7 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
             <form onSubmit={handleInviteSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white font-medium">Email Address</Label>
+                  <Label htmlFor="email" className="text-foreground font-medium">Email Address</Label>
                   <Input
                     id="email"
                     type="email"
@@ -143,26 +143,26 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
                     onChange={(e) => setInviteForm(prev => ({ ...prev, email: e.target.value }))}
                     placeholder="staff@example.com"
                     required
-                    className="bg-slate-700/50 border-slate-600 text-white !text-white placeholder:text-slate-400 focus:border-slate-500 focus:ring-slate-500"
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground focus:border-accent focus:ring-accent"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="role" className="text-white font-medium">Role</Label>
+                  <Label htmlFor="role" className="text-foreground font-medium">Role</Label>
                   <select
                     id="role"
                     value={inviteForm.role}
                     onChange={(e) => setInviteForm(prev => ({ ...prev, role: e.target.value as 'manager' | 'staff' }))}
-                    className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600 rounded-md text-white !text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+                    className="w-full px-3 py-2 bg-input border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent"
                     aria-label="Select staff role"
                   >
-                    <option value="staff" className="bg-slate-700 text-white">Staff Member</option>
-                    <option value="manager" className="bg-slate-700 text-white">Manager</option>
+                    <option value="staff" className="bg-popover text-popover-foreground">Staff Member</option>
+                    <option value="manager" className="bg-popover text-popover-foreground">Manager</option>
                   </select>
                 </div>
               </div>
 
-              <Button type="submit" disabled={isLoading} className="bg-slate-700 hover:bg-slate-600 text-white border-slate-600">
+              <Button type="submit" disabled={isLoading} className="bg-accent hover:bg-accent-hover text-accent-foreground border-accent">
                 {isLoading ? 'Sending...' : 'Send Invitation'}
               </Button>
             </form>
@@ -172,18 +172,18 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
 
       <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
         <CardHeader>
-          <CardTitle className="text-white font-medium">Current Staff Members</CardTitle>
-          <CardDescription className="text-white/70">
+          <CardTitle className="text-foreground font-medium">Current Staff Members</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Manage your restaurant's team members
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {staffMembers.map((staff) => (
-              <div key={staff.id} className="flex items-center justify-between p-3 border border-slate-600/50 rounded-lg bg-slate-700/30">
+              <div key={staff.id} className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted">
                 <div>
-                  <p className="font-medium text-white">{staff.email || 'Unknown'}</p>
-                  <Badge variant="secondary" className="capitalize bg-slate-500/20 text-slate-300 border-slate-500/30">
+                  <p className="font-medium text-foreground">{staff.email || 'Unknown'}</p>
+                  <Badge variant="secondary" className="capitalize bg-secondary text-secondary-foreground border-border">
                     {staff.role}
                   </Badge>
                 </div>
@@ -203,7 +203,7 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
             ))}
             
             {staffMembers.length === 0 && (
-              <p className="text-white/70 text-center py-4">No staff members found</p>
+              <p className="text-muted-foreground text-center py-4">No staff members found</p>
             )}
           </div>
         </CardContent>
@@ -212,8 +212,8 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
       {canManageStaff && pendingInvitations.length > 0 && (
         <Card className="bg-slate-800/50 backdrop-blur-3xl border border-slate-700/50">
           <CardHeader>
-            <CardTitle className="text-white font-medium">Pending Invitations</CardTitle>
-            <CardDescription className="text-white/70">
+            <CardTitle className="text-foreground font-medium">Pending Invitations</CardTitle>
+            <CardDescription className="text-muted-foreground">
               Invitations that haven't been accepted yet
             </CardDescription>
           </CardHeader>
@@ -222,7 +222,7 @@ export default function StaffManagement({ restaurant, role, staffMembers, pendin
               {pendingInvitations.map((invitation) => (
                 <div key={invitation.id} className="flex items-center justify-between p-3 border border-slate-600/50 rounded-lg bg-slate-700/30">
                   <div>
-                    <p className="font-medium text-white">{invitation.email}</p>
+                    <p className="font-medium text-foreground">{invitation.email}</p>
                     <div className="flex items-center space-x-2">
                       <Badge variant="secondary" className="capitalize bg-slate-500/20 text-slate-300 border-slate-500/30">
                         {invitation.role}

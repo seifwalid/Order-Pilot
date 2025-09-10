@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Palette, Sun, Moon, Monitor } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getSpringConfig, springConfigs } from '@/lib/a11y/reducedMotion'
-import { applyAccentColor } from '@/lib/theme/accent'
+import { applyTheme } from '@/lib/theme/accent'
 import { canCompleteStep } from '../_state/useWizardState'
 import type { StepComponentProps } from './Wizard'
 
@@ -40,8 +40,8 @@ export default function StepTheme({
   const canProceed = canCompleteStep(state, 6)
   // Apply theme changes immediately for live preview
   useEffect(() => {
-    applyAccentColor(state.theme.accent)
-  }, [state.theme.accent])
+    applyTheme({ mode: state.theme.mode, accent: state.theme.accent })
+  }, [state.theme.mode, state.theme.accent])
 
   const handleModeChange = (mode: 'light' | 'dark' | 'auto') => {
     actions.updateTheme({ mode })
@@ -55,9 +55,9 @@ export default function StepTheme({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={getSpringConfig(springConfigs.gentle)}
-        className="text-center space-y-2"
+        className="text-center space-y-4"
       >
-        <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-purple-500/30">
+        <div className="w-16 h-16 bg-gradient-to-br from-[#ae8d5e] to-[#9a7a4a] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-[#ae8d5e]/30">
           <Palette className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-white">

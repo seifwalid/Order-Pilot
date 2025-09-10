@@ -4,6 +4,15 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { LogOut, User } from 'lucide-react'
 
 interface SimpleNavProps {
   user: any
@@ -21,73 +30,97 @@ export default function SimpleNav({ user, role }: SimpleNavProps) {
   }
 
   return (
-                   <nav className="bg-slate-900/95 backdrop-blur-xl shadow-sm border-b border-slate-700/50">
-       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="flex justify-between h-16">
-           <div className="flex items-center space-x-12">
-             <Link href="/dashboard" className="text-xl font-bold text-white">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center">
+          <div className="mr-4 hidden md:flex">
+            <Link href="/" className="mr-6 flex items-center space-x-2">
+              <img 
+                src="/images/logo.png" 
+                alt="OrderPilot Logo" 
+                className="w-6 h-6 object-contain"
+              />
+              <span className="hidden font-bold sm:inline-block">
                 OrderPilot
+              </span>
+            </Link>
+          </div>
+          
+          {/* Navigation Links */}
+          <div className="flex items-center space-x-6">
+            <Link 
+              href="/dashboard" 
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                pathname === '/dashboard' 
+                  ? 'text-accent-foreground bg-accent' 
+                  : 'text-foreground/80 hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              Dashboard
+            </Link>
+            <Link 
+              href="/dashboard/orders" 
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                pathname === '/dashboard/orders' 
+                  ? 'text-accent-foreground bg-accent' 
+                  : 'text-foreground/80 hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              Orders
+            </Link>
+            {(role === 'owner' || role === 'manager') && (
+              <Link 
+                href="/dashboard/menu" 
+                className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  pathname === '/dashboard/menu' 
+                    ? 'text-accent-foreground bg-accent' 
+                    : 'text-foreground/80 hover:text-foreground hover:bg-muted'
+                }`}
+              >
+                Menu
               </Link>
-             
-             <div className="flex space-x-6">
-                              <Link 
-                  href="/dashboard" 
-                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    pathname === '/dashboard' 
-                      ? 'text-white bg-slate-700/50' 
-                      : 'text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Dashboard
-                </Link>
-                <Link 
-                  href="/dashboard/orders" 
-                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    pathname === '/dashboard/orders' 
-                      ? 'text-white bg-slate-700/50' 
-                      : 'text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Orders
-                </Link>
-                {(role === 'owner' || role === 'manager') && (
-                  <Link 
-                    href="/dashboard/menu" 
-                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      pathname === '/dashboard/menu' 
-                        ? 'text-white bg-slate-700/50' 
-                        : 'text-slate-300 hover:text-white'
-                    }`}
-                  >
-                    Menu
-                  </Link>
-                )}
-                <Link 
-                  href="/dashboard/settings" 
-                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    pathname === '/dashboard/settings' 
-                      ? 'text-white bg-slate-700/50' 
-                      : 'text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Settings
-                </Link>
-             </div>
-           </div>
-           
-           <div className="flex items-center space-x-6">
-             <span className="text-sm text-slate-300">{user.email}</span>
-             <Button 
-               variant="outline" 
-               size="sm" 
-               onClick={handleSignOut}
-               className="border-slate-600 text-black bg-white hover:bg-gray-100 hover:border-slate-500"
-             >
-               Sign Out
-             </Button>
-           </div>
-         </div>
-       </div>
-     </nav>
+            )}
+            <Link 
+              href="/dashboard/settings" 
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                pathname === '/dashboard/settings' 
+                  ? 'text-accent-foreground bg-accent' 
+                  : 'text-foreground/80 hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              Settings
+            </Link>
+          </div>
+
+          <div className="flex flex-1 items-center justify-end space-x-4">
+            <span className="text-sm text-muted-foreground capitalize">{role}</span>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <div className="h-8 w-8 rounded-full bg-accent flex items-center justify-center">
+                    <User className="h-4 w-4 text-accent-foreground" />
+                  </div>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      {user.email}
+                    </p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+    </header>
   )
 }

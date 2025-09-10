@@ -44,15 +44,15 @@ export default function StepIdentity({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={getSpringConfig(springConfigs.gentle)}
-        className="text-center space-y-2"
+        className="text-center space-y-4"
       >
-        <div className="w-12 h-12 accent-bg rounded-xl flex items-center justify-center mx-auto mb-4">
-          <Building2 className="w-6 h-6 text-white" />
+        <div className="w-16 h-16 bg-gradient-to-br from-[#ae8d5e] to-[#9a7a4a] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-[#ae8d5e]/30">
+          <Building2 className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-apple-title1 text-white">
+        <h2 className="text-2xl font-bold text-white">
           Tell us about your restaurant
         </h2>
-        <p className="text-apple-body text-white/80">
+        <p className="text-white/80">
           This information helps us personalize your experience
         </p>
       </motion.div>

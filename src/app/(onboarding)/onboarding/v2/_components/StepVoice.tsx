@@ -28,15 +28,15 @@ export default function StepVoice({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={getSpringConfig(springConfigs.gentle)}
-        className="text-center space-y-2"
+        className="text-center space-y-4"
       >
-        <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-green-500/30">
+        <div className="w-16 h-16 bg-gradient-to-br from-[#ae8d5e] to-[#9a7a4a] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-[#ae8d5e]/30">
           <Mic className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-apple-title1 text-white">
+        <h2 className="text-2xl font-bold text-white">
           Enable voice ordering
         </h2>
-        <p className="text-apple-body text-white/80">
+        <p className="text-white/80">
           Let customers place orders by phone with AI assistance
         </p>
       </motion.div>
@@ -156,16 +156,22 @@ export default function StepVoice({
               icon: Zap,
               title: 'Instant Setup',
               description: 'Ready to take calls immediately',
+              iconColor: 'text-yellow-300',
+              cardColor: 'bg-gradient-to-br from-yellow-500/10 to-yellow-600/5 border-yellow-400/20',
             },
             {
               icon: Volume2,
               title: 'Natural Speech',
               description: 'AI understands customer requests',
+              iconColor: 'text-blue-300',
+              cardColor: 'bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-400/20',
             },
             {
               icon: Mic,
               title: '24/7 Available',
               description: 'Never miss an order again',
+              iconColor: 'text-emerald-300',
+              cardColor: 'bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border-emerald-400/20',
             },
           ].map((feature, index) => {
             const Icon = feature.icon
@@ -178,9 +184,9 @@ export default function StepVoice({
                   ...springConfigs.gentle,
                   stiffness: 280 - index * 20
                 })}
-                className="text-center p-4 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20"
+                className={`text-center p-4 rounded-xl backdrop-blur-xl border ${feature.cardColor}`}
               >
-                <Icon className="w-8 h-8 text-white/80 mx-auto mb-2" />
+                <Icon className={`w-8 h-8 ${feature.iconColor} mx-auto mb-2`} />
                 <h4 className="font-medium text-white text-sm mb-1">
                   {feature.title}
                 </h4>
