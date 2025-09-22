@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Upload — Debug Version</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    h1 { color: #333; }
+    form { margin-bottom: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+    th, td { border: 1px solid #bbb; padding: 8px; text-align: left; }
+    th { background-color: #eee; }
+    #status { margin-top: 20px; color: green; }
+    #error { margin-top: 20px; color: red; }
+    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; overflow: auto; max-height: 200px; }
+  </style>
+</head>
+<body>
+
+  <h1>Upload Menu Image / PDF</h1>
+  <form id="uploadForm">
+    <input type="file" id="menuFile" accept="image/*,application/pdf" />
+    <button type="submit">Upload & Process</button>
+  </form>
+
+  <h2>Items</h2>
+  <table id="itemsTable">
+    <thead>
+      <tr><th>Category</th><th>Name</th><th>Price</th></tr>
+    </thead>
+    <tbody>
+      <!-- will fill with response -->
+    </tbody>
+  </table>
+
+  <div id="status"></div>
+  <div id="error"></div>
+  <h3>Raw Response:</h3>
+  <pre id="rawResponse"></pre>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const statusDiv = document.getElementById('status');
+    const errorDiv = document.getElementById('error');
+    const rawResponsePre = document.getElementById('rawResponse');
+    const itemsTableBody = document.querySelector('#itemsTable tbody');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusDiv.textContent = '';
+      errorDiv.textContent = '';
+      rawResponsePre.textContent = '';
+      itemsTableBody.innerHTML = '';  // clear previous items
+
+      const fileInput = document.getElementById('menuFile');
+      const file = fileInput.files[0];
+      if (!file) {
+        errorDiv.textContent = 'Please select a file first.';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+      // If needed, append other data, categories etc.
+
+      try {
+        const resp = await fetch('https://neverclosedai.app.n8n.cloud/webhook/4e6db477-2e07-4e85-8965-c421e275b93a', {
+          method: 'POST',
+          body: formData
+        });
+        const text = await resp.text();
+        // show raw response in a <pre> so you see what's coming
+        rawResponsePre.textContent = text;
+
+        let json;
+        try {
+          json = JSON.parse(text);
+        } catch (err) {
+          console.error("Could not parse full response as JSON:", err, text);
+          throw new Error("Response is not valid JSON");
+        }
+
+        // depending on your response: it might be an array, or { output: ... }, or nested
+        // look for "output" field in first element if array
+
+        let outString = null;
+
+        if (Array.isArray(json) && json.length > 0 && json[0].output) {
+          outString = json[0].output;
+        } else if (json.output) {
+          outString = json.output;
+        } else {
+          console.error("No output field found in response JSON", json);
+          throw new Error("Missing 'output' in response");
+        }
+
+        // clean outString: remove code fences etc.
+        let cleaned = outString.trim();
+        if (cleaned.startsWith("```json")) {
+          cleaned = cleaned.slice("```json".length).trim();
+        }
+        if (cleaned.startsWith("```")) {
+          cleaned = cleaned.slice(3).trim();
+        }
+        if (cleaned.endsWith("```")) {
+          cleaned = cleaned.slice(0, cleaned.length - 3).trim();
+        }
+
+        // now parse cleaned
+        let parsed;
+        try {
+          parsed = JSON.parse(cleaned);
+        } catch (err) {
+          console.error("Could not parse 'output' content as JSON:", err, cleaned);
+          throw new Error("Output field is not valid JSON");
+        }
+
+        // verify parsed.menu exists
+        if (!parsed.menu || typeof parsed.menu !== 'object') {
+          console.error("parsed menu missing or wrong type", parsed);
+          throw new Error("Parsed JSON does not include 'menu'");
+        }
+
+        // fill table
+        for (const [categoryName, items] of Object.entries(parsed.menu)) {
+          if (!Array.isArray(items)) continue;
+          items.forEach(item => {
+            const tr = document.createElement('tr');
+
+            const tdCat = document.createElement('td');
+            const tdName = document.createElement('td');
+            const tdPrice = document.createElement('td');
+
+            tdCat.textContent = categoryName;
+            tdName.textContent = item.item || '';
+            tdPrice.textContent = item.price != null ? item.price : '';
+
+            tr.appendChild(tdCat);
+            tr.appendChild(tdName);
+            tr.appendChild(tdPrice);
+            itemsTableBody.appendChild(tr);
+          });
+        }
+
+        statusDiv.textContent = 'Success — table populated';
+      } catch (err) {
+        console.error("Error in upload/process:", err);
+        errorDiv.textContent = 'Error: ' + err.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
