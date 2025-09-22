@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Menu Upload — Debug Version</title>
+  <title>Menu Upload Dummy — With Parsing</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; }
     h1 { color: #333; }
@@ -12,7 +12,6 @@
     th { background-color: #eee; }
     #status { margin-top: 20px; color: green; }
     #error { margin-top: 20px; color: red; }
-    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; overflow: auto; max-height: 200px; }
   </style>
 </head>
 <body>
@@ -22,6 +21,19 @@
     <input type="file" id="menuFile" accept="image/*,application/pdf" />
     <button type="submit">Upload & Process</button>
   </form>
+
+  <h2>Existing Categories</h2>
+  <table id="categoriesTable">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <!-- dummy categories -->
+      <tr><td>1111-aaaa</td><td>Appetizers</td><td>Starters and small plates</td></tr>
+      <tr><td>2222-bbbb</td><td>Main</td><td>Main courses</td></tr>
+      <tr><td>3333-cccc</td><td>Dessert</td><td>Sweets & after meals</td></tr>
+    </tbody>
+  </table>
 
   <h2>Items</h2>
   <table id="itemsTable">
@@ -35,21 +47,17 @@
 
   <div id="status"></div>
   <div id="error"></div>
-  <h3>Raw Response:</h3>
-  <pre id="rawResponse"></pre>
 
   <script>
     const form = document.getElementById('uploadForm');
     const statusDiv = document.getElementById('status');
     const errorDiv = document.getElementById('error');
-    const rawResponsePre = document.getElementById('rawResponse');
     const itemsTableBody = document.querySelector('#itemsTable tbody');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       statusDiv.textContent = '';
       errorDiv.textContent = '';
-      rawResponsePre.textContent = '';
       itemsTableBody.innerHTML = '';  // clear previous items
 
       const fileInput = document.getElementById('menuFile');
@@ -59,81 +67,69 @@
         return;
       }
 
+      // gather existing categories (if needed)
+      const cats = [];
+      const catRows = document.querySelectorAll('#categoriesTable tbody tr');
+      catRows.forEach(r => {
+        const cols = r.querySelectorAll('td');
+        const id = cols[0].textContent.trim();
+        const name = cols[1].textContent.trim();
+        const description = cols[2].textContent.trim();
+        cats.push({ id, name, description });
+      });
+
       const formData = new FormData();
       formData.append('file', file);
-      // If needed, append other data, categories etc.
+      formData.append('categories', JSON.stringify(cats));
 
       try {
-        const resp = await fetch('https://neverclosedai.app.n8n.cloud/webhook/4e6db477-2e07-4e85-8965-c421e275b93a', {
+        const resp = await fetch('https://YOUR_N8N_WEBHOOK_URL_HERE', {
           method: 'POST',
           body: formData
         });
-        const text = await resp.text();
-        // show raw response in a <pre> so you see what's coming
-        rawResponsePre.textContent = text;
-
-        let json;
-        try {
-          json = JSON.parse(text);
-        } catch (err) {
-          console.error("Could not parse full response as JSON:", err, text);
-          throw new Error("Response is not valid JSON");
+        if (!resp.ok) {
+          const txt = await resp.text();
+          throw new Error('Webhook call failed: ' + txt);
         }
+        const json = await resp.json();
 
-        // depending on your response: it might be an array, or { output: ... }, or nested
-        // look for "output" field in first element if array
-
-        let outString = null;
-
-        if (Array.isArray(json) && json.length > 0 && json[0].output) {
-          outString = json[0].output;
-        } else if (json.output) {
-          outString = json.output;
-        } else {
-          console.error("No output field found in response JSON", json);
-          throw new Error("Missing 'output' in response");
+        // Example json: [ { "output": "```json\n{ \"menu\": { \"APPETIZERS AND SNACKS\": [ { \"item\": \"Mozzarella Sticks\", \"price\": 7 }, … ] } }```" } ]
+        // extract the JSON between the ```json ... ``` markers, or try to parse directly
+        const out = json[0]?.output;
+        if (!out) {
+          throw new Error("No output field in response");
         }
-
-        // clean outString: remove code fences etc.
-        let cleaned = outString.trim();
+        // strip code fences if present
+        let cleaned = out.trim();
+        // remove starting ```json and ending ```
         if (cleaned.startsWith("```json")) {
           cleaned = cleaned.slice("```json".length).trim();
-        }
-        if (cleaned.startsWith("```")) {
-          cleaned = cleaned.slice(3).trim();
         }
         if (cleaned.endsWith("```")) {
           cleaned = cleaned.slice(0, cleaned.length - 3).trim();
         }
-
-        // now parse cleaned
+        // now cleaned should be a JSON string
         let parsed;
         try {
           parsed = JSON.parse(cleaned);
-        } catch (err) {
-          console.error("Could not parse 'output' content as JSON:", err, cleaned);
-          throw new Error("Output field is not valid JSON");
+        } catch (parseErr) {
+          console.error("Parse error:", parseErr, cleaned);
+          throw new Error("Unable to parse JSON output from agent");
         }
 
-        // verify parsed.menu exists
-        if (!parsed.menu || typeof parsed.menu !== 'object') {
-          console.error("parsed menu missing or wrong type", parsed);
-          throw new Error("Parsed JSON does not include 'menu'");
-        }
-
-        // fill table
-        for (const [categoryName, items] of Object.entries(parsed.menu)) {
+        // parsed.menu is presumably an object whose keys are category names, values are arrays of items
+        const menu = parsed.menu || {};
+        for (const [categoryName, items] of Object.entries(menu)) {
           if (!Array.isArray(items)) continue;
-          items.forEach(item => {
+          items.forEach(it => {
             const tr = document.createElement('tr');
-
             const tdCat = document.createElement('td');
             const tdName = document.createElement('td');
             const tdPrice = document.createElement('td');
 
             tdCat.textContent = categoryName;
-            tdName.textContent = item.item || '';
-            tdPrice.textContent = item.price != null ? item.price : '';
+            tdName.textContent = it.item || '';
+            tdPrice.textContent = (it.price !== undefined && it.price !== null) ? it.price : '';
 
             tr.appendChild(tdCat);
             tr.appendChild(tdName);
@@ -142,9 +138,9 @@
           });
         }
 
-        statusDiv.textContent = 'Success — table populated';
+        statusDiv.textContent = 'Success!';
       } catch (err) {
-        console.error("Error in upload/process:", err);
+        console.error(err);
         errorDiv.textContent = 'Error: ' + err.message;
       }
     });
