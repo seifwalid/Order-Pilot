@@ -121,10 +121,10 @@ export default function CallsPage({ params }: { params: { agentId: string } }) {
                                     </div>
                                     
                                     <div className="flex items-center gap-8">
-                                        <div className="text-center">
-                                            <p className="text-sm font-medium text-foreground">{call.duration}</p>
-                                            <p className="text-xs text-muted-foreground">Duration</p>
-                                        </div>
+                                            <div className="text-center">
+                                                <p className="text-sm font-medium text-foreground glow-metric">{call.duration}</p>
+                                                <p className="text-xs text-muted-foreground">Duration</p>
+                                            </div>
                                         <div className="text-center">
                                             <p className="text-sm font-medium text-foreground">{call.timestamp}</p>
                                             <p className="text-xs text-muted-foreground">Time</p>

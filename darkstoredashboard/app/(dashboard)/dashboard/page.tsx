@@ -50,10 +50,10 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Call Volume</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold neon-text">1,234</div>
-              <p className="text-sm font-medium text-green-400">
-                +12%
-              </p>
+                      <div className="text-3xl font-bold glow-number">1,234</div>
+                      <p className="text-sm font-medium text-green-400 glow-percentage">
+                        +12%
+                      </p>
             </CardContent>
           </Card>
 
@@ -62,10 +62,10 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Sentiment Score</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold neon-text">85%</div>
-              <p className="text-sm font-medium text-red-400">
-                -5%
-              </p>
+                      <div className="text-3xl font-bold glow-percentage">85%</div>
+                      <p className="text-sm font-medium text-red-400 glow-percentage">
+                        -5%
+                      </p>
             </CardContent>
           </Card>
 
@@ -74,10 +74,10 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Resolution Rate</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold neon-text">92%</div>
-              <p className="text-sm font-medium text-green-400">
-                +3%
-              </p>
+                      <div className="text-3xl font-bold glow-percentage">92%</div>
+                      <p className="text-sm font-medium text-green-400 glow-percentage">
+                        +3%
+                      </p>
             </CardContent>
           </Card>
         </div>
@@ -89,11 +89,11 @@ export default function DashboardPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <CardTitle className="text-base font-medium text-muted-foreground">Call Volume Over Time</CardTitle>
-                  <div className="text-4xl font-bold neon-text">1,234</div>
+                          <div className="text-4xl font-bold glow-number">1,234</div>
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-muted-foreground">Last 7 Days</p>
-                  <p className="text-sm font-medium text-green-400">
+                  <p className="text-sm font-medium text-green-400 glow-percentage">
                     +12%
                   </p>
                 </div>
@@ -133,11 +133,11 @@ export default function DashboardPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <CardTitle className="text-base font-medium text-muted-foreground">Sentiment Distribution</CardTitle>
-                  <div className="text-4xl font-bold neon-text">85%</div>
+                          <div className="text-4xl font-bold glow-percentage">85%</div>
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-muted-foreground">Last 7 Days</p>
-                  <p className="text-sm font-medium text-red-400">
+                  <p className="text-sm font-medium text-red-400 glow-percentage">
                     -5%
                   </p>
                 </div>

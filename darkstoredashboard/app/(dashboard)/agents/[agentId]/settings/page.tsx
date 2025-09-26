@@ -120,7 +120,7 @@ export default function SettingsPage({ params }: { params: { agentId: string } }
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
                                             <label className="font-medium text-foreground">Voice Tone</label>
-                                            <span className="text-sm font-semibold text-primary">45</span>
+                                            <span className="text-sm font-semibold text-primary glow-number">45</span>
                                         </div>
                                         <Slider
                                             value={[45]}
@@ -132,7 +132,7 @@ export default function SettingsPage({ params }: { params: { agentId: string } }
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
                                             <label className="font-medium text-foreground">Response Speed</label>
-                                            <span className="text-sm font-semibold text-primary">75</span>
+                                            <span className="text-sm font-semibold text-primary glow-number">75</span>
                                         </div>
                                         <Slider
                                             value={responseSpeed}
@@ -216,7 +216,7 @@ export default function SettingsPage({ params }: { params: { agentId: string } }
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
                                             <label className="font-medium text-foreground">Tone</label>
-                                            <span className="text-sm font-semibold text-primary">Enthusiastic</span>
+                                            <span className="text-sm font-semibold text-primary glow-metric">Enthusiastic</span>
                                         </div>
                                         <Slider
                                             value={voiceTone}
@@ -229,7 +229,7 @@ export default function SettingsPage({ params }: { params: { agentId: string } }
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
                                             <label className="font-medium text-foreground">Emotional Inflection</label>
-                                            <span className="text-sm font-semibold text-primary">Moderate</span>
+                                            <span className="text-sm font-semibold text-primary glow-metric">Moderate</span>
                                         </div>
                                         <Slider
                                             value={emotionalInflection}
@@ -285,7 +285,7 @@ export default function SettingsPage({ params }: { params: { agentId: string } }
                                     A Story from Your Customers
                                 </h2>
                                 <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground">
-                                    "Last week, we saw a <span className="font-bold text-primary">15% increase</span> in calls about our new 'Quantum Leap' feature. Many customers, like Sarah from P-Corp, felt excited but a bit lost. By adjusting my tone to be more <span className="font-bold text-primary">enthusiastic</span> and providing <span className="font-bold text-primary">step-by-step guidance</span>, we turned confusion into confidence, leading to a <span className="font-bold text-primary">10% boost in feature adoption</span>. Let's keep this momentum going!"
+                                    "Last week, we saw a <span className="font-bold text-primary glow-percentage">15% increase</span> in calls about our new 'Quantum Leap' feature. Many customers, like Sarah from P-Corp, felt excited but a bit lost. By adjusting my tone to be more <span className="font-bold text-primary glow-metric">enthusiastic</span> and providing <span className="font-bold text-primary glow-metric">step-by-step guidance</span>, we turned confusion into confidence, leading to a <span className="font-bold text-primary glow-percentage">10% boost in feature adoption</span>. Let's keep this momentum going!"
                                 </p>
                                 <div className="mt-6">
                                     <Button size="lg" className="px-8">

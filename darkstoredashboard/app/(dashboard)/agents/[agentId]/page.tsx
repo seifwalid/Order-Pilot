@@ -89,8 +89,8 @@ export default function AgentOverviewPage({ params }: { params: { agentId: strin
                     <CardContent className="p-6">
                         <div className="flex flex-col gap-2">
                             <p className="text-muted-foreground text-base font-medium leading-normal">Resolution Rate</p>
-                            <p className="text-foreground text-3xl font-bold leading-tight">{alexData.resolutionRate}</p>
-                            <p className="text-green-400 text-sm font-medium leading-normal">{alexData.weeklyTrend}</p>
+                                    <p className="text-foreground text-3xl font-bold leading-tight glow-percentage">{alexData.resolutionRate}</p>
+                                    <p className="text-green-400 text-sm font-medium leading-normal glow-percentage">{alexData.weeklyTrend}</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -99,8 +99,8 @@ export default function AgentOverviewPage({ params }: { params: { agentId: strin
                     <CardContent className="p-6">
                         <div className="flex flex-col gap-2">
                             <p className="text-muted-foreground text-base font-medium leading-normal">Customer Satisfaction</p>
-                            <p className="text-foreground text-3xl font-bold leading-tight">{alexData.satisfaction}</p>
-                            <p className="text-green-400 text-sm font-medium leading-normal">+{alexData.satisfactionTrend}</p>
+                                    <p className="text-foreground text-3xl font-bold leading-tight glow-metric">{alexData.satisfaction}</p>
+                                    <p className="text-green-400 text-sm font-medium leading-normal glow-percentage">+{alexData.satisfactionTrend}</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -109,8 +109,8 @@ export default function AgentOverviewPage({ params }: { params: { agentId: strin
                     <CardContent className="p-6">
                         <div className="flex flex-col gap-2">
                             <p className="text-muted-foreground text-base font-medium leading-normal">Average Handle Time</p>
-                            <p className="text-foreground text-3xl font-bold leading-tight">{alexData.handleTime}</p>
-                            <p className="text-green-400 text-sm font-medium leading-normal">{alexData.handleTimeTrend}</p>
+                                    <p className="text-foreground text-3xl font-bold leading-tight glow-metric">{alexData.handleTime}</p>
+                                    <p className="text-green-400 text-sm font-medium leading-normal glow-percentage">{alexData.handleTimeTrend}</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -149,8 +149,8 @@ export default function AgentOverviewPage({ params }: { params: { agentId: strin
                         <div className="flex flex-col">
                             <CardTitle className="text-muted-foreground text-base font-medium leading-normal">Alex's Resolution Rate Over Time</CardTitle>
                             <div className="flex items-baseline gap-2">
-                                <p className="text-foreground text-4xl font-bold leading-tight">{alexData.resolutionRate}</p>
-                                <p className="text-green-400 text-base font-medium leading-normal">{alexData.weeklyTrend}</p>
+                                        <p className="text-foreground text-4xl font-bold leading-tight glow-percentage">{alexData.resolutionRate}</p>
+                                        <p className="text-green-400 text-base font-medium leading-normal glow-percentage">{alexData.weeklyTrend}</p>
                             </div>
                             <p className="text-muted-foreground text-sm font-normal leading-normal">Last 7 Days</p>
                         </div>
@@ -200,8 +200,8 @@ export default function AgentOverviewPage({ params }: { params: { agentId: strin
                         <div className="flex flex-col">
                             <CardTitle className="text-muted-foreground text-base font-medium leading-normal">Alex's Customer Satisfaction Ratings</CardTitle>
                             <div className="flex items-baseline gap-2">
-                                <p className="text-foreground text-4xl font-bold leading-tight">{alexData.satisfaction}</p>
-                                <p className="text-green-400 text-base font-medium leading-normal">+{alexData.satisfactionTrend}</p>
+                                        <p className="text-foreground text-4xl font-bold leading-tight glow-metric">{alexData.satisfaction}</p>
+                                        <p className="text-green-400 text-base font-medium leading-normal glow-percentage">+{alexData.satisfactionTrend}</p>
                             </div>
                             <p className="text-muted-foreground text-sm font-normal leading-normal">Last 7 Days</p>
                         </div>

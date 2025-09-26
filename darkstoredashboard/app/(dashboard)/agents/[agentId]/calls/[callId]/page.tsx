@@ -120,7 +120,7 @@ export default function CallDetailPage({ params }: { params: { callId: string; a
                     <div className="flex items-center gap-6 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                             <Clock className="h-4 w-4" />
-                            {callDetails.duration}
+                            <span className="glow-metric">{callDetails.duration}</span>
                         </span>
                         <span>{callDetails.type}</span>
                         <span>{callDetails.topic}</span>
@@ -236,7 +236,7 @@ export default function CallDetailPage({ params }: { params: { callId: string; a
                                         {interaction.speaker === "agent" && interaction.type === "response" && (
                                             <Badge variant="outline" className="text-xs ml-auto bg-muted/50">
                                                 <Clock className="h-3 w-3 mr-1" />
-                                                45s
+                                                <span className="glow-metric">45s</span>
                                             </Badge>
                                         )}
                                     </div>

@@ -61,18 +61,18 @@ export default function AgentsPage() {
                                     </div>
                                     
                                     <div className="flex items-center gap-6">
-                                        <div className="text-center">
-                                            <p className="text-2xl font-bold text-foreground">{agent.resolutionRate}</p>
-                                            <p className="text-xs text-muted-foreground">Resolution Rate</p>
-                                        </div>
-                                        <div className="text-center">
-                                            <p className="text-2xl font-bold text-foreground">{agent.satisfaction}</p>
-                                            <p className="text-xs text-muted-foreground">Satisfaction</p>
-                                        </div>
-                                        <div className="text-center">
-                                            <p className="text-2xl font-bold text-foreground">{agent.handleTime}</p>
-                                            <p className="text-xs text-muted-foreground">Avg. Handle Time</p>
-                                        </div>
+                                                <div className="text-center">
+                                                    <p className="text-2xl font-bold text-foreground glow-percentage">{agent.resolutionRate}</p>
+                                                    <p className="text-xs text-muted-foreground">Resolution Rate</p>
+                                                </div>
+                                                <div className="text-center">
+                                                    <p className="text-2xl font-bold text-foreground glow-metric">{agent.satisfaction}</p>
+                                                    <p className="text-xs text-muted-foreground">Satisfaction</p>
+                                                </div>
+                                                <div className="text-center">
+                                                    <p className="text-2xl font-bold text-foreground glow-metric">{agent.handleTime}</p>
+                                                    <p className="text-xs text-muted-foreground">Avg. Handle Time</p>
+                                                </div>
                                         <div className="text-center">
                                             <Badge variant={
                                                 agent.status === "Active" ? "default" :
