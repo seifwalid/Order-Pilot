@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agentic Voice Agent Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+    :root {
+      --primary-color: #0da6f2;
+    }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .holographic-glow {
+      box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color), 0 0 30px var(--primary-color), 0 0 40px rgba(13, 166, 242, 0.5);
+    }
+    .neon-text {
+        text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color);
+    }
+    .neon-border {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+  </style>
+</head>
+<body class="bg-[#0A0F12] text-white">
+<div class="relative min-h-screen w-full flex flex-col overflow-x-hidden">
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between whitespace-nowrap px-10 py-4 bg-[#0A0F12]/80 backdrop-blur-md border-b border-solid border-[var(--primary-color)]/20">
+<div class="flex items-center gap-4">
+<div class="size-6 text-[var(--primary-color)]">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight neon-text">AURA</h1>
+</div>
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-[var(--primary-color)] transition-colors duration-300" href="#">Dashboard</a>
+<a class="text-sm font-medium text-gray-400 hover:text-[var(--primary-color)] transition-colors duration-300" href="#">Analytics</a>
+<a class="text-sm font-medium text-gray-400 hover:text-[var(--primary-color)] transition-colors duration-300" href="#">Settings</a>
+</nav>
+<div class="flex items-center justify-end gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-[var(--primary-color)]/50 holographic-glow" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3kGSs-7fHWr2-PWZWKrQ-d5oska3gpWl7CQOho7IXlQ4jbFguLe9zHqj-uzRL5_DIEHpn3QH-nuCh1nyP1G8kibLeoJcuJurNepW1ULpRLHySVqJKUjwoRtnaGWHULIbUESvv0TTOhfjAkOwdGikqhi3tJvZI44OcjZ2vUk_BwX8NLvRdCtFRxHENbaHIITEoyramyzbmTbjpvNJ32XhtFMNeEL-Jf33_zwhFK55-CPyTViKIidCumBjsZ4XbEFENuXu8_L1faZc");'></div>
+</div>
+</header>
+<main class="flex-1 pt-24">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="relative flex flex-col items-center justify-center py-16">
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[var(--primary-color)]/10 to-transparent blur-3xl"></div>
+<div class="w-full max-w-4xl relative">
+<div class="aspect-[16/9] w-full bg-black rounded-xl overflow-hidden border border-[var(--primary-color)]/20 holographic-glow">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover object-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDv2kGtCFrng7L-hECzJ3_XGf73HcXTpz5VbJlcNNlDjvYJ3i7wn3YAeLZJ6b03Sqnk7BLszuY5n4vLdzvhJ64NGPEROgAWWACOHBm58zoA3ZxmkJiNoJkDQ_rC_2S7Hww-kBmKZgB0-RXucb1ykHLx1L7rIGHfgPfxkR5-DkWmWFHAmty0KZ1UXEFN9-Fq24pmCtrempoOIJsl-yHpi1VFGzLD2rk_pdW4XmEz_bshY9i-Fz-pxCwSBI0HsDa1xfKRWuuqoYuG4cI");'></div>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center pointer-events-none">
+<h2 class="text-4xl md:text-5xl font-bold tracking-tighter neon-text">Agentic Voice Dashboard</h2>
+<p class="mt-4 max-w-lg text-gray-300">
+                Real-time monitoring and interactive visualizations for your voice agent.
+              </p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-[#11181E]/80 border border-[var(--primary-color)]/20 backdrop-blur-sm neon-border transition-all duration-300 hover:bg-[#11181E]">
+<p class="text-gray-400 text-sm font-medium">Call Volume</p>
+<p class="text-3xl font-bold neon-text">1,234</p>
+<p class="text-green-400 text-sm font-medium">+12%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-[#11181E]/80 border border-[var(--primary-color)]/20 backdrop-blur-sm neon-border transition-all duration-300 hover:bg-[#11181E]">
+<p class="text-gray-400 text-sm font-medium">Sentiment Score</p>
+<p class="text-3xl font-bold neon-text">85%</p>
+<p class="text-red-400 text-sm font-medium">-5%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-[#11181E]/80 border border-[var(--primary-color)]/20 backdrop-blur-sm neon-border transition-all duration-300 hover:bg-[#11181E]">
+<p class="text-gray-400 text-sm font-medium">Resolution Rate</p>
+<p class="text-3xl font-bold neon-text">92%</p>
+<p class="text-green-400 text-sm font-medium">+3%</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+<div class="lg:col-span-3 flex flex-col gap-4 p-6 rounded-lg bg-[#11181E]/80 border border-[var(--primary-color)]/20 backdrop-blur-sm">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-gray-400 text-base font-medium">Call Volume Over Time</p>
+<p class="text-4xl font-bold tracking-tight neon-text">1,234</p>
+</div>
+<div class="text-right">
+<p class="text-gray-400 text-sm">Last 7 Days</p>
+<p class="text-green-400 text-sm font-medium">+12%</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end">
+<svg fill="none" height="200" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="url(#paint0_linear_line)" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H0V109Z" fill="url(#paint1_linear_area)"></path>
+<defs>
+<linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_line" x1="0" x2="472" y1="75" y2="75">
+<stop stop-color="#0da6f2"></stop>
+<stop offset="1" stop-color="#0da6f2" stop-opacity="0.5"></stop>
+</linearGradient>
+<linearGradient gradientUnits="userSpaceOnUse" id="paint1_linear_area" x1="236" x2="236" y1="1" y2="149">
+<stop stop-color="#0da6f2" stop-opacity="0.2"></stop>
+<stop offset="1" stop-color="#0da6f2" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+</svg>
+<div class="flex justify-around text-gray-500 text-xs font-bold uppercase tracking-wider mt-2">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2 flex flex-col gap-4 p-6 rounded-lg bg-[#11181E]/80 border border-[var(--primary-color)]/20 backdrop-blur-sm">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-gray-400 text-base font-medium">Sentiment Distribution</p>
+<p class="text-4xl font-bold tracking-tight neon-text">85%</p>
+</div>
+<div class="text-right">
+<p class="text-gray-400 text-sm">Last 7 Days</p>
+<p class="text-red-400 text-sm font-medium">-5%</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end gap-4 pt-4">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-green-400">Positive</span>
+<span class="text-gray-400">60%</span>
+</div>
+<div class="w-full bg-gray-700/50 rounded-full h-2.5">
+<div class="bg-green-400 h-2.5 rounded-full" style="width: 60%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-yellow-400">Neutral</span>
+<span class="text-gray-400">15%</span>
+</div>
+<div class="w-full bg-gray-700/50 rounded-full h-2.5">
+<div class="bg-yellow-400 h-2.5 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-red-400">Negative</span>
+<span class="text-gray-400">25%</span>
+</div>
+<div class="w-full bg-gray-700/50 rounded-full h-2.5">
+<div class="bg-red-400 h-2.5 rounded-full" style="width: 25%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full py-10 mt-16 border-t border-[var(--primary-color)]/10">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+<div class="flex justify-center gap-6 mb-4">
+<a class="hover:text-[var(--primary-color)] transition-colors" href="#">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path></svg>
+</a>
+<a class="hover:text-[var(--primary-color)] transition-colors" href="#">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path></svg>
+</a>
+</div>
+<p class="text-sm">© 2024 Aura. All rights reserved.</p>
+</div>
+</footer>
+</div>
+
+</body></html>

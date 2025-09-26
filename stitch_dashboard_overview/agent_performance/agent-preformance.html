@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-50: #eef7fe;
+        --primary-100: #dbeffd;
+        --primary-200: #c1e4fb;
+        --primary-300: #98d3f9;
+        --primary-400: #69b9f5;
+        --primary-500: #4299e1;
+        --primary-600: #2b77c7;
+        --primary-700: #225f9f;
+        --primary-800: #205083;
+        --primary-900: #1f456c;
+        --primary-950: #152d47;
+      }
+      .bg-primary {
+        background-color: var(--primary-500);
+      }
+      .text-primary {
+        color: var(--primary-500);
+      }
+      .border-primary {
+        border-color: var(--primary-500);
+      }
+      .ring-primary {
+        --tw-ring-color: var(--primary-500);
+      }
+    </style>
+</head>
+<body class="bg-[#111827]">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#111827] group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-700/50 px-10 py-4">
+<div class="flex items-center gap-4 text-white">
+<div class="w-8 h-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">AgenticVoice</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-gray-300 hover:text-white text-base font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-white text-base font-medium leading-normal" href="#">Agents</a>
+<a class="text-gray-300 hover:text-white text-base font-medium leading-normal transition-colors" href="#">Analytics</a>
+<a class="text-gray-300 hover:text-white text-base font-medium leading-normal transition-colors" href="#">Settings</a>
+</nav>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcJ6sAqJW1nJjagTB4QqPmzH_vERqMd2sGnc85jJoy5kit3pDcz1H36rOrNktZoZtYDIMOfJz8RwGGLuY0gzfIaY7tZ4uaqRUvJY8FTY-SLOTmT1yCzcb5wIpSgw8fUTKVQZh7M35HgcvSFYuJ4gNZO5xUf1MMHkXgVDkkaMNjUtrdyGpHCTzlZBjNH_Mv93TZBTWYsYPS1oepzeYWwHUfh7zm49ZDUYZNEUzN5honU-_KO3lKFFiiv5s7TCKvmyHx3rvqqRy_Mqw");'></div>
+</div>
+</header>
+<main class="px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col w-full max-w-7xl flex-1">
+<div class="flex flex-wrap justify-between items-center gap-4 p-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-4xl font-bold leading-tight">Agent Performance Overview</h1>
+<p class="text-gray-400 text-lg font-normal leading-normal">Visualize and interact with real-time agent metrics in a dynamic 3D environment.</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-8 mt-6">
+<div class="@container flex flex-col h-full flex-1">
+<div class="bg-cover bg-center flex min-h-[480px] flex-1 flex-col justify-between p-6 @[480px]:rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCjeMWtIQXRq456CEq3u6wNUS0y-5snVrmQtJ0frXGbwgsSgptLVdOYcKmTbw4bBrgfSXPqEFmYSws0RoM5NTSsu2vnqpkVobTHwQ2bvllLFpNmYKXSdT6bFLLpGdDD01MWej3Oa1JsxCggvYdx1S9JH3SbrUgl9EwMs1iQLlXQ44JZWetjl8EeAgvkOmHXrczISBXxB5X-TdRiWmRLEWy9xKY9GNGqkoOiIM5noxrPlePjx5C3S5MRHd3Cq1euV9-wTlBcydrFDKM");'>
+<div class="w-full max-w-sm">
+<label class="flex flex-col">
+<div class="flex w-full flex-1 items-stretch rounded-lg">
+<div class="text-gray-400 flex border-none bg-gray-900/50 backdrop-blur-sm items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined"> search </span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-white focus:outline-none focus:ring-2 focus:ring-primary border-none bg-gray-900/50 backdrop-blur-sm focus:border-none h-12 placeholder:text-gray-400 px-4 text-base font-normal leading-normal" placeholder="Search for agents" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-col items-end gap-3 self-end">
+<div class="flex flex-col gap-0.5 bg-gray-900/50 backdrop-blur-sm rounded-lg shadow-lg">
+<button class="flex size-12 items-center justify-center rounded-t-lg hover:bg-gray-800/70 transition-colors">
+<span class="material-symbols-outlined text-white"> add </span>
+</button>
+<button class="flex size-12 items-center justify-center rounded-b-lg hover:bg-gray-800/70 transition-colors">
+<span class="material-symbols-outlined text-white"> remove </span>
+</button>
+</div>
+<button class="flex size-12 items-center justify-center rounded-lg bg-gray-900/50 backdrop-blur-sm hover:bg-gray-800/70 transition-colors shadow-lg">
+<span class="material-symbols-outlined text-white"> navigation </span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-gray-800/30 rounded-xl p-6 flex flex-col gap-2">
+<p class="text-gray-300 text-base font-medium leading-normal">Resolution Rate</p>
+<p class="text-white text-3xl font-bold leading-tight">95%</p>
+</div>
+<div class="bg-gray-800/30 rounded-xl p-6 flex flex-col gap-2">
+<p class="text-gray-300 text-base font-medium leading-normal">Customer Satisfaction</p>
+<p class="text-white text-3xl font-bold leading-tight">4.8/5</p>
+</div>
+<div class="bg-gray-800/30 rounded-xl p-6 flex flex-col gap-2">
+<p class="text-gray-300 text-base font-medium leading-normal">Average Handle Time</p>
+<p class="text-white text-3xl font-bold leading-tight">5m 30s</p>
+</div>
+</div>
+<div class="bg-gray-800/30 rounded-xl p-6">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<p class="text-white text-lg font-bold leading-tight">Agent: Alex</p>
+<p class="text-gray-400 text-base font-normal leading-normal">Resolution Rate: 95%, Satisfaction: 4.8/5</p>
+</div>
+<div class="w-full max-w-xs bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbaqNqibeTn18ilo0ylcUsvLQxxsyu19ZIhImZ04dsCPhA1IT4RpFdPGy30OosO-mXdAr81v_jwsyJCX09VRjHWBEtelIJD0INa0nGNF-Qh69EP-NTSOwFdDrWf_8DU79cqcQpnRUEol9ms4ZAPKKuJuRptaAskf6D9T0m6npmVFhfLnEgUaQ5nXfIkRgfau98DD29PoIy9TED5ndsC74t_4y6zZwtIDhIZimJsJMPPzo_MIryHdiydD4tNTKlcQ8uhyqyJ5ja75Y");'></div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="flex flex-col gap-4 rounded-xl bg-gray-800/30 p-6">
+<div class="flex flex-col">
+<p class="text-gray-300 text-base font-medium leading-normal">Resolution Rate Over Time</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-4xl font-bold leading-tight">95%</p>
+<p class="text-green-400 text-base font-medium leading-normal">+2%</p>
+</div>
+<p class="text-gray-400 text-sm font-normal leading-normal">Last 7 Days</p>
+</div>
+<div class="flex min-h-[200px] flex-1 flex-col gap-4 py-4">
+<svg fill="none" height="100%" preserveAspectRatio="none" viewBox="-3 0 478 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H0V109Z" fill="url(#paint0_linear_area)"></path>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="var(--primary-500)" stroke-linecap="round" stroke-width="3"></path>
+<defs>
+<linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_area" x1="236" x2="236" y1="1" y2="149">
+<stop stop-color="var(--primary-500)" stop-opacity="0.3"></stop>
+<stop offset="1" stop-color="var(--primary-500)" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+</svg>
+<div class="flex justify-between -mt-4">
+<p class="text-gray-400 text-sm font-medium">Mon</p>
+<p class="text-gray-400 text-sm font-medium">Tue</p>
+<p class="text-gray-400 text-sm font-medium">Wed</p>
+<p class="text-gray-400 text-sm font-medium">Thu</p>
+<p class="text-gray-400 text-sm font-medium">Fri</p>
+<p class="text-gray-400 text-sm font-medium">Sat</p>
+<p class="text-gray-400 text-sm font-medium">Sun</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl bg-gray-800/30 p-6">
+<div class="flex flex-col">
+<p class="text-gray-300 text-base font-medium leading-normal">Customer Satisfaction Ratings</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-4xl font-bold leading-tight">4.8/5</p>
+<p class="text-green-400 text-base font-medium leading-normal">+0.1</p>
+</div>
+<p class="text-gray-400 text-sm font-normal leading-normal">Last 7 Days</p>
+</div>
+<div class="grid grid-cols-5 gap-4 items-end justify-items-center flex-1 min-h-[200px]">
+<div class="w-full h-full flex flex-col justify-end items-center gap-2">
+<div class="bg-primary rounded-t-md w-full" style="height: 10%;"></div>
+<p class="text-gray-400 text-sm font-medium">1</p>
+</div>
+<div class="w-full h-full flex flex-col justify-end items-center gap-2">
+<div class="bg-primary rounded-t-md w-full" style="height: 5%;"></div>
+<p class="text-gray-400 text-sm font-medium">2</p>
+</div>
+<div class="w-full h-full flex flex-col justify-end items-center gap-2">
+<div class="bg-primary rounded-t-md w-full" style="height: 20%;"></div>
+<p class="text-gray-400 text-sm font-medium">3</p>
+</div>
+<div class="w-full h-full flex flex-col justify-end items-center gap-2">
+<div class="bg-primary rounded-t-md w-full" style="height: 40%;"></div>
+<p class="text-gray-400 text-sm font-medium">4</p>
+</div>
+<div class="w-full h-full flex flex-col justify-end items-center gap-2">
+<div class="bg-primary rounded-t-md w-full" style="height: 85%;"></div>
+<p class="text-gray-400 text-sm font-medium">5</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>
